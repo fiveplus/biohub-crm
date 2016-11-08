@@ -7,7 +7,7 @@
 	<properties resource="application.properties" />
 	<plugins>
 		<!-- 分页助手 -->
-		<plugin interceptor="com.github.pagehelper.pageHelper">
+		<plugin interceptor="com.github.pagehelper.PageHelper">
 			<property name="dialect" value="mysql"/>
 			<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
 			<property name="rowBoundsWithCount" value="true"/>
@@ -33,8 +33,5 @@
 			</dataSource>
 		</environment>
 	</environments>
-	
-	<mappers>
-	</mappers>
 	
 </configuration>

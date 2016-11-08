@@ -11,16 +11,21 @@ import com.crm.entity.User;
 import com.crm.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/")
 public class IndexController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/login")
+	@RequestMapping("admin/login")
 	public String login(String loginName,String password,HttpServletRequest request,Model model){
 		User user = userService.getUserByLoginNameAndPassword(loginName, password);
-		System.out.println(user);
+		model.addAttribute("user",user);
 		return "index";
+	}
+	
+	@RequestMapping("admin")
+	public String index(HttpServletRequest request,Model model){
+		return "login";
 	}
 	
 }

@@ -14,6 +14,16 @@ public class User implements Serializable{
 	private String userName;
 	@Column
 	private String password;
+	@Column
+	private String picture;
+	@Column
+	private Long loginTime;
+	@Column
+	private Long modifyTime;
+	@Column
+	private String information;
+	@Column
+	private String deptId;
 	public String getId() {
 		return id;
 	}
@@ -38,7 +48,36 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	public Long getLoginTime() {
+		return loginTime;
+	}
+	public void setLoginTime(Long loginTime) {
+		this.loginTime = loginTime;
+	}
+	public Long getModifyTime() {
+		return modifyTime;
+	}
+	public void setModifyTime(Long modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	public String getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
 	
 	
 }

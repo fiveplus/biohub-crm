@@ -7,12 +7,16 @@ import com.crm.dao.UserMapper;
 import com.crm.entity.User;
 
 
-@Service
+@Service("userService")
 public class UserService extends BaseService<User>{
 	@Autowired
 	private UserMapper userMapper;
 	
 	public User getUserByLoginNameAndPassword(String loginName,String password){
 		return userMapper.getUserByLoginNameAndPassword(loginName,password);
+	}
+	
+	public User getUserByLoginName(String loginName){
+		return userMapper.getUserByLoginName(loginName);
 	}
 }
