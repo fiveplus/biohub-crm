@@ -24,13 +24,19 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.crm.controller.admin.bo.PermissionBO;
+import com.crm.entity.Permission;
 import com.crm.entity.User;
+import com.crm.service.PermissionService;
 import com.crm.service.UserService;
 
 public class UserRealm extends AuthorizingRealm{
 	
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private PermissionService permissionService;
 	
 	/** 
      * 为当前登录的Subject授予角色和权限 
@@ -43,17 +49,53 @@ public class UserRealm extends AuthorizingRealm{
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		//获取当前登录的用户名,等价于(String)principals.fromRealm(this.getName()).iterator().next()  
         String currentLoginName = (String)super.getAvailablePrincipal(principals);  
-        List<String> roleList = new ArrayList<String>();  
-        List<String> permissionList = new ArrayList<String>();  
+        //List<String> roleList = new ArrayList<String>();  
+        //List<String> permissionList = new ArrayList<String>();  
+        List<PermissionBO> pbos = new ArrayList<PermissionBO>();
         //从数据库中获取当前登录用户的详细信息
         User user = userService.getUserByLoginName(currentLoginName);
         if(null != user){
         	//实体类User中包含有用户角色的实体类信息
-        	//授权
-        	SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
-        	simpleAuthorInfo.addRole("admin");
-        	System.out.println("已为用户[??]赋予了[admin]角色和[admin:manage]权限");
-        	return simpleAuthorInfo;
+        	//授权存储用户信息
+        	String deptId = user.getDeptId();
+        	
+        	if(deptId != null){
+        		List<Permission> parentMenu = permissionService.getParentMenu();
+        		List<Permission> pers = permissionService.getChildPermission(deptId);
+        		for(Permission menu:parentMenu){
+        			PermissionBO pbo = new PermissionBO();
+        			pbo.setPermission(menu);
+    	        	pbo.setPers(new ArrayList<Permission>());
+    	        	pbos.add(pbo);
+        		}
+        		for(PermissionBO pbo:pbos){
+    	        	for(Permission per:pers){
+    	        		if(per.getParentId().equals(pbo.getPermission().getId())&&per.getIsMenu().equals("Y")){
+    	        			pbo.getPers().add(per);
+    	        		}
+    	        	}
+    	        }
+        		//反向遍历清除空元素
+    	        for(int i = pbos.size()-1;i>=0;i--){
+    	        	PermissionBO pbo = pbos.get(i);
+    	        	if(pbo.getPers()== null || pbo.getPers().size() == 0){
+    	        		pbos.remove(pbo);
+    	        	}
+    	        }
+    	        
+    	        Session session = SecurityUtils.getSubject().getSession();
+    	        session.setAttribute("user", user);
+    	        session.setAttribute("menus", pbos);
+    	        
+    	        
+        		//认证
+        		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
+        		simpleAuthorInfo.addRole("admin");
+            	System.out.println("已为用户[??]赋予了[admin]角色和[admin:manage]权限");
+            	return simpleAuthorInfo;
+        	}else{
+        		return null;
+        	}
         }else{
         	try {
 				throw new AuthenticationException();
@@ -127,5 +169,6 @@ public class UserRealm extends AuthorizingRealm{
 	    clearAllCachedAuthenticationInfo();  
 	    clearAllCachedAuthorizationInfo();  
 	}  
+	
 	
 }

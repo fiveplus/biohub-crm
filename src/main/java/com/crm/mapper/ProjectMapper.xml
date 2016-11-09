@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.ProjectMapper">
+	<cache type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="count" property="count" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="com.crm.entity.Project" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="project_num" property="projectNum" jdbcType="VARCHAR" />
+		<id column="type_id" property="typeId" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="rate" property="rate" jdbcType="VARCHAR" />
+		<id column="custom_id" property="customId" jdbcType="VARCHAR" />
+		<id column="domain_id" property="domainId" jdbcType="VARCHAR" />
+		<id column="stage" property="stage" jdbcType="VARCHAR" />
+		<id column="brief" property="brief" jdbcType="VARCHAR" />
+		<id column="trait" property="trait" jdbcType="VARCHAR" />
+		<id column="demand" property="demand" jdbcType="VARCHAR" />
+		<id column="create_time" property="create_time" jdbcType="VARCHAR" />
+		<id column="create_user" property="create_user" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="VARCHAR" />
+		<id column="project_index" property="projectIndex" jdbcType="VARCHAR" />
+		<id column="project_tag" property="projectTag" jdbcType="VARCHAR" />
+		<id column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<id column="follow_user" property="followUser" jdbcType="VARCHAR" />
+		<id column="charge_user" property="chargeUser" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="getProjectStatList" resultMap="StatResultMap" >
+		select pd.name as name,count(*) as count from tbl_project p left join tbl_project_domain pd on p.domain_id = pd.id where p.status = 'Y' group by p.domain_id order by count(*) desc 
+	</select>
+</mapper>
