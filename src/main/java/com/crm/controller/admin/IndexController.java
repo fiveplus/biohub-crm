@@ -3,6 +3,12 @@ package com.crm.controller.admin;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +26,25 @@ public class IndexController {
 	
 	@RequestMapping("admin/login")
 	public String login(String loginName,String password,HttpServletRequest request,Model model){
-		System.out.println(loginName);
-		User user = userService.getUserByLoginNameAndPassword(loginName, password);
-		model.addAttribute("user",user);
-		return "index";
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken();
+		String error = null;
+		try {
+			subject.login(token);
+		} catch (UnknownAccountException e) {
+			error = "用户名/密码错误";
+		} catch (IncorrectCredentialsException e){
+			error = "用户名/密码错误";
+		} catch (ExcessiveAttemptsException e){
+			error = "登录失败多次，账户锁定10分钟";
+		} catch (AuthenticationException e){
+			error = "其他错误：" + e.getMessage();
+		}
+		if(error != null){
+			return "login";
+		}else{
+			return "index";
+		}
 	}
 	
 	@RequestMapping("admin")

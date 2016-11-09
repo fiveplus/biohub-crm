@@ -24,6 +24,11 @@ public class User implements Serializable{
 	private String information;
 	@Column
 	private String deptId;
+	@Column
+	private String salt;
+	@Column
+	private int locked; 
+	
 	public String getId() {
 		return id;
 	}
@@ -78,6 +83,20 @@ public class User implements Serializable{
 	public void setDeptId(String deptId) {
 		this.deptId = deptId;
 	}
-	
+	public String getSalt(){
+		return salt;
+	}
+	public void setSalt(String salt){
+		this.salt = salt;
+	}
+	public int getLocked(){
+		return locked;
+	}
+	public void setLocked(int locked){
+		this.locked = locked;
+	}
+	public String getCredentialsSalt(){
+		return loginName + salt;
+	}
 	
 }

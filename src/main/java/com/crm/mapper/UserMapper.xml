@@ -12,9 +12,13 @@
 		<id column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
 		<id column="information" property="information" jdbcType="VARCHAR" />
 		<id column="dept_id" property="deptId" jdbcType="VARCHAR" />
+		
+		<id column="locked" property="locked" jdbcType="INTEGER" />
+		<id column="salt" property="salt" jdbcType="VARCHAR" />
+		
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,picture,login_name,user_name,password,login_time,modify_time,information,dept_id
+		id,picture,login_name,user_name,password,login_time,modify_time,information,dept_id,locked,salt
 	</sql>
 	<select id="getUserByLoginNameAndPassword" resultMap="BaseResultMap">
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}

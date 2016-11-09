@@ -3,13 +3,17 @@ package com.crm.realm;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -17,14 +21,15 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crm.entity.User;
 import com.crm.service.UserService;
 
-public class Realm extends AuthorizingRealm{
+public class UserRealm extends AuthorizingRealm{
 	
-	@Autowired
+	@Resource
 	private UserService userService;
 	
 	/** 
@@ -79,28 +84,48 @@ public class Realm extends AuthorizingRealm{
         //说白了就是第一个参数填登录用户名,第二个参数填合法的登录密码(可以是从数据库中取到的,本例中为了演示就硬编码了)  
         //这样一来,在随后的登录页面上就只有这里指定的用户和密码才能通过验证  
         User user = userService.getUserByLoginName(token.getUsername());
-        if(null != user){
-        	AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(), user.getUserName());  
-        	this.setSession("currentUser", user);  
-        	return authcInfo;  
-        }else{
-        	return null;
+        if(user == null){
+        	throw new UnknownAccountException();
         }
+        //判断账号是否被锁定
+        if (user.getLocked() > 0) {  
+            // 抛出 帐号锁定异常  
+            throw new LockedAccountException();  
+        }
+        // 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配  
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(  
+                user.getLoginName(), // 用户名  
+                user.getPassword(), // 密码  
+                ByteSource.Util.bytes(user.getCredentialsSalt()),// salt=username+salt  
+                getName() // realm name  
+        );  
+        return authenticationInfo; 
+        
 	}
 	
-	/** 
-     * 将一些数据放到ShiroSession中,以便于其它地方使用 
-     * @see  比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到 
-     */  
-	private void setSession(Object key, Object value){  
-        Subject currentUser = SecurityUtils.getSubject();  
-        if(null != currentUser){  
-            Session session = currentUser.getSession();  
-            System.out.println("Session默认超时时间为[" + session.getTimeout() + "]毫秒");  
-            if(null != session){  
-                session.setAttribute(key, value);  
-            }  
-        }  
-    }  
+	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {  
+        super.clearCachedAuthorizationInfo(principals);  
+    } 
+	
+	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {  
+        super.clearCachedAuthenticationInfo(principals);  
+    } 
+	
+	public void clearCache(PrincipalCollection principals) {  
+        super.clearCache(principals);  
+    } 
+	
+	public void clearAllCachedAuthorizationInfo() {  
+	    getAuthorizationCache().clear();  
+	}  
+	  
+	public void clearAllCachedAuthenticationInfo() {  
+	    getAuthenticationCache().clear();  
+	}  
+	  
+	public void clearAllCache() {  
+	    clearAllCachedAuthenticationInfo();  
+	    clearAllCachedAuthorizationInfo();  
+	}  
 	
 }
