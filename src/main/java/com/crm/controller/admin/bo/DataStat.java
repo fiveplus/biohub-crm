@@ -6,7 +6,6 @@ public class DataStat implements Serializable{
 	private String name;
 	private Long count;
 	
-	
 	public DataStat(){
 		super();
 	}

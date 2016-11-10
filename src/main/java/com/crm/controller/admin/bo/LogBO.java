@@ -1,17 +1,12 @@
 package com.crm.controller.admin.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 
 public class LogBO {
-	@Id
 	private String id;
-	@Column
 	private String userName;
-	@Column
 	private Long createTime;
-	@Column
 	private String information;
+	private String picture;
 	public String getId() {
 		return id;
 	}
@@ -35,6 +30,12 @@ public class LogBO {
 	}
 	public void setInformation(String information) {
 		this.information = information;
+	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 	
 }

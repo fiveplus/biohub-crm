@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.DepartmentMapper">
+	<cache type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.entity.Department" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="information" property="information" jdbcType="VARCHAR" />
+		<id column="phone" property="phone" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<id column="update_count" property="updateCount" jdbcType="INTEGER" />
+		<id column="dept_email" property="deptEmail" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,name,information,phone,create_time,create_user,update_count,dept_email
+	</sql>
+	
+	
+	
+	
+</mapper>

@@ -15,11 +15,36 @@
 		
 		<id column="locked" property="locked" jdbcType="INTEGER" />
 		<id column="salt" property="salt" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="VARCHAR" />
 		
 	</resultMap>
+	
+	<resultMap type="com.crm.controller.admin.bo.UserBO" id="UserResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<id column="picture" property="picture" jdbcType="VARCHAR" />
+		<id column="login_name" property="loginName" jdbcType="VARCHAR" />
+		<id column="user_name" property="userName" jdbcType="VARCHAR" />
+		<id column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+		<id column="locked" property="locked" jdbcType="INTEGER" />
+		<id column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	
 	<sql id="Base_Column_List">
 		id,picture,login_name,user_name,password,login_time,modify_time,information,dept_id,locked,salt
 	</sql>
+	<sql id="User_Column_List">
+		id,picture,login_name,user_name,modify_time,locked,status
+	</sql>
+	
+	<select id="getUserList" resultMap="UserResultMap">
+		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.status = 'Y'
+	</select>
+	
+	<select id="getUserById" resultMap="UserResultMap">
+		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.id = #{id,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="getUserByLoginNameAndPassword" resultMap="BaseResultMap">
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
     </select>
@@ -27,9 +52,7 @@
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
 	 <!-- 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select <include refid="Base_column_List" /> from sys_user where id = #{id,jdbcType=VARCHAR}
-	</select>
+	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from sys_user
         where id = #{id,jdbcType=VARCHAR}

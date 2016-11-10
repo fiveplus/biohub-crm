@@ -20,7 +20,8 @@
 			<tx:method name="query*" read-only="true" />
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
-			<tx:method name="select*" read-only="true" /> <!--其他方法使用默认事务策略  -->
+			<tx:method name="select*" read-only="true" /> 
+			<!--其他方法使用默认事务策略  -->
 			<tx:method name="*" rollback-for="Throwable" />
 		</tx:attributes>
 	</tx:advice>
@@ -29,4 +30,11 @@
 		<!--将定义好的事务处理策略应用到上述的切入点  -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
 	</aop:config>
+	<aop:config>
+		<aop:pointcut id="myPointcut2" expression="execution(* com.crm.dao.*.*(..))" />
+		<!--将定义好的事务处理策略应用到上述的切入点  -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
+	</aop:config>
+	
+	
 </beans>

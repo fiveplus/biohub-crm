@@ -21,14 +21,14 @@ import com.crm.utils.ColorUtils;
 import com.crm.utils.Resource;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/custom")
 public class CustomAdminController {
 	
 	@Autowired
 	private CustomService customService;
 	
 	
-	@RequestMapping("admin/custom/stat.json")
+	@RequestMapping("/stat.json")
 	public @ResponseBody Map<String,Object> customStat(HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		int count = 0;

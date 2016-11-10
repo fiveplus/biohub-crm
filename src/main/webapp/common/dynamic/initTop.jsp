@@ -242,7 +242,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  						-->
  						
  						<!-- 暂代开发 -->
- 						<!-- 
 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-envelope icon-animated-vertical"></i>
@@ -257,11 +256,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<c:forEach items="${logs}" var="log">
 									<li>
 									<a href="javascript:void(0)">
-										<img src="<c:if test="${log.user.picture != ''}">${log.user.picture}</c:if><c:if test="${log.user.picture == ''}">assets/avatars/avatar.png</c:if>" class="msg-photo" alt="" />
+										<img src="<c:if test="${log.picture != ''}">${log.picture}</c:if><c:if test="${log.picture == ''}">assets/avatars/avatar.png</c:if>" class="msg-photo" alt="" />
 										<span class="msg-body">
 											<span class="msg-title">
-												<span class="blue">${log.user.userName}:</span>
-												${fn:substring(log.information,fn:indexOf(log.information,']')+1,65)}...
+												<span class="blue">${log.userName}:</span>
+												${fn:substring(log.information,fn:indexOf(log.information,']')+1,23)}...
 											</span>
 
 											<span class="msg-time">
@@ -280,7 +279,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</li>
 							</ul>
 						</li>
-						 -->
 						 
 	<li class="light-blue">
 		<a data-toggle="dropdown" href="#" class="dropdown-toggle">

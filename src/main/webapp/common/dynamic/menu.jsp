@@ -3,6 +3,11 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String parentId = request.getParameter("parentId");
+if(parentId != null){
+	request.getSession().setAttribute("parentId", parentId);
+}
+
 %>
 <!-- 
 <li>
@@ -22,15 +27,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<li <c:if test="${m.permission.id==parentId}">class="open"</c:if> >
  		<a href="#" class="dropdown-toggle">
 			<i class="${m.permission.className}"></i>
-			<span class="menu-text"> ${m.permission.name} </span>
+			<span class="menu-text"> ${m.permission.name}</span>
 			<b class="arrow icon-angle-down"></b>
 		</a>
 		<ul class="submenu" <c:if test="${m.permission.id==parentId}">style="display:block;"</c:if> >
 			<c:forEach items="${m.pers}" var="per">
 				<li>
-					<a href="../${per.url}&menuId=${per.id}">
+					<a href="${contextPath}/${per.url}?parentId=${m.permission.id}">
 					<i class="icon-double-angle-right"></i>
-					${per.name}
+					${per.name} 
 					</a>
 				</li>
 			</c:forEach>

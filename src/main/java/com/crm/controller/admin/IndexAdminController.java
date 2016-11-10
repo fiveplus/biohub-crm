@@ -16,7 +16,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.crm.controller.admin.bo.LogBO;
+import com.crm.entity.Log;
 import com.crm.entity.User;
 import com.crm.service.LogService;
 import com.crm.service.UserService;
@@ -81,10 +81,13 @@ public class IndexAdminController {
 	public String index(HttpServletRequest request,Model model){
 		Subject subject = SecurityUtils.getSubject();
 		if(subject.hasRole("admin")){
-			//Session session = subject.getSession();
-			//User user = (User) session.getAttribute("user");
-			//List<LogBO> logs = logService.getLogList(user.getId(), 5);
-			//model.addAttribute("logs",logs);
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			List<LogBO> logs = logService.getLogList(user.getId(), 5);
+			Log param = new Log();
+			int logCount = logService.queryCount(null);
+			model.addAttribute("logs",logs);
+			model.addAttribute("logCount",logCount);
 			return "index";
 		}else{
 			return "redirt:/admin/login";

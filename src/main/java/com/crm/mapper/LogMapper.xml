@@ -4,12 +4,13 @@
 	<cache type="com.crm.cache.MybatisRedisCache" />
 	<resultMap type="com.crm.controller.admin.bo.LogBO" id="LogResultMap">
 		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="picture" property="picture" jdbcType="VARCHAR" />
 		<id column="user_name" property="userName" jdbcType="VARCHAR" />
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 		<id column="information" property="information" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="getLogList" resultMap="LogResultMap">
-		select l.id,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id where l.user_id = #{userId,jdbcType=VARCHAR} limit 0,#{count,jdbcType=INTEGER} 
+		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id where l.user_id = #{userId,jdbcType=VARCHAR} limit 0,#{count,jdbcType=INTEGER} 
 	</select>
 	
 </mapper>

@@ -20,14 +20,14 @@ import com.crm.utils.ColorUtils;
 import com.crm.utils.Resource;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/project")
 public class ProjectAdminController {
 	
 	@Autowired
 	private ProjectService projectService;
 	
 	
-	@RequestMapping("admin/project/stat.json")
+	@RequestMapping("/stat.json")
 	public @ResponseBody Map<String,Object> projectStat(HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		int count = 0;

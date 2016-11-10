@@ -18,10 +18,10 @@
 		id,name,parent_id,is_menu,class_name,status,menu_index,image_url,url,create_time
 	</sql>
 	<select id="getParentMenu" resultMap="BaseResultMap">
-		select <include refid="Base_Column_List" /> from sys_permission where is_menu = 'Y' and status = 'Y' and parent_id = 'admin'
+		select <include refid="Base_Column_List" /> from sys_permission where is_menu = 'Y' and status = 'Y' and parent_id = 'admin' order by menu_index ASC
 	</select>
 	<select id="getChildPermission" resultMap="BaseResultMap">
-		select p.<include refid="Base_Column_List" /> from sys_dept_permission dp left join sys_permission p on dp.permission_id = p.id where dp.dept_id = #{deptId,jdbcType=VARCHAR} and p.status = 'Y'
+		select p.<include refid="Base_Column_List" /> from sys_dept_permission dp left join sys_permission p on dp.permission_id = p.id where dp.dept_id = #{deptId,jdbcType=VARCHAR} and p.status = 'Y' order by p.menu_index ASC 
 	</select>
 	
 	
