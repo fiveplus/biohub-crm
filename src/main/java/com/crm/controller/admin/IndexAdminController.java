@@ -1,8 +1,11 @@
 package com.crm.controller.admin;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -13,6 +16,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,17 +24,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.crm.controller.admin.bo.LogBO;
 import com.crm.entity.User;
+import com.crm.service.LogService;
 import com.crm.service.UserService;
 
 @Controller
-@RequestMapping("/")
 public class IndexAdminController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("admin/login")
+	@Autowired
+	private LogService logService;
+	
+	@RequestMapping("/admin/login")
 	public String login(String loginName,String password,HttpServletRequest request,HttpServletResponse response,Model model){
+		
 		if(loginName == null || password == null) 
 			return "login";
 		String remember = request.getParameter("remember");
@@ -63,15 +72,19 @@ public class IndexAdminController {
 		}
 	}
 	
-	@RequestMapping("admin")
+	@RequestMapping("/admin")
 	public String admin(HttpServletRequest request,Model model){
 		return "login";
 	}
 	
-	@RequestMapping("admin/index")
+	@RequestMapping("/admin/index")
 	public String index(HttpServletRequest request,Model model){
 		Subject subject = SecurityUtils.getSubject();
 		if(subject.hasRole("admin")){
+			//Session session = subject.getSession();
+			//User user = (User) session.getAttribute("user");
+			//List<LogBO> logs = logService.getLogList(user.getId(), 5);
+			//model.addAttribute("logs",logs);
 			return "index";
 		}else{
 			return "redirt:/admin/login";
@@ -79,7 +92,7 @@ public class IndexAdminController {
 		
 	}
 	
-	@RequestMapping("admin/logout")
+	@RequestMapping("/admin/logout")
 	public String logout(RedirectAttributes redirectAttributes){
 		//使用权限管理工具进行用户的退出，跳出登录，给出提示信息  
         SecurityUtils.getSubject().logout();    

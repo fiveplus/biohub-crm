@@ -12,30 +12,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!-- basic styles -->
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+	<link href="${contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/font-awesome.min.css" />
 	<!--[if IE 7]>
 		<link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
 	<![endif]-->
 	
 	<!-- page specific plugin styles -->
-	<link rel="stylesheet" href="../assets/css/jquery-ui-1.10.3.custom.min.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/jquery-ui-1.10.3.custom.min.css" />
 		
-	<link rel="stylesheet" href="../assets/css/jquery.gritter.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/jquery.gritter.css" />
 		
-	<link rel="stylesheet" href="../assets/css/chosen.css" />
-	<link rel="stylesheet" href="../assets/css/datepicker.css" />
-	<link rel="stylesheet" href="../assets/css/bootstrap-timepicker.css" />
-	<link rel="stylesheet" href="../assets/css/daterangepicker.css" />
-	<link rel="stylesheet" href="../assets/css/colorpicker.css" /> 
+	<link rel="stylesheet" href="${contextPath}/assets/css/chosen.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/datepicker.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/bootstrap-timepicker.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/daterangepicker.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/colorpicker.css" /> 
 	
 	<!-- fonts -->
-	<link rel="stylesheet" href="../assets/css/ace-fonts.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/ace-fonts.css" />
 	
 	<!-- ace styles -->
-	<link rel="stylesheet" href="../assets/css/ace.min.css" />
-	<link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
-	<link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/ace.min.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="${contextPath}/assets/css/ace-skins.min.css" />
 	
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -43,13 +43,13 @@
 	
 	<!-- inline styles related to this page -->
 	<!-- ace settings handler -->
-	<script src="../assets/js/ace-extra.min.js"></script>
+	<script src="${contextPath}/assets/js/ace-extra.min.js"></script>
 	
 	<!-- zhangshenwu js -->
-	<link rel="stylesheet" href="../js/ajaxfileupload.css" />
-	<link rel="stylesheet" href="../common/dynamic/css/stat.css" />
+	<link rel="stylesheet" href="${contextPath}/js/ajaxfileupload.css" />
+	<link rel="stylesheet" href="${contextPath}/common/dynamic/css/stat.css" />
 		
-	<link rel="stylesheet" href="../js/jquery.Jcrop.css" />
+	<link rel="stylesheet" href="${contextPath}/js/jquery.Jcrop.css" />
 	
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -57,12 +57,12 @@
 		<script src="assets/js/html5shiv.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
-	<link rel="stylesheet" href="../css/index.css" />
+	<link rel="stylesheet" href="${contextPath}/css/index.css" />
 	
 	<!-- basic scripts -->
 	<!--[if !IE]> -->
 	<script type="text/javascript">
-		window.jQuery || document.write("<script src='../assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		window.jQuery || document.write("<script src='${contextPath}/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
 	</script>
 	<!-- <![endif]-->
 
@@ -73,7 +73,7 @@
 	<![endif]-->
 	
 	<script type="text/javascript">
-		if("ontouchend" in document) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		if("ontouchend" in document) document.write("<script src='${contextPath}/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 	</script>
 	
 </head>
@@ -195,49 +195,49 @@
 	
 
 	
-	<script type="text/javascript" src="../js/ajaxfileupload.js" ></script> 
-	<script type="text/javascript" src="../js/jquery.Jcrop.js" ></script> 
+	<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script> 
+	<script type="text/javascript" src="${contextPath}/js/jquery.Jcrop.js" ></script> 
 		
 	<!-- comet4j服务器消息推送 -->
-	<script type="text/javascript" src="../js/comet4j.js"></script> 	
+	<script type="text/javascript" src="${contextPath}/js/comet4j.js"></script> 	
 	
 	<!-- 消息统计框架 -->
-	<script src="../js/ichart.1.2.min.js"></script> 
-	<script src="../js/echarts.min.js"></script>	
+	<!-- <script src="../js/ichart.1.2.min.js"></script>  -->
+	<script src="${contextPath}/js/echarts.min.js"></script>	
 	
-	<script src="../assets/js/bootstrap.min.js"></script>
-	<script src="../assets/js/typeahead-bs2.min.js"></script>	
+	<script src="${contextPath}/assets/js/bootstrap.min.js"></script>
+	<script src="${contextPath}/assets/js/typeahead-bs2.min.js"></script>	
 	
 	<!-- page specific plugin scripts -->
-	<script src="../assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-	<script src="../assets/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.ui.touch-punch.min.js"></script>
 	
-	<script src="../assets/js/chosen.jquery.min.js"></script>
-	<script src="../assets/js/fuelux/fuelux.spinner.min.js"></script>
-	<script src="../assets/js/date-time/bootstrap-datepicker.min.js"></script>
-	<script src="../assets/js/date-time/bootstrap-timepicker.min.js"></script>
-	<script src="../assets/js/date-time/moment.min.js"></script>
-	<script src="../assets/js/date-time/daterangepicker.min.js"></script>
-	<script src="../assets/js/bootstrap-colorpicker.min.js"></script> 
-	<script src="../assets/js/jquery.knob.min.js"></script>
-	<script src="../assets/js/jquery.autosize.min.js"></script>
-	<script src="../assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-	<script src="../assets/js/jquery.maskedinput.min.js"></script>
-	<script src="../assets/js/bootstrap-tag.min.js"></script>
+	<script src="${contextPath}/assets/js/chosen.jquery.min.js"></script>
+	<script src="${contextPath}/assets/js/fuelux/fuelux.spinner.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/moment.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/daterangepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-colorpicker.min.js"></script> 
+	<script src="${contextPath}/assets/js/jquery.knob.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.autosize.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.maskedinput.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-tag.min.js"></script>
 	
-	<script src="../assets/js/markdown/markdown.min.js"></script>
-	<script src="../assets/js/markdown/bootstrap-markdown.min.js"></script>
-	<script src="../assets/js/jquery.hotkeys.min.js"></script>
-	<script src="../assets/js/bootstrap-wysiwyg.min.js"></script>
-	<script src="../assets/js/bootbox.min.js"></script>
+	<script src="${contextPath}/assets/js/markdown/markdown.min.js"></script>
+	<script src="${contextPath}/assets/js/markdown/bootstrap-markdown.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.hotkeys.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="${contextPath}/assets/js/bootbox.min.js"></script>
 	
-	<script src="../assets/js/jquery.easy-pie-chart.min.js"></script>
-	<script src="../assets/js/jquery.gritter.min.js"></script>
-	<script src="../assets/js/spin.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.gritter.min.js"></script>
+	<script src="${contextPath}/assets/js/spin.min.js"></script>
 	
 	<!-- ace scripts -->
-	<script src="../assets/js/ace-elements.min.js"></script>
-	<script src="../assets/js/ace.min.js"></script>
+	<script src="${contextPath}/assets/js/ace-elements.min.js"></script>
+	<script src="${contextPath}/assets/js/ace.min.js"></script>
 	
 	<script type="text/javascript">
 		function go_url(url){

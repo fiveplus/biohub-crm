@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name="sys_user")
 public class User implements Serializable{
 	@Id
 	private String id;

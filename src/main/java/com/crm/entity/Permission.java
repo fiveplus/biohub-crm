@@ -2,7 +2,9 @@ package com.crm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name="sys_permission")
 public class Permission {
 	@Id
 	private String id;

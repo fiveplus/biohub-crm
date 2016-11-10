@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.CustomMapper">
+	<cache type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="count" property="count" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="getCustomStatList" resultMap="StatResultMap">
+		select cl.name as name,count(*) as count from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id where c.status = 'Y' group by c.location_id order by count(*) desc 
+	</select>
+	
+</mapper>

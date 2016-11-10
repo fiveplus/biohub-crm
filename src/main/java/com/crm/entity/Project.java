@@ -2,7 +2,9 @@ package com.crm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name="tbl_project")
 public class Project {
 	@Id
 	private String id;

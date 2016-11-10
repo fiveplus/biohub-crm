@@ -1,0 +1,21 @@
+package com.crm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.crm.controller.admin.bo.DataStat;
+import com.crm.dao.CustomMapper;
+import com.crm.entity.Custom;
+
+@Service("customService")
+public class CustomService extends BaseService<Custom>{
+	
+	@Autowired
+	private CustomMapper customMapper;
+	
+	public List<DataStat> getCustomStatList(){
+		return customMapper.getCustomStatList();
+	}
+}

@@ -15,28 +15,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.controller.admin.bo.DataStat;
 import com.crm.entity.Project;
+import com.crm.service.CustomService;
 import com.crm.service.ProjectService;
 import com.crm.utils.ColorUtils;
 import com.crm.utils.Resource;
 
 @Controller
 @RequestMapping("/")
-public class ProjectAdminController {
+public class CustomAdminController {
 	
 	@Autowired
-	private ProjectService projectService;
+	private CustomService customService;
 	
 	
-	@RequestMapping("admin/project/stat.json")
-	public @ResponseBody Map<String,Object> projectStat(HttpServletRequest request,Model model){
+	@RequestMapping("admin/custom/stat.json")
+	public @ResponseBody Map<String,Object> customStat(HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		int count = 0;
-		List<DataStat> proStats = projectService.getProjectStatList();
-		for(int i = 0;i<proStats.size();i++){
-			count += proStats.get(i).getCount();
+		List<DataStat> cusStats = customService.getCustomStatList();
+		for(int i = 0;i<cusStats.size();i++){
+			count += cusStats.get(i).getCount();
 		}
 		
-		returnMap.put("proStats", proStats);
+		returnMap.put("cusStats", cusStats);
 		returnMap.put("count", count);
 		
 		return returnMap;

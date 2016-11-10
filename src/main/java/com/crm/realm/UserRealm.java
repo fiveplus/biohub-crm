@@ -20,9 +20,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crm.controller.admin.bo.PermissionBO;
 import com.crm.entity.Permission;
@@ -91,7 +89,7 @@ public class UserRealm extends AuthorizingRealm{
         		//认证
         		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
         		simpleAuthorInfo.addRole("admin");
-            	System.out.println("已为用户[??]赋予了[admin]角色和[admin:manage]权限");
+            	System.out.println("已为用户["+currentLoginName+"]赋予了[admin]角色和[admin:manage]权限");
             	return simpleAuthorInfo;
         	}else{
         		return null;
@@ -124,8 +122,10 @@ public class UserRealm extends AuthorizingRealm{
         System.out.println("验证当前Subject时获取到token为" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));  
         //此处无需比对,比对的逻辑Shiro会做,我们只需返回一个和令牌相关的正确的验证信息  
         //说白了就是第一个参数填登录用户名,第二个参数填合法的登录密码(可以是从数据库中取到的,本例中为了演示就硬编码了)  
-        //这样一来,在随后的登录页面上就只有这里指定的用户和密码才能通过验证  
+        //这样一来,在随后的登录页面上就只有这里指定的用户和密码才能通过验证
+        
         User user = userService.getUserByLoginName(token.getUsername());
+        
         if(user == null){
         	throw new UnknownAccountException();
         }

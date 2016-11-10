@@ -6,7 +6,6 @@ public class DataStat implements Serializable{
 	private String name;
 	private Long count;
 	
-	private String color;
 	
 	public DataStat(){
 		super();
@@ -33,11 +32,4 @@ public class DataStat implements Serializable{
 		this.count = count;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getColor() {
-		return color;
-	}
 }
