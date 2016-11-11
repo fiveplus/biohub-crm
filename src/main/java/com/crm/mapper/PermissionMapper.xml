@@ -10,7 +10,7 @@
 		<id column="class_name" property="className" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="VARCHAR" />
 		<id column="menu_index" property="menuIndex" jdbcType="INTEGER" />
-		<id column="image_url" property="imageURL" jdbcType="VARCHAR" />
+		<id column="image_url" property="imageUrl" jdbcType="VARCHAR" />
 		<id column="url" property="url" jdbcType="VARCHAR" />
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 	</resultMap>
@@ -23,6 +23,5 @@
 	<select id="getChildPermission" resultMap="BaseResultMap">
 		select p.<include refid="Base_Column_List" /> from sys_dept_permission dp left join sys_permission p on dp.permission_id = p.id where dp.dept_id = #{deptId,jdbcType=VARCHAR} and p.status = 'Y' order by p.menu_index ASC 
 	</select>
-	
 	
 </mapper>

@@ -15,10 +15,10 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home home-icon"></i>
-					<a href="../system/index.htm">Home</a>
+					<a href="${contextPath}/admin/index">Home</a>
 				</li>
 				<li>
-					<a href="../dept/list.htm?pu.pageNum=1">部门管理</a>
+					<a href="${contextPath}/admin/dept/list/1">部门管理</a>
 				</li> 
 				<li class="active">部门授权</li>
 			</ul><!-- .breadcrumb -->
@@ -40,13 +40,13 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<h3 class="header smaller lighter blue">
-							<span>[${title}]权限列表</span>
+							<span>[${department.name}]权限列表</span>
 							<button class="btn" style="float:right;margin-top: -12px;" onclick="go_url('../dept/list.htm?pu.pageNum=1')" >
 								<i class="icon-pencil align-top bigger-125"></i>Back
 							</button>
 							</h3>
 							<div class="table-header">
-								共有${pu.count}个权限
+								共有${pu.total}个权限
 							</div>
 
 							<div class="table-responsive">
@@ -73,7 +73,7 @@
 									</thead>
 
 									<tbody>
-										<c:forEach items="${permissions}" var="p" >
+										<c:forEach items="${pu.list}" var="p" >
 										<tr>
 											<td class="center">
 												<label>
@@ -118,12 +118,12 @@
 									</c:if>
 									<c:if test="${pu.pageNum!=1}">
 										<li class="prev">
-											<a href="../deptPermission/list.htm?pu.pageNum=1&id=${department.id}">
+											<a href="${contextPath}/admin/dept/perlist/${department.id}/1">
 												<i class="icon-double-angle-left"></i>
 											</a>
 										</li>
 									</c:if>
-									<c:forEach items="${pu.pageList}" var="p">
+									<c:forEach items="${pc.pageList}" var="p">
 										<c:if test="${p==pu.pageNum}">
 											<li class="active">
 												<a href="javascript:void(0)">${p}</a>
@@ -131,20 +131,20 @@
 										</c:if>
 										<c:if test="${p!=pu.pageNum}">
 											<li>
-												<a href="../deptPermission/list.htm?pu.pageNum=${p}&id=${department.id}">${p}</a>
+												<a href="${contextPath}/admin/dept/perlist/${department.id}/${p}">${p}</a>
 											</li>
 										</c:if>
 									</c:forEach>
-									<c:if test="${pu.pageNum==pu.pageCount}">
+									<c:if test="${pu.pageNum==pu.lastPage}">
 										<li class="next disabled">
 											<a href="javascript:void(0)">
 												<i class="icon-double-angle-right"></i>
 											</a>
 										</li>
 									</c:if>
-									<c:if test="${pu.pageNum!=pu.pageCount}">
+									<c:if test="${pu.pageNum!=pu.lastPage}">
 										<li class="next">
-											<a href="../deptPermission/list.htm?pu.pageNum=${pu.pageCount}&id=${department.id}">
+											<a href="${contextPath}/admin/dept/perlist/${department.id}/${pu.lastPage}">
 												<i class="icon-double-angle-right"></i>
 											</a>
 										</li>
@@ -176,9 +176,9 @@
 			function deptCheck(obj,id,deptId){
 				var url = "";
 				if(obj.checked){
-					url = "../deptPermission/add.htm?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
+					url = "${contextPath}/admin/dept/addper?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
 				}else{
-					url = "../deptPermission/delete.htm?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
+					url = "${contextPath}/admin/dept/delper?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
 				}
 				ajaxJSON(url);
 			}

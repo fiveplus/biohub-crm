@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.crm.controller.admin.bo.LogBO;
 import com.crm.dao.LogMapper;
 import com.crm.entity.Log;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service("logService")
 public class LogService extends BaseService<Log>{
@@ -18,4 +20,10 @@ public class LogService extends BaseService<Log>{
 		return logMapper.getLogList(userId, count);
 	}
 	
+	public PageInfo<LogBO> getLogListNoParam(int page){
+		PageHelper.startPage(page,10);
+		List<LogBO> list = logMapper.getLogListNoParam();
+		PageInfo<LogBO> p = new PageInfo<>(list);
+		return p;
+	}
 }

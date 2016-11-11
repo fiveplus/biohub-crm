@@ -10,4 +10,5 @@ import com.github.abel533.mapper.Mapper;
 
 public interface LogMapper extends Mapper<Log>{
 	public List<LogBO> getLogList(@Param("userId") String userId,@Param("count") int count);
+	public List<LogBO> getLogListNoParam();
 }

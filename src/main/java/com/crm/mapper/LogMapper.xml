@@ -10,7 +10,10 @@
 		<id column="information" property="information" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="getLogList" resultMap="LogResultMap">
-		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id where l.user_id = #{userId,jdbcType=VARCHAR} limit 0,#{count,jdbcType=INTEGER} 
+		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id where l.user_id = #{userId,jdbcType=VARCHAR} order by l.create_time desc limit 0,#{count,jdbcType=INTEGER}  
+	</select>
+	<select id="getLogListNoParam" resultMap="LogResultMap">
+		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id order by l.create_time desc 
 	</select>
 	
 </mapper>

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name="sys_permission")
 public class Permission {
@@ -18,7 +19,7 @@ public class Permission {
 	@Column
 	private int menuIndex;
 	@Column
-	private String imageURL;
+	private String imageUrl;
 	@Column
 	private String url;
 	@Column
@@ -28,7 +29,7 @@ public class Permission {
 	private String isMenu;
 	@Column
 	private String className;
-	
+	@Transient
 	private int flag = -1;
 
 	public String getId() {
@@ -71,12 +72,12 @@ public class Permission {
 		this.menuIndex = menuIndex;
 	}
 
-	public String getImageURL() {
-		return imageURL;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getUrl() {

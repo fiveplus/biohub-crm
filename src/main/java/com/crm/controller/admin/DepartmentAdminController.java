@@ -1,6 +1,7 @@
 package com.crm.controller.admin;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.crm.entity.Department;
+import com.crm.entity.Permission;
 import com.crm.service.DepartmentService;
+import com.crm.service.PermissionService;
 import com.crm.utils.PageCode;
 import com.crm.utils.StringUtils;
 import com.github.pagehelper.PageInfo;
@@ -21,6 +24,9 @@ import com.github.pagehelper.PageInfo;
 public class DepartmentAdminController {
 	@Autowired
 	private DepartmentService departmentService;
+	
+	@Autowired
+	private PermissionService permissionService;
 	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,HttpServletRequest request,Model model){
@@ -76,6 +82,28 @@ public class DepartmentAdminController {
 			model.addAttribute("message","很抱歉，部门创建失败!");
 			return "error";
 		}
+	}
+	
+	@RequestMapping("/perlist/{id}/{page}")
+	public String perlist(@PathVariable String id,@PathVariable int page,HttpServletRequest request,Model model){
+		Department department = departmentService.queryById(id);
+		PageInfo<Permission> pu = permissionService.queryPageListByWhere(null, page, 10);
+		List<Permission> pers = permissionService.getChildPermission(id);
+		//TODO 权限组装
+		for(int i = 0;i < pu.getList().size();i++){
+			for(Permission per:pers){
+				if(per.getId().equals(pu.getList().get(i).getId())){
+					per.setFlag(0);
+					pu.getList().set(i, per);
+					break;
+				}
+			}
+		}
+		PageCode pc = new PageCode(page, pu.getPages());
+		model.addAttribute("pu",pu);
+		model.addAttribute("pc",pc);
+		model.addAttribute("department",department);
+		return "dept/dept_permissions";
 	}
 	
 	
