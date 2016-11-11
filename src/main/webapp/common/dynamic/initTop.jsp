@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('custom-location-help')" >
-					<img src="../assets/head/custom-location-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/custom-location-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Customer's Area:</span>
@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('project-type-help')">
-					<img src="../assets/head/project-type-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/project-type-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Project Type:</span>
@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('project-domain-help')">
-					<img src="../assets/head/project-domain-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/project-domain-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Project Domain:</span>
@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('project-stage-help')">
-					<img src="../assets/head/project-stage-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/project-stage-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Project Stage:</span>
@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('project-demand-help')">
-					<img src="../assets/head/project-demand-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/project-demand-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Project Demand:</span>
@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li>
 				<a href="javascript:see_help('meeting-way-help')">
-					<img src="../assets/head/meeting-way-help.jpg" class="msg-photo" alt="" />
+					<img src="${contextPath}/assets/head/meeting-way-help.jpg" class="msg-photo" alt="" />
 					<span class="msg-body">
 						<span class="msg-title">
 							<span class="blue">Meeting Way :</span>
@@ -404,6 +404,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}	
 	function logout(){
 		//JS.Engine.stop();
-		window.location.href = "../admin/logout";
+		window.location.href = "${contextPath}/admin/logout";
 	}
 </script>

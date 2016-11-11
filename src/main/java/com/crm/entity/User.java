@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Table(name="sys_user")
@@ -24,6 +25,7 @@ public class User{
 	@Column
 	private Long loginTime;
 	@Column
+	@OrderBy("DESC")
 	private Long modifyTime;
 	@Column
 	private String information;

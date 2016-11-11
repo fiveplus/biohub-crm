@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Table(name="tbl_project")
@@ -42,6 +43,7 @@ public class Project {
 	@Column
 	private String projectTag;
 	@Column
+	@OrderBy("DESC")
 	private String updateTime;
 	@Column
 	private String followUser;

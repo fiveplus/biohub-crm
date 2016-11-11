@@ -86,8 +86,8 @@ public class IndexAdminController {
 			List<LogBO> logs = logService.getLogList(user.getId(), 5);
 			Log param = new Log();
 			int logCount = logService.queryCount(null);
-			model.addAttribute("logs",logs);
-			model.addAttribute("logCount",logCount);
+			session.setAttribute("logs",logs);
+			session.setAttribute("logCount",logCount);
 			return "index";
 		}else{
 			return "redirt:/admin/login";

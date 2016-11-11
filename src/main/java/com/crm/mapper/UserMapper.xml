@@ -38,7 +38,7 @@
 	</sql>
 	
 	<select id="getUserList" resultMap="UserResultMap">
-		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.status = 'Y'
+		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.status = 'Y' order by u.modify_time desc
 	</select>
 	
 	<select id="getUserById" resultMap="UserResultMap">

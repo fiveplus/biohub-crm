@@ -11,6 +11,7 @@
 		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
 		<id column="update_count" property="updateCount" jdbcType="INTEGER" />
 		<id column="dept_email" property="deptEmail" jdbcType="VARCHAR" />
+		
 	</resultMap>
 	
 	<sql id="Base_Column_List">

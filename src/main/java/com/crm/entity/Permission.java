@@ -2,6 +2,7 @@ package com.crm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Table(name="sys_permission")
@@ -21,6 +22,7 @@ public class Permission {
 	@Column
 	private String url;
 	@Column
+	@OrderBy("DESC")
 	private Long createTime;
 	@Column
 	private String isMenu;

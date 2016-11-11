@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Table(name="sys_dept")
@@ -16,6 +17,7 @@ public class Department {
 	@Column
 	private String phone;
 	@Column
+	@OrderBy("DESC")
 	private Long createTime;
 	@Column
 	private String createUser;
@@ -23,6 +25,8 @@ public class Department {
 	private int updateCount;
 	@Column
 	private String deptEmail;
+	@Column
+	private String information;
 	public String getId() {
 		return id;
 	}
@@ -64,6 +68,12 @@ public class Department {
 	}
 	public void setDeptEmail(String deptEmail) {
 		this.deptEmail = deptEmail;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
 	}
 	
 	
