@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="sys_user")
 public class User{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator="UUID")
 	private String id;
 	@Column
 	private String loginName;
@@ -33,6 +33,8 @@ public class User{
 	private String salt;
 	@Column
 	private int locked; 
+	@Column
+	private String status;
 	
 	public String getId() {
 		return id;
@@ -102,6 +104,14 @@ public class User{
 	}
 	public String getCredentialsSalt(){
 		return loginName + salt;
+	}
+	
+	public void setStatus(String status){
+		this.status = status;
+	}
+	
+	public String getStatus(){
+		return status;
 	}
 	
 }

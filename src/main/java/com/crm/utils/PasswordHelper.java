@@ -10,7 +10,7 @@ import com.crm.entity.User;
 public class PasswordHelper {
 	private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
 	private String algorithmName = "md5";
-	private int hashIterations = 2;
+	private int hashIterations = 3;
 	
 	public void setRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator){
 		this.randomNumberGenerator = randomNumberGenerator;
@@ -24,12 +24,13 @@ public class PasswordHelper {
 		this.hashIterations = hashIterations;
 	}
 	
-	public void encryptPassword(User user) {
+	public User encryptPassword(User user) {
 		user.setSalt(randomNumberGenerator.nextBytes().toHex());
 		String newPassword = new SimpleHash(algorithmName, user.getPassword(),
 				ByteSource.Util.bytes(user.getCredentialsSalt()),
 				hashIterations).toHex();
 		user.setPassword(newPassword);
+		return user;
 	}
 	
 	public static void main(String[] args) {

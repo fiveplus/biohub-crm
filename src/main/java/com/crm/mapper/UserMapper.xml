@@ -31,7 +31,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,picture,login_name,user_name,password,login_time,modify_time,information,dept_id,locked,salt
+		id,picture,login_name,user_name,password,login_time,modify_time,information,dept_id,locked,salt,status
 	</sql>
 	<sql id="User_Column_List">
 		id,picture,login_name,user_name,modify_time,locked,status

@@ -67,8 +67,33 @@ public class UserAdminController {
 	}
 	
 	@RequestMapping("/add")
-	public String add(User us,HttpServletRequest request,Model model){
+	public String add(HttpServletRequest request,Model model){
+		List<Department> departments = departmentService.queryAll();
+		model.addAttribute("departments",departments);
 		return "user/add_user";
+	}
+	
+	@RequestMapping("/save")
+	public String save(User us,HttpServletRequest request,Model model){
+		User u = userService.getUserByLoginName(us.getLoginName());
+		int count = 0;
+		String message = "";
+		if(u == null){
+			count = userService.saveUser(us);
+		}else{
+			message = "用户名已存在，请重新输入!";
+		}
+		
+		if(count > 0){
+			message = "恭喜您，用户创建成功，初始化密码为Wuhan2016";
+			model.addAttribute("message",message);
+			model.addAttribute("returnURL","admin/user/list/1");
+			return "success";
+		}else{
+			model.addAttribute("message",message);
+			return "error";
+		}
+		
 	}
 	
 	

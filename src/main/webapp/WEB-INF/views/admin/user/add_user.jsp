@@ -11,18 +11,19 @@
 			<script type="text/javascript">
 				try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 			</script>
-
+			
 			<ul class="breadcrumb">
 				<li>
-					<i class="icon-home home-icon"></i>
-					<a href="${contextPath}/admin/index">Home</a>
-				</li>
-				<li>
-					<a href="${contextPath}/admin/user/list/1">用户管理</a>
-				</li>
-				<li class="active">用户修改</li>
+				<i class="icon-home home-icon"></i>
+				<a href="${contextPath}/admin/index">Home</a>
+			</li>
+			<li>
+				<a href="${contextPath}/admin/user/list/1">用户管理</a>
+			</li>
+			<li class="active">用户新增</li>
 			</ul><!-- .breadcrumb -->
-
+			
+			
 			<div class="nav-search" id="nav-search">
 				<form class="form-search">
 					<span class="input-icon">
@@ -32,58 +33,60 @@
 				</form>
 			</div><!-- #nav-search -->
 		</div>
-
+		
 		<div class="page-content">
 			<div class="row">
 				<div class="col-xs-12">
 					<!-- PAGE CONTENT BEGINS -->
 					<div class="page-header">
-						<h1>用户修改
+						<h1>用户新增
 						<small>
 							<i class="icon-double-angle-right">
-							请输入用户详细资料
+							请输入用户详细资料(默认密码为Wuhan2016)
 							</i>
 						</small>
 						</h1>
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-							<form action="${contextPath}/admin/user/update" role="form" class="form-horizontal" method="post" id="form_post" >
+							<form action="${contextPath}/admin/user/save"  role="form" class="form-horizontal" method="post" id="form_post">
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请选择部门 </label>
 									<div class="col-sm-9">
-										<input type="hidden" name="id" value="${us.id}" />
 										<select name="deptId">
 											<c:forEach items="${departments}" var="d">
-												<c:if test="${us.deptId == d.id}">
+												<c:if test="${us.dept.id == d.id}">
 													<option value="${d.id}" selected="selected">${d.name}</option>
 												</c:if>
-												<c:if test="${us.deptId != d.id}">
+												<c:if test="${us.dept.id != d.id}">
 													<option value="${d.id}">${d.name}</option>
 												</c:if>
 												
 											</c:forEach>
 										</select>
+										<font style="color:red; height:25px;line-height:25px;overflow:hidden;"><b>&nbsp;*</b></font>
 									</div>
 								</div>
 								<div class="space-4"></div>
-							
+								
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入用户账号 </label>
 									<div class="col-sm-9">
-										<input type="text" id="form-field-1" placeholder="用户账号" class="col-xs-10 col-sm-5" readonly="readonly" name="loginName" value="${us.loginName}" />
+										<input type="text" id="form-field-1" placeholder="用户账号" class="col-xs-10 col-sm-5" name="loginName" value="${us.loginName}" />
+										<font style="color:red; height:25px;line-height:25px;overflow:hidden;"><b>&nbsp;*</b></font>
 									</div>
 								</div>
 								<div class="space-4"></div>
-							
+								
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入用户姓名 </label>
 									<div class="col-sm-9">
 										<input type="text" id="form-field-1" placeholder="用户姓名 " class="col-xs-10 col-sm-5" name="userName" value="${us.userName}" />
+										<font style="color:red; height:25px;line-height:25px;overflow:hidden;"><b>&nbsp;*</b></font>
 									</div>
 								</div>
 								<div class="space-4"></div>
-					
+								
 								<div class="clearfix form-actions">
 									<div class="col-md-offset-3 col-md-9">
 										<button class="btn btn-info" type="button" onclick="form_submit('form_post')">

@@ -42,7 +42,7 @@
 						<div class="col-xs-12">
 							<h3 class="header smaller lighter blue">
 							<span>用户列表</span>
-							<button class="btn" style="float:right;margin-top: -12px;" onclick="go_url('../user/addinit.htm')" ><i class="icon-pencil align-top bigger-125"></i>用户新增(Add User)</button>
+							<button class="btn" style="float:right;margin-top: -12px;" onclick="go_url('${contextPath}/admin/user/add')" ><i class="icon-pencil align-top bigger-125"></i>用户新增(Add User)</button>
 							</h3>
 							<div class="table-header">
 								共有${p.total}条数据
