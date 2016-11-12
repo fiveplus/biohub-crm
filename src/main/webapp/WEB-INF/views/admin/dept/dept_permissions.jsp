@@ -33,155 +33,151 @@
 			</div><!-- #nav-search -->
 		</div>
 
+		
+
 		<div class="page-content">
+			<div class="page-header">
+				<h1>
+					部门授权
+					<small>
+						<i class="icon-double-angle-right"></i>
+						${department.name}
+					</small>
+				</h1>
+			</div><!-- /.page-header -->
 			<div class="row">
 				<div class="col-xs-12">
-					<!-- PAGE CONTENT BEGINS -->
+					<!-- PAGE CONTENT BEGIN -->
 					<div class="row">
-						<div class="col-xs-12">
-							<h3 class="header smaller lighter blue">
-							<span>[${department.name}]权限列表</span>
-							<button class="btn" style="float:right;margin-top: -12px;" onclick="go_url('../dept/list.htm?pu.pageNum=1')" >
-								<i class="icon-pencil align-top bigger-125"></i>Back
-							</button>
-							</h3>
-							<div class="table-header">
-								共有${pu.total}个权限
-							</div>
+						<div class="col-sm-6">
+							<div class="widget-box">
+								<div class="widget-header header-color-blue2">
+									<h4 class="lighter smaller" style="color:white;">权限选择</h4>
+								</div>
 
-							<div class="table-responsive">
-								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
-									<thead>
-										<tr>
-											<th class="center">
-												<label>
-													<input type="checkbox" class="ace" />
-													<span class="lbl"></span>
-												</label>
-											</th>
-											<th>名称</th>
-											<th>Index</th>
-											<th class="hidden-480">URL</th>
-
-											<th>
-												<i class="icon-time bigger-110 hidden-480"></i>
-												创建时间
-											</th>
-											<th class="hidden-480">状态</th>
-											<!-- <th>操作</th> -->
-										</tr>
-									</thead>
-
-									<tbody>
-										<c:forEach items="${pu.list}" var="p" >
-										<tr>
-											<td class="center">
-												<label>
-													<c:if test="${p.flag == 0}">
-														<input type="checkbox" checked="checked" class="ace" onclick="deptCheck(this,'${p.id}','${department.id}')" />
-													</c:if>
-													<c:if test="${p.flag != 0}">
-														<input type="checkbox" class="ace" onclick="deptCheck(this,'${p.id}','${department.id}')" />
-													</c:if>
-													
-													<span class="lbl"></span>
-												</label>
-											</td>
-
-											<td>
-												<a href="javascript:void(0)">${p.name}</a>
-											</td>
-											<td>${p.menuIndex}</td>
-											<td class="hidden-480">${p.url}</td>
-											<td><date:date value="${p.createTime}" /></td>
-
-											<td class="hidden-480">
-												<span class="label label-sm label-success">已创建</span>
-											</td>
-											
-										</tr>
-										</c:forEach>
-							
-									</tbody>
-								</table>
-							</div>
-							
-							<div class="modal-footer no-margin-top">
-								<ul class="pagination pull-right no-margin" id="page">
-									<!-- 分页 -->
-									<c:if test="${pu.pageNum==1}">
-										<li class="prev disabled">
-											<a href="javascript:void(0)">
-												<i class="icon-double-angle-left"></i>
-											</a>
-										</li>
-									</c:if>
-									<c:if test="${pu.pageNum!=1}">
-										<li class="prev">
-											<a href="${contextPath}/admin/dept/perlist/${department.id}/1">
-												<i class="icon-double-angle-left"></i>
-											</a>
-										</li>
-									</c:if>
-									<c:forEach items="${pc.pageList}" var="p">
-										<c:if test="${p==pu.pageNum}">
-											<li class="active">
-												<a href="javascript:void(0)">${p}</a>
-											</li>
-										</c:if>
-										<c:if test="${p!=pu.pageNum}">
-											<li>
-												<a href="${contextPath}/admin/dept/perlist/${department.id}/${p}">${p}</a>
-											</li>
-										</c:if>
-									</c:forEach>
-									<c:if test="${pu.pageNum==pu.lastPage}">
-										<li class="next disabled">
-											<a href="javascript:void(0)">
-												<i class="icon-double-angle-right"></i>
-											</a>
-										</li>
-									</c:if>
-									<c:if test="${pu.pageNum!=pu.lastPage}">
-										<li class="next">
-											<a href="${contextPath}/admin/dept/perlist/${department.id}/${pu.lastPage}">
-												<i class="icon-double-angle-right"></i>
-											</a>
-										</li>
-									</c:if>
-								</ul>
+								<div class="widget-body">
+									<div class="widget-main padding-8">
+										<div id="tree1" class="tree"></div>
+										<div class="hr"></div>
+										<button id="submit-button" type="button" class="btn btn-sm btn-primary pull-right">
+											<i class="icon-ok"></i>
+											保存
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<!-- PAGE CONTENT ENDS -->
-				</div><!-- /.col -->
-			</div><!-- /.row -->
+					
+					<div id="modal-tree-items" class="modal" tabindex="-1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="blue bigger">权限确认</h4>
+								</div>
+								
+								<div class="modal-body">
+									<div class="row-fluid">
+										待提交的权限列表
+									</div>
+									
+									<div class="space-6"></div>
+									
+									<div class="row-fluid">
+										<input type="hidden" id="tree-input" />
+										<textarea spellcheck="false" readonly="readonly" id="tree-value"></textarea>
+									</div>
+								</div>
+								
+								<div class="modal-footer">
+									<button class="btn btn-sm" data-dismiss="modal"><i class="icon-remove"></i> Cancel</button>
+									<button class="btn btn-sm btn-primary" id="submit-ok"><i class="icon-ok"></i> OK</button>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					
+					<!-- PAGE CONTENT END -->
+				</div>
+			</div>
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
-			//ajax请求
-			function ajaxJSON(url){
-				var action = url;
-				$.ajax({
-					type:"POST",
-					url:action,
-					error:function(request){
-						alert("Connection Error");
-					},
-					success:function(data){
+			$(function(){
+				var DataSourceTree = function(options){
+					this.url = options.url;
+				};
+				
+				DataSourceTree.prototype.data = function(options,callback){
+					var $data = null;
+					var param = null;
+					if(!("name" in options) && !("type" in options)){
+						param = null;//load the first level data
 					}
+					else if("type" in options && options.type == "folder") {
+						if("additionalParameters" in options && "children" in options.additionalParameters)
+							param = options.additionalParameters["id"];
+					}
+					var datas = {};
+					if(param != null){
+						datas = {pid:param};
+					}
+					$.ajax({
+						url:this.url,
+						data:datas,
+						type:'POST',
+						dataType:'json',
+						success:function(response){
+							if(response.status == "OK")
+								callback({ data: response.data });
+						},
+						error:function(response){
+							//console.log(response);
+						}
+					});
+				};
+				
+				
+				$("#tree1").ace_tree({
+					dataSource:new DataSourceTree({url:'${contextPath}/admin/dept/perlist.json?did=${department.id}'}),
+					multiSelect:true,
+					loadingHTML:"<div class='tree-loading'><i class='icon-refresh icon-spin blue'></i></div>",
+					'open-icon' : 'icon-minus',
+					'close-icon' : 'icon-plus',
+					'selectable' : true,
+					'selected-icon' : 'icon-ok',
+					'unselected-icon' : 'icon-remove',
 				});
-			}
-		
-			//删除或增加权限
-			function deptCheck(obj,id,deptId){
-				var url = "";
-				if(obj.checked){
-					url = "${contextPath}/admin/dept/addper?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
-				}else{
-					url = "${contextPath}/admin/dept/delper?dp.permissionId="+id+"&dp.deptId="+deptId+"&";
-				}
-				ajaxJSON(url);
-			}
+				
+				$("#submit-button").on('click',function(){
+					var tree = $("#tree1").data('tree');
+					var output = '';
+					var items = tree.selectedItems();
+					var treeids = new Array();
+					for(var i in items) if (items.hasOwnProperty(i)) {
+						var item = items[i];
+						output += item.additionalParameters['id'] + ":"+ item.name+"\n";
+						treeids.push(item.additionalParameters['id']);
+					}
+					$('#tree-input').val(treeids.toString());
+					$('#modal-tree-items').modal('show');
+					$('#tree-value').css({'width':'98%', 'height':'200px'}).val(output);
+				});
+				
+				$("#submit-ok").on('click',function(){
+					//数据提交
+					var pids = $('#tree-input').val();
+					var did = '${department.id}';
+					$('#modal-tree-items').modal('hide');
+					ace_msg.success();
+				});
+				
+				if(location.protocol == 'file:') alert("For retrieving data from server, you should access this page using a webserver.");
+				
+			});
+			
 		</script>
 	
 	</fms:Content>

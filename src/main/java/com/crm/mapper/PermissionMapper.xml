@@ -23,5 +23,18 @@
 	<select id="getChildPermission" resultMap="BaseResultMap">
 		select p.<include refid="Base_Column_List" /> from sys_dept_permission dp left join sys_permission p on dp.permission_id = p.id where dp.dept_id = #{deptId,jdbcType=VARCHAR} and p.status = 'Y' order by p.menu_index ASC 
 	</select>
+	<select id="getPermissionByParentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> from sys_permission where parent_id
+		<if test="parentId == null">
+			is null
+		</if>
+		<if test="parentId != null">
+			= #{parentId,jdbcType=VARCHAR} 
+		</if>
+		 and status = 'Y' order by menu_index ASC 
+	</select>
+	<select id="getCountByParentId" resultType="java.lang.Integer">
+		select count(*) from sys_permission where parent_id = #{parentId,jdbcType=VARCHAR} and status = 'Y'
+	</select>
 	
 </mapper>

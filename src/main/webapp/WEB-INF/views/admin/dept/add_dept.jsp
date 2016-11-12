@@ -14,10 +14,10 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home home-icon"></i>
-					<a href="../system/index.htm">Home</a>
+					<a href="${contextPath}/admin/index">Home</a>
 				</li>
 				<li>
-					<a href="../dept/list.htm?pu.pageNum=1">部门管理</a>
+					<a href="${contextPath}/admin/dept/list/1">部门管理</a>
 				</li>
 				<li class="active">部门新增</li>
 			</ul><!-- .breadcrumb -->
@@ -47,11 +47,11 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-							<form action="../dept/add.htm" role="form" class="form-horizontal" method="post" id="form_post" >
+							<form action="${contextPath}/admin/dept/save" role="form" class="form-horizontal" method="post" id="form_post" >
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入部门名称 </label>
 									<div class="col-sm-9">
-										<input type="text" id="form-field-1" placeholder="部门名称" class="col-xs-10 col-sm-5" name="department.name" value="${department.name}" />
+										<input type="text" id="form-field-1" placeholder="部门名称" class="col-xs-10 col-sm-5" name="name" value="${department.name}" />
 										<font style="color:red; height:25px;line-height:25px;overflow:hidden;"><b>&nbsp;*</b></font>
 									</div>
 								</div>
@@ -60,7 +60,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入部门电话</label>
 									<div class="col-sm-9">
-										<input type="text" placeholder="部门电话" class="col-xs-10 col-sm-5" name="department.phone" value="${department.phone}" />
+										<input type="text" placeholder="部门电话" class="col-xs-10 col-sm-5" name="phone" value="${department.phone}" />
 									</div>
 								</div>
 								<div class="space-4"></div>
@@ -69,7 +69,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1" > 请输入部门邮箱</label>
 									<div class="col-sm-9">
-										<input type="text" placeholder="部门邮箱" class="col-xs-10 col-sm-5" name="department.deptMail" value="${department.deptMail}"  />
+										<input type="text" placeholder="部门邮箱" class="col-xs-10 col-sm-5" name="deptEmail" value="${department.deptEmail}"  />
 									</div>
 								</div>
 								<div class="space-4"></div>
@@ -101,7 +101,7 @@
 										</span>
 									</h4>
 									<div class="wysiwyg-editor" id="editor1" >${department.information}</div>
-									<input type="hidden" name="department.information" value="${department.information}" />
+									<input type="hidden" name="information" value="${department.information}" />
 								</div>
 								<div class="space-4"></div>
 					
@@ -129,12 +129,31 @@
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
 			function form_submit(id){
-				var form = $("#"+id);
+				bootbox.confirm("确认新增?",function(result){
+					var form = $("#"+id);
+					
+					var html = $("#editor1").html();
+					$("#"+id+" [name='information']").val(html);
+					
+					$.ajax({
+						url:form.attr('action'),
+						type:"POST",
+						data:form.serialize(),
+						dataType:'json',
+						success:function(data){
+							if(data.code == 0){
+								ace_msg.success(data.msg);
+							}else{
+								ace_msg.danger(data.msg);
+							}
+						},
+						error:function(data){
+							//console.log(data);
+						}
+					});
+					
+				});
 				
-				var html = $("#editor1").html();
-				$("#"+id+" [name='department.information']").val(html);
-				
-				form.submit();
 			}
 			
 			$(document).ready(function(){

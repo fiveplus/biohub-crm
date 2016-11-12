@@ -256,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<c:forEach items="${logs}" var="log">
 									<li>
 									<a href="javascript:void(0)">
-										<img src="<c:if test="${log.picture != ''}">${log.picture}</c:if><c:if test="${log.picture == ''}">assets/avatars/avatar.png</c:if>" class="msg-photo" alt="" />
+										<img src="<c:if test="${log.picture != ''}">${contextPath}/${log.picture}</c:if><c:if test="${log.picture == ''}">${contextPath}/assets/avatars/avatar.png</c:if>" class="msg-photo" alt="" />
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">${log.userName}:</span>
@@ -282,7 +282,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 
 	<li class="light-blue">
 		<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-			<img class="nav-user-photo" src="../<c:if test="${user.picture == ''}" >assets/avatars/user.jpg</c:if><c:if test="${user.picture != ''}" >${user.picture}</c:if>" alt="" />
+			<img class="nav-user-photo" src="${contextPath}/<c:if test="${user.picture == ''}" >assets/avatars/user.jpg</c:if><c:if test="${user.picture != ''}" >${user.picture}</c:if>" alt="" />
 			<span class="user-info">
 				<small>Welcome,</small>
 				${user.userName}

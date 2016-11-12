@@ -239,12 +239,18 @@
 	<script src="${contextPath}/assets/js/ace-elements.min.js"></script>
 	<script src="${contextPath}/assets/js/ace.min.js"></script>
 	
+	<!-- tree -->
+	<script src="${contextPath}/assets/js/fuelux/fuelux.tree.min.js"></script>
+	
+	<!-- messgae-alert -->
+	<script src="${contextPath}/js/acemsg.js"></script>
+	
 	<script type="text/javascript">
 		function go_url(url){
 			window.location.href=url;
 		}
 		function go_back(){
-			window.history.go(-1);
+			self.location=document.referrer;
 		}
 	
 		$(document).ready(function(){

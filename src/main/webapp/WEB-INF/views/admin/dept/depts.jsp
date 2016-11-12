@@ -85,7 +85,7 @@
 											</td>
 
 											<td>
-												<a href="${contextPath}/admin/dept/perlist/${d.id}/1">${d.name}</a>
+												<a href="${contextPath}/admin/dept/perlist/${d.id}">${d.name}</a>
 											</td>
 											<td>${d.phone}</td>
 											<td class="hidden-480">${d.updateCount}</td>

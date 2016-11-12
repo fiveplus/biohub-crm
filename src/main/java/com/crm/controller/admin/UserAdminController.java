@@ -1,6 +1,8 @@
 package com.crm.controller.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.controller.admin.bo.UserBO;
 import com.crm.entity.Department;
@@ -54,16 +57,17 @@ public class UserAdminController {
 	}
 	
 	@RequestMapping("/update")
-	public String update(User us,HttpServletRequest request,Model model){
+	public @ResponseBody Map<String,Object> update(User us,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String, Object>();
 		int count = userService.updateSelective(us);
-		if(count >= 0){
-			model.addAttribute("message","恭喜您，用户更新成功。");
-			model.addAttribute("returnURL","admin/user/list/1");
-			return "success";
+		if(count > 0){
+			returnMap.put("msg", "成功！很好地完成了提交。");
+			returnMap.put("code", 0);
 		}else{
-			model.addAttribute("message","很抱歉，用户更新失败。");
-			return "error";
+			returnMap.put("msg", "错误！请进行一些更改。");
+			returnMap.put("code", 4);
 		}
+		return returnMap;
 	}
 	
 	@RequestMapping("/add")
@@ -74,10 +78,11 @@ public class UserAdminController {
 	}
 	
 	@RequestMapping("/save")
-	public String save(User us,HttpServletRequest request,Model model){
+	public @ResponseBody Map<String,Object> save(User us,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String, Object>();
 		User u = userService.getUserByLoginName(us.getLoginName());
 		int count = 0;
-		String message = "";
+		String message = "成功！用户创建成功，初始化密码为Wuhan2016";
 		if(u == null){
 			count = userService.saveUser(us);
 		}else{
@@ -85,15 +90,13 @@ public class UserAdminController {
 		}
 		
 		if(count > 0){
-			message = "恭喜您，用户创建成功，初始化密码为Wuhan2016";
-			model.addAttribute("message",message);
-			model.addAttribute("returnURL","admin/user/list/1");
-			return "success";
+			returnMap.put("msg",message);
+			returnMap.put("code", 0);
 		}else{
-			model.addAttribute("message",message);
-			return "error";
+			returnMap.put("msg",message);
+			returnMap.put("code", 4);
 		}
-		
+		return returnMap;
 	}
 	
 	

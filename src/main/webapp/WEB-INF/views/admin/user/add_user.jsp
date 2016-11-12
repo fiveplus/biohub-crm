@@ -110,8 +110,25 @@
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
 			function form_submit(id){
-				var form = $("#"+id);
-				form.submit();
+				bootbox.confirm("确认新增?",function(result){
+					var form = $("#"+id);
+					$.ajax({
+						url:form.attr('action'),
+						type:"POST",
+						data:form.serialize(),
+						dataType:'json',
+						success:function(data){
+							if(data.code == 0){
+								ace_msg.success(data.msg);
+							}else{
+								ace_msg.danger(data.msg);
+							}
+						},
+						error:function(data){
+							//console.log(data);
+						}
+					});
+				});
 			}
 		</script>
 	
