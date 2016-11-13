@@ -13,7 +13,7 @@ public class SysMail {
 	@Column
 	private String email;
 	@Column
-	private String createTime;
+	private Long createTime;
 	@Column
 	private String remark;
 	public String getId() {
@@ -28,10 +28,10 @@ public class SysMail {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
 	public String getRemark() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -22,9 +23,12 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import com.crm.controller.admin.bo.LogBO;
 import com.crm.controller.admin.bo.PermissionBO;
+import com.crm.entity.Log;
 import com.crm.entity.Permission;
 import com.crm.entity.User;
+import com.crm.service.LogService;
 import com.crm.service.PermissionService;
 import com.crm.service.UserService;
 
@@ -35,6 +39,9 @@ public class UserRealm extends AuthorizingRealm{
 	
 	@Resource
 	private PermissionService permissionService;
+	
+	@Resource
+	private LogService logService;
 	
 	/** 
      * 为当前登录的Subject授予角色和权限 
@@ -84,6 +91,14 @@ public class UserRealm extends AuthorizingRealm{
     	        Session session = SecurityUtils.getSubject().getSession();
     	        session.setAttribute("user", user);
     	        session.setAttribute("menus", pbos);
+    	        
+    	        //个人日志加载
+    			List<LogBO> logs = logService.getLogList(user.getId(), 5);
+    			Log param = new Log();
+    			param.setUserId(user.getId());
+    			int logCount = logService.queryCount(param);
+    			session.setAttribute("logs",logs);
+    			session.setAttribute("logCount",logCount);
     	        
     	        
         		//认证

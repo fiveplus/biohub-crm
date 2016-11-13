@@ -81,13 +81,6 @@ public class IndexAdminController {
 	public String index(HttpServletRequest request,Model model){
 		Subject subject = SecurityUtils.getSubject();
 		if(subject.hasRole("admin")){
-			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute("user");
-			List<LogBO> logs = logService.getLogList(user.getId(), 5);
-			Log param = new Log();
-			int logCount = logService.queryCount(null);
-			session.setAttribute("logs",logs);
-			session.setAttribute("logCount",logCount);
 			return "index";
 		}else{
 			return "redirt:/admin/login";

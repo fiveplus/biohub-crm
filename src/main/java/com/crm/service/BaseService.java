@@ -74,4 +74,8 @@ public class BaseService<T> {
 		return this.mapper.deleteByExample(example);
 	}
 	
+	public Integer delete(String id){
+		return this.mapper.deleteByPrimaryKey(id);
+	}
+	
 }

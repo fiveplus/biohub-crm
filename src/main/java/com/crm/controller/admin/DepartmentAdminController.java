@@ -68,14 +68,23 @@ public class DepartmentAdminController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(Department department,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
-		int count = departmentService.updateSelective(department);
-		if(count > 0){
-			returnMap.put("msg", "成功！很好地完成了提交。");
-			returnMap.put("code", 0);
+		Department param = new Department();
+		param.setName(department.getName());
+		Department d = departmentService.queryOne(param);
+		if(d == null || (d != null && department.getName().equals(d.getName()))){
+			int count = departmentService.updateSelective(department);
+			if(count > 0){
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
 		}else{
-			returnMap.put("msg", "错误！请进行一些更改。");
+			returnMap.put("msg", "错误！部门名称已存在。");
 			returnMap.put("code", 4);
 		}
+		
 		return returnMap;
 	}
 	
@@ -86,18 +95,26 @@ public class DepartmentAdminController {
 	
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(Department department,HttpServletRequest request,Model model){
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		department.setCreateTime(StringUtils.getDateToLong(new Date()));
-		department.setUpdateCount(0);
-		department.setCreateUser(user.getUserName());
-		int count = departmentService.saveSelect(department);
-		if(count > 0){
-			returnMap.put("msg", "成功！很好地完成了提交。");
-			returnMap.put("code", 0);
+		Department param = new Department();
+		param.setName(department.getName());
+		Department d = departmentService.queryOne(param);
+		if(d == null){
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute("user");
+			department.setCreateTime(StringUtils.getDateToLong(new Date()));
+			department.setUpdateCount(0);
+			department.setCreateUser(user.getUserName());
+			int count = departmentService.saveSelect(department);
+			if(count > 0){
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
 		}else{
-			returnMap.put("msg", "错误！请进行一些更改。");
+			returnMap.put("msg", "错误！部门名称已存在!");
 			returnMap.put("code", 4);
 		}
 		return returnMap;
