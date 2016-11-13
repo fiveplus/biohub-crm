@@ -59,10 +59,17 @@
 									<div class="widget-main padding-8">
 										<div id="tree1" class="tree"></div>
 										<div class="hr"></div>
+										
 										<button id="submit-button" type="button" class="btn btn-sm btn-primary pull-right">
 											<i class="icon-ok"></i>
 											保存
 										</button>
+										
+										<button class="btn btn-sm btn-primary pull-right" type="reset" onclick="go_back()">
+											<i class="icon-undo bigger-110"></i>
+											返回
+										</button>
+										
 									</div>
 								</div>
 							</div>
@@ -87,7 +94,7 @@
 									
 									<div class="row-fluid">
 										<input type="hidden" id="tree-input" />
-										<textarea spellcheck="false" readonly="readonly" id="tree-value"></textarea>
+										<textarea spellcheck="false" readonly="readonly" id="tree-value" style="resize: none;"></textarea>
 									</div>
 								</div>
 								
@@ -109,34 +116,49 @@
 				var DataSourceTree = function(options){
 					this.url = options.url;
 				};
-				
+				var params = new Array();
 				DataSourceTree.prototype.data = function(options,callback){
+					var flag = 0;
 					var $data = null;
 					var param = null;
 					if(!("name" in options) && !("type" in options)){
 						param = null;//load the first level data
 					}
 					else if("type" in options && options.type == "folder") {
-						if("additionalParameters" in options && "children" in options.additionalParameters)
+						if("additionalParameters" in options && "children" in options.additionalParameters){
 							param = options.additionalParameters["id"];
+							if(params.indexOf(param)==-1){
+								params.push(param);
+							}else{
+								flag = -1;
+							}
+						}
 					}
 					var datas = {};
 					if(param != null){
 						datas = {pid:param};
 					}
-					$.ajax({
-						url:this.url,
-						data:datas,
-						type:'POST',
-						dataType:'json',
-						success:function(response){
-							if(response.status == "OK")
-								callback({ data: response.data });
-						},
-						error:function(response){
-							//console.log(response);
-						}
-					});
+					if(flag == 0){
+						$.ajax({
+							url:this.url,
+							data:datas,
+							type:'POST',
+							dataType:'json',
+							success:function(response){
+								if(response.status == "OK")
+									callback({ data: response.data});
+								//展开树
+								$("#tree1").find(".tree-folder-header").each(function(){
+								    if($(this).parent().css("display")=="block"){  
+								        $(this).trigger("click");  
+								    }  
+								});
+							},
+							error:function(response){
+								//console.log(response);
+							}
+						});
+					}
 				};
 				
 				
@@ -170,8 +192,22 @@
 					//数据提交
 					var pids = $('#tree-input').val();
 					var did = '${department.id}';
-					$('#modal-tree-items').modal('hide');
-					ace_msg.success();
+					$.ajax({
+						url:'${contextPath}/admin/dept/savepers',
+						data:{did:did,pids:pids},
+						dataType:"json",
+						success:function(data){
+							$('#modal-tree-items').modal('hide');
+							if(data.code==0){
+								ace_msg.success(data.msg);
+							}else{
+								ace_msg.danger(data.msg);
+							}
+						},
+						error:function(data){
+							//console.log(data)
+						}
+					});
 				});
 				
 				if(location.protocol == 'file:') alert("For retrieving data from server, you should access this page using a webserver.");

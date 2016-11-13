@@ -32,4 +32,8 @@ public class PermissionService extends BaseService<Permission>{
 		return permissionMapper.getCountByParentId(parentId);
 	}
 	
+	public List<Permission> getParentPermission(){
+		return permissionMapper.getParentPermission();
+	}
+	
 }

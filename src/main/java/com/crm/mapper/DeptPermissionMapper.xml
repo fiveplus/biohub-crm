@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.DeptPermissionMapper">
+	<!--  <cache type="com.crm.cache.MybatisRedisCache" />  -->
+	
+	<resultMap type="com.crm.entity.DeptPermission" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="dept_id" property="deptId" jdbcType="VARCHAR" />
+		<id column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<delete id="deletePermissionByDeptId"  >
+		delete from sys_dept_permission where dept_id = #{deptId,jdbcType=VARCHAR} 
+	</delete>
+	
+</mapper>

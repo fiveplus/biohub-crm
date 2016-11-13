@@ -86,7 +86,7 @@ public class UserAdminController {
 		if(u == null){
 			count = userService.saveUser(us);
 		}else{
-			message = "用户名已存在，请重新输入!";
+			message = "错误！用户名已存在，请重新输入!";
 		}
 		
 		if(count > 0){

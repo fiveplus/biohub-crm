@@ -12,4 +12,5 @@ public interface PermissionMapper extends Mapper<Permission>{
 	public List<Permission> getChildPermission(@Param("deptId") String deptId);
 	public List<Permission> getPermissionByParentId(@Param("parentId") String parentId);
 	public int getCountByParentId(@Param("parentId") String parentId);
+	public List<Permission> getParentPermission();
 }

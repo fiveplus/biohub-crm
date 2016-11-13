@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,11 @@ import com.crm.controller.admin.bo.AdditionalParameters;
 import com.crm.controller.admin.bo.Item;
 import com.crm.controller.admin.bo.TreeRespBO;
 import com.crm.entity.Department;
+import com.crm.entity.DeptPermission;
 import com.crm.entity.Permission;
+import com.crm.entity.User;
 import com.crm.service.DepartmentService;
+import com.crm.service.DeptPermissionService;
 import com.crm.service.PermissionService;
 import com.crm.utils.PageCode;
 import com.crm.utils.StringUtils;
@@ -34,6 +38,9 @@ public class DepartmentAdminController {
 	
 	@Autowired
 	private PermissionService permissionService;
+	
+	@Autowired
+	private DeptPermissionService deptPermissionService;
 	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,HttpServletRequest request,Model model){
@@ -79,9 +86,12 @@ public class DepartmentAdminController {
 	
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(Department department,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		department.setCreateTime(StringUtils.getDateToLong(new Date()));
 		department.setUpdateCount(0);
+		department.setCreateUser(user.getUserName());
 		int count = departmentService.saveSelect(department);
 		if(count > 0){
 			returnMap.put("msg", "成功！很好地完成了提交。");
@@ -136,6 +146,28 @@ public class DepartmentAdminController {
 		tree.setData(boItemList);
 		tree.setStatus("OK");
 		return tree;
+	}
+	
+	@RequestMapping("/savepers")
+	public @ResponseBody Map<String,Object> savepers(String did,String pids,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		//权限清除
+		deptPermissionService.deletePermissionByDeptId(did);
+		if(pids != null && !pids.equals("")){
+			//权限保存
+			String[] ids = pids.split(",");
+			for(String id:ids){
+				DeptPermission dp = new DeptPermission();
+				dp.setDeptId(did);
+				dp.setPermissionId(id);
+				int count = deptPermissionService.saveSelect(dp);
+				System.out.println("dp:"+count);
+			}
+		}
+		returnMap.put("code", 0);
+		returnMap.put("msg", "成功！很好地完成了提交。");
+		
+		return returnMap;
 	}
 	
 	

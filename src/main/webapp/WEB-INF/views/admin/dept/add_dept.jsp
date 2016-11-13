@@ -143,6 +143,7 @@
 						success:function(data){
 							if(data.code == 0){
 								ace_msg.success(data.msg);
+								go_back();
 							}else{
 								ace_msg.danger(data.msg);
 							}

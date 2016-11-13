@@ -37,4 +37,9 @@
 		select count(*) from sys_permission where parent_id = #{parentId,jdbcType=VARCHAR} and status = 'Y'
 	</select>
 	
+	<select id="getParentPermission" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from sys_permission where parent_id = 'admin' and status = 'Y'
+	</select>
+	
+	
 </mapper>
