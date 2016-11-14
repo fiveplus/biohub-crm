@@ -6,8 +6,72 @@
 		<id column="name" property="name" jdbcType="VARCHAR" />
 		<id column="count" property="count" jdbcType="INTEGER" />
 	</resultMap>
+	<resultMap type="com.crm.controller.admin.bo.CustomBO" id="CustomBO">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<id column="location_name" property="locationName" jdbcType="VARCHAR" />
+		<id column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<id column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
 	<select id="getCustomStatList" resultMap="StatResultMap">
 		select cl.name as name,count(*) as count from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id where c.status = 'Y' group by c.location_id order by count(*) desc 
+	</select>
+	<select id="getCustomList" parameterType="com.crm.entity.Custom" resultMap="CustomBO">
+		select c.id,c.name,ct.name as type_name,cl.name as location_name,c.telephone,c.create_user,c.modify_time,c.status from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1
+		<if test="locationId != null and locationId != ''">
+			and c.location_id = #{locationId,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			and (c.name like CONCAT('%','${name}','%') or c.company like CONCAT('%','${name}','%'))
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and c.telephone = #{telephone,jdbcType=VARCHAR}
+		</if>
+		<if test="qq != null and qq !=''">
+			and c.qq = #{qq,jdbcType=VARCHAR}
+		</if>
+		<if test="email != null and email != null">
+			and c.email = #{email,jdbcType=VARCHAR}
+		</if>
+		<if test="customAddress != null and customAddress != ''">
+			and c.custom_address = #{customAddress,jdbcType=VARCHAR}
+		</if>
+		<if test="wechat != null and wechat != ''">
+			and c.wechat = #{wechat,jdbcType=VARCHAR}
+		</if>
+		<if test="skype != null and skype != ''">
+			and c.skype = #{skype,jdbcType=VARCHAR}
+		</if>
+		<if test="linkedin != null and linkedin != ''">
+			and c.linkedin = #{linkedin,jdbcType=VARCHAR}
+		</if>
+		<if test="websize != null and websize != ''">
+			and c.websize = #{websize,jdbcType=VARCHAR}
+		</if>
+		<if test="position != null and position != ''">
+			and c.position = #{position,jdbcType=VARCHAR}
+		</if>
+		<if test="deptId != null and deptId !=''">
+			and c.dept_id = #{deptId,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			and c.status = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="typeId != null and typeId !=''">
+			and c.type_id = #{typeId,jdbcType=VARCHAR}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			and c.create_user = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="startTime != null">
+			and c.modify_time &gt;= #{startTime,jdbcType=VARCHAR}
+		</if>
+		<if test="endTime != null">
+			and c.modify_time &lt;= #{endTime,jdbcType=VARCHAR}
+		</if>
 	</select>
 	
 </mapper>

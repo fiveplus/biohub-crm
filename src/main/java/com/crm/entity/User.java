@@ -1,6 +1,7 @@
 package com.crm.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name="sys_user")
 public class User{
@@ -37,7 +39,8 @@ public class User{
 	private int locked; 
 	@Column
 	private String status;
-	
+	@Transient
+	private List<Permission> pers;
 	public String getId() {
 		return id;
 	}
@@ -115,5 +118,13 @@ public class User{
 	public String getStatus(){
 		return status;
 	}
+	public List<Permission> getPers() {
+		return pers;
+	}
+	public void setPers(List<Permission> pers) {
+		this.pers = pers;
+	}
+	
+	
 	
 }

@@ -25,6 +25,7 @@ import org.apache.shiro.util.ByteSource;
 
 import com.crm.controller.admin.bo.LogBO;
 import com.crm.controller.admin.bo.PermissionBO;
+import com.crm.controller.admin.bo.UserBO;
 import com.crm.entity.Log;
 import com.crm.entity.Permission;
 import com.crm.entity.User;
@@ -87,10 +88,15 @@ public class UserRealm extends AuthorizingRealm{
     	        		pbos.remove(pbo);
     	        	}
     	        }
+    	        //用户设权
+    	        user.setPers(pers);
+    	        
+    	        List<UserBO> users = userService.getUserList();
     	        
     	        Session session = SecurityUtils.getSubject().getSession();
     	        session.setAttribute("user", user);
     	        session.setAttribute("menus", pbos);
+    	        session.setAttribute("users", users);
     	        
     	        //个人日志加载
     			List<LogBO> logs = logService.getLogList(user.getId(), 5);

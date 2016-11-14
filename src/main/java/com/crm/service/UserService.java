@@ -45,6 +45,10 @@ public class UserService extends BaseService<User>{
 		return p;
 	}
 	
+	public List<UserBO> getUserList(){
+		return userMapper.getUserList();
+	}
+	
 	public Integer saveUser(User us){
 		us.setLocked(0);
 		us.setStatus(Resource.Y);
