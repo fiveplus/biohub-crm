@@ -161,7 +161,7 @@
 												</label>
 											</td>
 											<td>
-												<a href="${contextPath}/admin/custom/custom/${c.id}">${c.name}</a>
+												<a href="${contextPath}/admin/custom/select/${c.id}">${c.name}</a>
 											</td>
 											<td>${c.typeName}</td>
 											<td class="hidden-480">${c.locationName}</td> 
@@ -181,7 +181,7 @@
 
 											<td>
 												<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-													<a class="blue" href="${contextPath}/admin/custom/custom/${c.id}">
+													<a class="blue" href="${contextPath}/admin/custom/select/${c.id}">
 														<i class="icon-zoom-in bigger-130"></i>
 													</a>
 
@@ -202,7 +202,7 @@
 
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
 															<li>
-																<a href="${contextPath}/admin/custom/custom/${c.id}" class="tooltip-info" data-rel="tooltip" title="View">
+																<a href="${contextPath}/admin/custom/select/${c.id}" class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue">
 																		<i class="icon-zoom-in bigger-120"></i>
 																	</span>
