@@ -26,11 +26,14 @@ import com.crm.entity.User;
 import com.crm.service.CustomLocationService;
 import com.crm.service.CustomService;
 import com.crm.service.CustomTypeService;
+import com.crm.service.LogService;
 import com.crm.service.ProjectService;
 import com.crm.service.UserService;
+import com.crm.utils.LogUtil.LogObject;
 import com.crm.utils.PageCode;
 import com.crm.utils.Resource;
 import com.crm.utils.StringUtils;
+import com.crm.utils.LogUtil.LogType;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -52,6 +55,8 @@ public class CustomAdminController {
 	@Autowired
 	private ProjectService projectService;
 	
+	@Autowired
+	private LogService logService;
 	
 	
 	@RequestMapping("/list/{page}")
@@ -93,6 +98,9 @@ public class CustomAdminController {
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		Date now = new Date();
 		
+		//TODO 修改系统大小写情况
+		custom.setEmail(custom.getEmail().toLowerCase());
+		
 		Custom param = new Custom();
 		param.setEmail(custom.getEmail());
 		Custom c = customService.queryOne(param);
@@ -104,6 +112,7 @@ public class CustomAdminController {
 			custom.setStatus(Resource.Y);
 			int count = customService.saveSelect(custom);
 			if(count > 0){
+				logService.saveLog(user, now, custom, LogType.INSERT, LogObject.Custom, custom.getId());
 				returnMap.put("msg", "成功！很好地完成了提交。");
 				returnMap.put("code", 0);
 			}else{
@@ -141,15 +150,21 @@ public class CustomAdminController {
 	}
 	
 	@RequestMapping("/update")
-	public Map<String,Object> update(Custom custom,HttpServletRequest request,Model model){
+	public @ResponseBody Map<String,Object> update(Custom custom,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
 		Map<String,Object> returnMap = new HashMap<String,Object>();
+		Date now = new Date();
+		//TODO 修改系统大小写情况
+		custom.setEmail(custom.getEmail().toLowerCase());
 		Custom param = new Custom();
 		param.setEmail(custom.getEmail());
 		Custom c = customService.queryOne(param);
 		if(c == null || (c != null && custom.getEmail().equals(c.getEmail()))){
-			custom.setModifyTime(StringUtils.getDateToLong(new Date()));
-			int count = customService.saveSelect(custom);
+			custom.setModifyTime(StringUtils.getDateToLong(now));
+			int count = customService.updateSelective(custom);
 			if(count > 0){
+				logService.saveLog(user, now, custom, LogType.UPDATE, LogObject.Custom, custom.getId());
 				returnMap.put("msg", "成功！很好地完成了提交。");
 				returnMap.put("code", 0);
 			}else{

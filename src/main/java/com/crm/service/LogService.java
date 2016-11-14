@@ -1,5 +1,6 @@
 package com.crm.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,14 @@ import org.springframework.stereotype.Service;
 import com.crm.controller.admin.bo.LogBO;
 import com.crm.dao.LogMapper;
 import com.crm.entity.Log;
+import com.crm.entity.User;
+import com.crm.utils.LogUtil;
+import com.crm.utils.StringUtils;
+import com.crm.utils.LogUtil.LogObject;
+import com.crm.utils.LogUtil.LogType;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mysql.jdbc.log.LogUtils;
 
 @Service("logService")
 public class LogService extends BaseService<Log>{
@@ -26,4 +33,21 @@ public class LogService extends BaseService<Log>{
 		PageInfo<LogBO> p = new PageInfo<>(list);
 		return p;
 	}
+	
+	public <T> Integer saveLog(User user,Date d,T t,LogType logType,LogObject logObj,String id){
+		LogUtil<T> util = new LogUtil<T>();
+		String info = util.getLog(user, t, d, logType);
+		Log log = new Log();
+		log.setCreateTime(StringUtils.getDateToLong(d));
+		log.setInformation(info);
+		log.setUserId(user.getId());
+		if(logObj == LogObject.Custom){
+			log.setCustomId(id);
+		}
+		if(logObj == LogObject.Project){
+			log.setProjectId(id);
+		}
+		return logMapper.insertSelective(log);
+	}
+	
 }
