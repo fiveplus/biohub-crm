@@ -3,9 +3,9 @@ package com.crm.dao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crm.entity.KeyWord;
+import com.crm.entity.ProjectType;
 import com.github.abel533.mapper.Mapper;
 
-public interface KeyWordMapper extends Mapper<KeyWord>{
-	public KeyWord queryByName(@Param("name") String name);
+public interface ProjectTypeMapper extends Mapper<ProjectType>{
+	public ProjectType queryByName(@Param("name") String name);
 }

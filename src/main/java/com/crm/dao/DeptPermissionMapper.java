@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.entity.DeptPermission;
 import com.github.abel533.mapper.Mapper;
-@ResponseBody
 public interface DeptPermissionMapper extends Mapper<DeptPermission>{
 	public int deletePermissionByDeptId(@Param("deptId") String deptId);
 }

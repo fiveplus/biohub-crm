@@ -18,9 +18,9 @@
 					<a href="${contextPath}/admin/index">Home</a>
 				</li>
 				<li>
-					<a href="${contextPath}/admin/cuslocation/list/1">区域管理</a>
+					<a href="${contextPath}/admin/projectype/list/1">项目类型管理</a>
 				</li>
-				<li class="active">区域新增</li>
+				<li class="active">项目类型新增</li>
 			</ul><!-- .breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -38,31 +38,31 @@
 				<div class="col-xs-12">
 					<!-- PAGE CONTENT BEGINS -->
 					<div class="page-header">
-						<h1>客户区域新增
+						<h1>项目类型新增
 						<small>
 							<i class="icon-double-angle-right">
-							请输入客户区域详细资料
+							请输入项目类型详细资料
 							</i>
 						</small>
 						</h1>
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-							<form action="${contextPath}/admin/cuslocation/save" role="form" class="form-horizontal" method="post" id="form_post" >
+							<form action="${contextPath}/admin/projectype/save" role="form" class="form-horizontal" method="post" id="form_post" >
 								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入客户区域名称 </label>
+									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入项目类型名称 </label>
 									<div class="col-sm-9">
-										<input type="text" id="form-field-1" placeholder="客户区域名称 " class="col-xs-10 col-sm-5" name="name" value="${location.name}" />
-										<font style="color:red; height:25px;line-height:25px;overflow:hidden;"><b>&nbsp;*</b></font>
+										<input type="text" id="form-field-1" placeholder="项目类型名称 " class="col-xs-10 col-sm-5" name="name" value="${projectType.name}" />
 									</div>
 								</div>
 								<div class="space-4"></div>
 								
 								<div class="form-group" >
 									<h4 class="header green clearfix" >
-										请输入客户区域介绍
+										请输入项目类型介绍
 										<span class="block pull-right">
 											<small class="grey middle">Choose style: &nbsp;</small>
+				
 											<span class="btn-toolbar inline middle no-margin">
 												<span data-toggle="buttons" class="btn-group no-margin">
 													<label class="btn btn-sm btn-yellow">
@@ -83,8 +83,8 @@
 											</span>
 										</span>
 									</h4>
-									<div class="wysiwyg-editor" id="editor1" >${location.information}</div>
-									<input type="hidden" name="information" value="${location.information}"/>
+									<div class="wysiwyg-editor" id="editor1">${projectType.information}</div>
+									<input type="hidden" name="information" value="${projectType.information}" />
 								</div>
 								<div class="space-4"></div>
 					
@@ -94,6 +94,7 @@
 											<i class="icon-ok bigger-110"></i>
 											提交
 										</button>
+		
 										&nbsp; &nbsp; &nbsp;
 										<button class="btn" type="reset" onclick="go_back()">
 											<i class="icon-undo bigger-110"></i>
@@ -101,6 +102,7 @@
 										</button>
 									</div>
 								</div>
+								
 							</form>
 						</div>
 					</div>
@@ -109,87 +111,89 @@
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
-		function form_submit(id){
-			bootbox.confirm("确认新增?",function(result){
-				if(result){
-					var form = $("#"+id);
-					
-					var html = $("#editor1").html();
-					$("#"+id+" [name='information']").val(html);
-					
-					$.ajax({
-						url:form.attr('action'),
-						type:"POST",
-						data:form.serialize(),
-						dataType:'json',
-						success:function(data){
-							if(data.code == 0){
-								ace_msg.success(data.msg);
-								go_back();
-							}else{
-								ace_msg.danger(data.msg);
+			function form_submit(id){
+				bootbox.confirm("确认新增?",function(result){
+					if(result){
+						var form = $("#"+id);
+						
+						var html = $("#editor1").html();
+						$("#"+id+" [name='information']").val(html);
+						
+						$.ajax({
+							url:form.attr('action'),
+							type:"POST",
+							data:form.serialize(),
+							dataType:'json',
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+									go_back();
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							},
+							error:function(data){
+								//console.log(data);
 							}
-						},
-						error:function(data){
-							//console.log(data);
-						}
-					});
-				}
-				
-			});
-		}
-		$(document).ready(function(){
-			
-			function showErrorAlert (reason, detail) {
-				var msg='';
-				if (reason==='unsupported-file-type') { 
-					msg = "Unsupported format " +detail; 
-				}else {
-					console.log("error uploading file", reason, detail);
-				}
-				$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
-					 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+						});
+					}
+					
+				});
 			}
 			
-			$('#editor1').ace_wysiwyg({
-				toolbar:
-				[
-					'font',
-					null,
-					'fontSize',
-					null,
-					{name:'bold', className:'btn-info'},
-					{name:'italic', className:'btn-info'},
-					{name:'strikethrough', className:'btn-info'},
-					{name:'underline', className:'btn-info'},
-					null,
-					{name:'insertunorderedlist', className:'btn-success'},
-					{name:'insertorderedlist', className:'btn-success'},
-					{name:'outdent', className:'btn-purple'},
-					{name:'indent', className:'btn-purple'},
-					null,
-					{name:'justifyleft', className:'btn-primary'},
-					{name:'justifycenter', className:'btn-primary'},
-					{name:'justifyright', className:'btn-primary'},
-					{name:'justifyfull', className:'btn-inverse'},
-					null,
-					{name:'createLink', className:'btn-pink'},
-					{name:'unlink', className:'btn-pink'},
-					null,
-					{name:'insertImage', className:'btn-success'},
-					null,
-					'foreColor',
-					null,
-					{name:'undo', className:'btn-grey'},
-					{name:'redo', className:'btn-grey'}
-				],
-				'wysiwyg': {
-					fileUploadError: showErrorAlert
+			$(document).ready(function(){
+				
+				function showErrorAlert (reason, detail) {
+					var msg='';
+					if (reason==='unsupported-file-type') { 
+						msg = "Unsupported format " +detail; 
+					}else {
+						console.log("error uploading file", reason, detail);
+					}
+					$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+						 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
 				}
-			}).prev().addClass('wysiwyg-style2');
+				
+				$('#editor1').ace_wysiwyg({
+					toolbar:
+					[
+						'font',
+						null,
+						'fontSize',
+						null,
+						{name:'bold', className:'btn-info'},
+						{name:'italic', className:'btn-info'},
+						{name:'strikethrough', className:'btn-info'},
+						{name:'underline', className:'btn-info'},
+						null,
+						{name:'insertunorderedlist', className:'btn-success'},
+						{name:'insertorderedlist', className:'btn-success'},
+						{name:'outdent', className:'btn-purple'},
+						{name:'indent', className:'btn-purple'},
+						null,
+						{name:'justifyleft', className:'btn-primary'},
+						{name:'justifycenter', className:'btn-primary'},
+						{name:'justifyright', className:'btn-primary'},
+						{name:'justifyfull', className:'btn-inverse'},
+						null,
+						{name:'createLink', className:'btn-pink'},
+						{name:'unlink', className:'btn-pink'},
+						null,
+						{name:'insertImage', className:'btn-success'},
+						null,
+						'foreColor',
+						null,
+						{name:'undo', className:'btn-grey'},
+						{name:'redo', className:'btn-grey'}
+					],
+					'wysiwyg': {
+						fileUploadError: showErrorAlert
+					}
+				}).prev().addClass('wysiwyg-style2');
+				
+			});
 			
-			
-		});
-	</script>
+		</script>
+	
 	</fms:Content>
 </fms:ContentPage>

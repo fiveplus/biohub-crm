@@ -11,7 +11,6 @@ import com.crm.controller.admin.bo.DataStat;
 import com.crm.entity.Custom;
 import com.github.abel533.mapper.Mapper;
 
-@ResponseBody
 public interface CustomMapper extends Mapper<Custom>{
 	public List<DataStat> getCustomStatList();
 	public List<CustomBO> getCustomList(Custom param);

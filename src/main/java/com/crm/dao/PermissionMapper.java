@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.entity.Permission;
 import com.github.abel533.mapper.Mapper;
-@ResponseBody
 public interface PermissionMapper extends Mapper<Permission>{
 	public List<Permission> getParentMenu();
 	public List<Permission> getChildPermission(@Param("deptId") String deptId);
