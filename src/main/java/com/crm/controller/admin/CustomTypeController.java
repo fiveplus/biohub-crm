@@ -51,9 +51,7 @@ public class CustomTypeController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(CustomType type,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
-		CustomType param = new CustomType();
-		param.setName(type.getName());
-		CustomType t = customTypeService.queryOne(param);
+		CustomType t = customTypeService.queryByName(type.getName());
 		if(t == null || (t != null && type.getName().equals(t.getName()))){
 			int count = customTypeService.updateSelective(type);
 			if(count > 0){
@@ -78,9 +76,7 @@ public class CustomTypeController {
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(CustomType type,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		CustomType param = new CustomType();
-		param.setName(type.getName());
-		CustomType t = customTypeService.queryOne(param);
+		CustomType t = customTypeService.queryByName(type.getName());
 		if(t == null){
 			type.setCreateTime(StringUtils.getDateToLong(new Date()));
 			int count = customTypeService.saveSelect(type);

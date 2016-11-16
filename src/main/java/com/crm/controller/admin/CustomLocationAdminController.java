@@ -50,9 +50,7 @@ public class CustomLocationAdminController {
 	public @ResponseBody Map<String,Object> save(CustomLocation location,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		
-		CustomLocation param = new CustomLocation();
-		param.setName(location.getName());
-		CustomLocation l = customLocationService.queryOne(param);
+		CustomLocation l = customLocationService.queryByName(location.getName());
 		if(l == null){
 			location.setCreateTime(StringUtils.getDateToLong(new Date()));
 			int count = customLocationService.saveSelect(location);
@@ -80,9 +78,7 @@ public class CustomLocationAdminController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(CustomLocation location,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		CustomLocation param = new CustomLocation();
-		param.setName(location.getName());
-		CustomLocation l = customLocationService.queryOne(param);
+		CustomLocation l = customLocationService.queryByName(location.getName());
 		if(l == null || (l != null && location.getName().equals(l.getName()))){
 			int count = customLocationService.updateSelective(location);
 			if(count > 0){

@@ -48,7 +48,7 @@ AceMsg.prototype.danger = function(msg){
 	html += msg;
 	html += "</div>";
 	$("#breadcrumbs").after(html);
-	setTimeout('remove_ace_msg("ace_msg")', 5000);
+	//setTimeout('remove_ace_msg("ace_msg")', 5000);
 }
 
 var ace_msg = new AceMsg();

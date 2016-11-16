@@ -50,4 +50,9 @@ public class LogService extends BaseService<Log>{
 		return logMapper.insertSelective(log);
 	}
 	
+	public Integer queryCountByUserId(String userId){
+		return logMapper.queryCountByUserId(userId);
+	}
+			
+	
 }

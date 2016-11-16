@@ -68,9 +68,7 @@ public class DepartmentAdminController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(Department department,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
-		Department param = new Department();
-		param.setName(department.getName());
-		Department d = departmentService.queryOne(param);
+		Department d = departmentService.queryByName(department.getName());
 		if(d == null || (d != null && department.getName().equals(d.getName()))){
 			int count = departmentService.updateSelective(department);
 			if(count > 0){
@@ -96,9 +94,7 @@ public class DepartmentAdminController {
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(Department department,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		Department param = new Department();
-		param.setName(department.getName());
-		Department d = departmentService.queryOne(param);
+		Department d = departmentService.queryByName(department.getName());
 		if(d == null){
 			HttpSession session = request.getSession();
 			User user = (User)session.getAttribute("user");

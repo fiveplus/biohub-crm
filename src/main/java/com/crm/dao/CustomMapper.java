@@ -16,4 +16,5 @@ public interface CustomMapper extends Mapper<Custom>{
 	public List<DataStat> getCustomStatList();
 	public List<CustomBO> getCustomList(Custom param);
 	public List<CustomBO> getCustomListByIn(@Param("ids") String ids);
+	public Custom queryByEmail(@Param("email") String email);
 }

@@ -38,5 +38,9 @@ public class CustomService extends BaseService<Custom>{
 		return customMapper.getCustomListByIn(ids);
 	}
 	
+	public Custom queryByEmail(String email){
+		return customMapper.queryByEmail(email);
+	}
+	
 	
 }

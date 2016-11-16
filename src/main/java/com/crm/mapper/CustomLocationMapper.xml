@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.CustomLocationMapper">
-	<cache type="com.crm.cache.MybatisRedisCache" />
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.entity.CustomLocation" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="information" property="information" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryByName" resultType="com.crm.entity.CustomLocation">
+		select * from tbl_custom_location where name = #{name,jdbcType=VARCHAR}
+	</select>
 	
 </mapper>

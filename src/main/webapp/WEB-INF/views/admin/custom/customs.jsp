@@ -412,18 +412,23 @@
 				var ext = obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
 				if(ext == '.xls' || ext == '.xlsx'){
 					$.ajaxFileUpload({
-						url:'../custom/upload.htm',
+						url:'${contextPath}/admin/custom/upload',
 						type:'post',
 						secureuri:false,
 						fileElementId:'file',
+						dataType:'json',
 						success:function(data,status){
-							var result = eval("("+data+")");
-							alert(result.message);
-							window.location.reload();
+							if(data.code==0){
+								ace_msg.success(data.msg);
+								window.location.reload();
+							}else{
+								ace_msg.danger(data.msg);
+							}
+							
 						}
 					});
 				}else{
-					alert("请选择一个Excel文件上传!");
+					ace_msg.warning("请选择一个Excel文件上传!");
 				}
 			}
 			
@@ -453,15 +458,22 @@
 							checks = checksarr.toString();
 						}
 						//伪造form提交
-						var form = $('<form><form>');
+						var form = $('<form></form>');
 						form.attr('action',url);
 						form.attr('method', 'post');
-				    
+				    	//form.attr("target","_blank");
 						var checks_input = $('<input type="hidden" name="checks" />');
-						checks_input.attr('value',checks);
+						checks_input.attr("value",checks);
 						form.append(checks_input);
-						var inputs = $("#"+formid+" input");
-						form.append(inputs);
+						$("#"+formid+" input").each(function(e){
+							var val = $(this).val();
+							if(val != ''){
+								var input = $('<input type="hidden" />');
+								input.attr("name",$(this).attr("name"));
+								input.attr("value",$(this).attr("value"));
+								form.append(input);
+							}
+						});
 						form.submit();
 						
 					}

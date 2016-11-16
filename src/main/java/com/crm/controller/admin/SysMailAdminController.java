@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,9 +51,7 @@ public class SysMailAdminController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(SysMail sysmail,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		SysMail param = new SysMail();
-		param.setEmail(sysmail.getEmail());
-		SysMail m = sysMailService.queryOne(param);
+		SysMail m = sysMailService.queryByEmail(sysmail.getEmail());
 		if(m == null || (m != null && sysmail.getEmail().equals(m.getEmail()) )){
 			int count = sysMailService.updateSelective(sysmail);
 			if(count > 0){
@@ -80,9 +77,7 @@ public class SysMailAdminController {
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(SysMail sysmail,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		SysMail param = new SysMail();
-		param.setEmail(sysmail.getEmail());
-		SysMail m = sysMailService.queryOne(param);
+		SysMail m = sysMailService.queryByEmail(sysmail.getEmail());
 		if(m == null){
 			sysmail.setCreateTime(StringUtils.getDateToLong(new Date()));
 			sysmail.setRemark("");

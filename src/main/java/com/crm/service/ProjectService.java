@@ -18,5 +18,8 @@ public class ProjectService extends BaseService<Project>{
 		return projectMapper.getProjectStatList();
 	}
 	
+	public List<Project> queryByCustomId(String customId){
+		return projectMapper.queryByCustomId(customId);
+	}
 	
 }

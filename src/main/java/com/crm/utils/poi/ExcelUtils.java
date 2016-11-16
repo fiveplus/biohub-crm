@@ -2,14 +2,21 @@ package com.crm.utils.poi;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -21,6 +28,82 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.crm.utils.StringUtils;
 
 public class ExcelUtils{
+	
+	//此处是导入
+	
+	public static XSSFWorkbook getWorkbook(InputStream input) throws IOException{
+		XSSFWorkbook workbook = new XSSFWorkbook(input);
+		return workbook;
+	}
+	/**
+	 * 返回读取excel信息
+	 * @param filePath 文件excel文件路径
+	 * @return
+	 */
+	public static List<List<String>> readExcel(InputStream input){
+		XSSFWorkbook book = null;
+		try {
+			book = getWorkbook(input);
+			Sheet sheet = book.getSheetAt(0);
+			return getList(sheet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<List<String>> getList(Sheet sheet){
+		List<List<String>> list = new ArrayList<List<String>>();
+		int firstRowIndex = sheet.getFirstRowNum();
+		int lastRowIndex = sheet.getLastRowNum();
+		//读取第一列 确认模板列数
+		Row firstRow = sheet.getRow(firstRowIndex);
+		int lastColumnIndex = firstRow.getLastCellNum();
+		
+		//读取数据行
+		for(int rowIndex = firstRowIndex + 1;rowIndex <= lastRowIndex; rowIndex++){
+			Row row = sheet.getRow(rowIndex);
+			//int firstColumnIndex = row.getFirstCellNum();
+			//int lastColumnIndex = row.getLastCellNum();
+			List<String> l = new ArrayList<String>();
+			for(int columnIndex = 0;columnIndex <= lastColumnIndex;columnIndex++){
+				Cell cell = row.getCell(columnIndex);
+				String value = getCellValue(cell,false);
+				l.add(value);
+			}
+			list.add(l);
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * 取单元格的值
+	 * @param cell 
+	 * @param treatAsStr 为true当做文本来取值
+	 * @return
+	 */
+	public static String getCellValue(Cell cell,boolean treatAsStr){
+		if(cell == null){
+			return "";
+		}
+		if(treatAsStr){
+			cell.setCellType(Cell.CELL_TYPE_STRING);
+			return String.valueOf(cell.getStringCellValue());
+		}
+		if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
+            return String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+        	DecimalFormat format = new DecimalFormat("#");
+        	Number value = cell.getNumericCellValue();
+            return format.format(value);
+        } else {
+            return String.valueOf(cell.getStringCellValue());
+        }
+	}
+	
+	
+	//下面是导出
 	
 	/**
      * 多列头创建EXCEL

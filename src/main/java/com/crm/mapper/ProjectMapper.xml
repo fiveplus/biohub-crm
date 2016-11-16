@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.ProjectMapper">
-	<cache type="com.crm.cache.MybatisRedisCache" />
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
 	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
 		<id column="name" property="name" jdbcType="VARCHAR" />
 		<id column="count" property="count" jdbcType="INTEGER" />
@@ -28,6 +28,9 @@
 		<id column="charge_user" property="chargeUser" jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<select id="queryByCustomId" resultType="com.crm.entity.Project">
+		select * from tbl_project where custom_id = #{customId,jdbcType=VARCHAR} and status = 'Y' 
+	</select>
 	
 	<select id="getProjectStatList" resultMap="StatResultMap" >
 		select pd.name as name,count(*) as count from tbl_project p left join tbl_project_domain pd on p.domain_id = pd.id where p.status = 'Y' group by p.domain_id order by count(*) desc 

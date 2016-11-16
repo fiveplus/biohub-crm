@@ -100,9 +100,7 @@ public class UserRealm extends AuthorizingRealm{
     	        
     	        //个人日志加载
     			List<LogBO> logs = logService.getLogList(user.getId(), 5);
-    			Log param = new Log();
-    			param.setUserId(user.getId());
-    			int logCount = logService.queryCount(param);
+    			int logCount = logService.queryCountByUserId(user.getId());
     			session.setAttribute("logs",logs);
     			session.setAttribute("logCount",logCount);
     	        

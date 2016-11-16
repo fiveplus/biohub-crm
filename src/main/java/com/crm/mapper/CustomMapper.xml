@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.CustomMapper">
-	<cache type="com.crm.cache.MybatisRedisCache" />
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
 	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
 		<id column="name" property="name" jdbcType="VARCHAR" />
 		<id column="count" property="count" jdbcType="INTEGER" />
@@ -27,6 +27,7 @@
 		<id column="remark" property="remark" jdbcType="VARCHAR" />
 		
 	</resultMap>
+	
 	<sql id="Custom_Column_List">
 		c.id,c.name,ct.name as type_name,cl.name as location_name,c.telephone,c.create_user,c.modify_time,c.status,c.qq,c.email,c.wechat,c.skype,c.linkedin,c.company,c.websize,c.custom_address,c.remark 
 	</sql>
@@ -92,6 +93,10 @@
 		<if test="endTime != null">
 			and c.modify_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
+	</select>
+	
+	<select id="queryByEmail" resultType="com.crm.entity.Custom">
+		select * from tbl_custom where email = #{email,jdbcType=VARCHAR} and status = 'Y'
 	</select>
 	
 </mapper>
