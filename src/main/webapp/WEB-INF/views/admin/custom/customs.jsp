@@ -16,7 +16,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home home-icon"></i>
-					<a href="../system/index.htm">Home</a>
+					<a href="${contextPath}/admin/index">Home</a>
 				</li>
 				<!-- 
 				<li>
@@ -189,7 +189,7 @@
 														<i class="icon-pencil bigger-130"></i>
 													</a>
 
-													<a class="red" href="${contextPath}/admin/custom/delete/${c.id}">
+													<a class="red" href="javascript:deleteHTML('${contextPath}/admin/custom/del/${c.id}')">
 														<i class="icon-trash bigger-130"></i>
 													</a>
 												</div>
@@ -218,7 +218,7 @@
 															</li>
 
 															<li>
-																<a href="javascript:deleteHTML('${contextPath}/admin/custom/delete/${c.id}')" class="tooltip-error" data-rel="tooltip" title="Delete">
+																<a href="javascript:deleteHTML('${contextPath}/admin/custom/del/${c.id}')" class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red">
 																		<i class="icon-trash bigger-120"></i>
 																	</span>
@@ -281,7 +281,7 @@
 								</ul>
 							</div>
 							<div>
-								<button class="btn" style="float:right;margin-top: 12px;margin-left: 15px;"  onclick="downloadFile('downloads//custom_temple.xlsx')" ><i class="icon-pencil align-top bigger-125"></i>模板下载&nbsp;(Template Download)</button>
+								<button class="btn" style="float:right;margin-top: 12px;margin-left: 15px;"  onclick="downloadFile('${contextPath}/downloads/custom_temple.xlsx')" ><i class="icon-pencil align-top bigger-125"></i>模板下载&nbsp;(Template Download)</button>
 							</div>
 							<c:forEach items="${user.pers}" var="p">
 								<c:if test="${p.id == 'addCustom'}">
@@ -368,9 +368,26 @@
 				form.submit();
 			}
 			function deleteHTML(url){
-				if(confirm("确认删除该客户吗？")){
-					window.location.href=url;
-				}
+				bootbox.confirm("确认删除该客户吗？",function(result){
+					if(result){
+						$.ajax({
+							url:url,
+							type:"POST",
+							dataType:'json',
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+									window.location.reload();
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							},
+							error:function(data){
+								//console.log(data);
+							}
+						});
+					}
+				});
 			}
 			
 			
@@ -411,62 +428,45 @@
 			}
 			
 			function downloadFile(path){
-				if(confirm("确认下载?")){
-					window.location.href = "../upload/downloadFile.htm?type=1&downloadFilePath="+path;
-				}
+				bootbox.confirm("确认下载?",function(result){
+					if(result){
+						window.location.href = path;
+					}
+				});
 			}
 			
 			function exportJSON(url,formid){
-				if(confirm("确认导出?")){
-					var time = $("#id-date-range-picker-1").val();
-								
-					var vdata = $("#"+formid).serialize();
-					var action = url;
-					var checks = "";
-					var cname = document.getElementsByName("checks");
-					if(cname){
-						for(var i = 0;i<cname.length;i++){
-							if(cname[i].checked){
-								checks += cname[i].value + ",";
+				bootbox.confirm("确认导出?",function(result){
+					if(result){
+						var time = $("#id-date-range-picker-1").val();
+						var vdata = $("#"+formid).serialize();
+						var action = url;
+						var checksarr = new Array();
+						var checks = "";
+						var cname = document.getElementsByName("checks");
+						if(cname){
+							for(var i = 0;i<cname.length;i++){
+								if(cname[i].checked){
+									checksarr.push(cname[i].value);
+								}
 							}
+							checks = checksarr.toString();
 						}
-						vdata += "&checks="+checks;
+						//伪造form提交
+						var form = $('<form><form>');
+						form.attr('action',url);
+						form.attr('method', 'post');
+				    
+						var checks_input = $('<input type="hidden" name="checks" />');
+						checks_input.attr('value',checks);
+						form.append(checks_input);
+						var inputs = $("#"+formid+" input");
+						form.append(inputs);
+						form.submit();
+						
 					}
-
-					//vdata分析数据，观察是否有所选项
-					var flag = false; //标记
-					var vdatas = vdata.split("&");
-					for(var i = 0;i<vdatas.length;i++){
-						var v = vdatas[i].split("=");
-						if(v[1] != ''){
-							flag = true;
-							break;
-						}
-					}
-					if(!flag){
-						//如果全为未填写,不能下载
-						alert("无法下载全部数据!");
-						return;						
-					}
-					
-					$.ajax({
-						type:"POST",
-						url:action,
-						data:vdata,
-						error:function(request){
-							alert("Connection Error");
-						},
-						success:function(data){
-							var result = eval("("+data+")");
-							if(result.return_code == "0"){
-								
-								window.location.href = "../upload/downloadFile.htm?downloadFilePath="+result.path;
-							}else if(result.return_code == "1"){
-								alert("暂无数据导出!");
-							}
-						}
-					});
-				}
+				});
+				
 			}
 			
 			

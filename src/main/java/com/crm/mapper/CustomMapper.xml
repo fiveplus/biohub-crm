@@ -15,12 +15,32 @@
 		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
 		<id column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="VARCHAR" />
+		
+		<id column="qq" property="qq" jdbcType="VARCHAR" />
+		<id column="email" property="email" jdbcType="VARCHAR" />
+		<id column="wechat" property="wechat" jdbcType="VARCHAR" />
+		<id column="skype" property="skype" jdbcType="VARCHAR" />
+		<id column="linkedin" property="linkedin" jdbcType="VARCHAR" />
+		<id column="company" property="company" jdbcType="VARCHAR" />
+		<id column="websize" property="websize" jdbcType="VARCHAR" />
+		<id column="custom_address" property="customAddress" jdbcType="VARCHAR" />
+		<id column="remark" property="remark" jdbcType="VARCHAR" />
+		
 	</resultMap>
+	<sql id="Custom_Column_List">
+		c.id,c.name,ct.name as type_name,cl.name as location_name,c.telephone,c.create_user,c.modify_time,c.status,c.qq,c.email,c.wechat,c.skype,c.linkedin,c.company,c.websize,c.custom_address,c.remark 
+	</sql>
 	<select id="getCustomStatList" resultMap="StatResultMap">
 		select cl.name as name,count(*) as count from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id where c.status = 'Y' group by c.location_id order by count(*) desc 
 	</select>
+	
+	<select id="getCustomListByIn" resultMap="CustomBO">
+		select <include refid="Custom_Column_List" /> from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where c.status = 'Y' 
+		and c.id in (#{ids,jdbcType=VARCHAR})
+	</select>
+	
 	<select id="getCustomList" parameterType="com.crm.entity.Custom" resultMap="CustomBO">
-		select c.id,c.name,ct.name as type_name,cl.name as location_name,c.telephone,c.create_user,c.modify_time,c.status from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1
+		select <include refid="Custom_Column_List" /> from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1
 		<if test="locationId != null and locationId != ''">
 			and c.location_id = #{locationId,jdbcType=VARCHAR}
 		</if>

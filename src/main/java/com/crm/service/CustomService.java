@@ -29,5 +29,14 @@ public class CustomService extends BaseService<Custom>{
 		return p;
 	}
 	
+	public List<CustomBO> getCustomList(Custom param){
+		List<CustomBO> list = customMapper.getCustomList(param);
+		return list;
+	}
+	
+	public List<CustomBO> getCustomListByIn(String ids){
+		return customMapper.getCustomListByIn(ids);
+	}
+	
 	
 }
