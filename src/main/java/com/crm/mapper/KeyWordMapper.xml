@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.KeyWordMapper">
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.entity.KeyWord" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="use_count" property="useCount" jdbcType="INTEGER" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryByName" resultType="com.crm.entity.KeyWord">
+		select * from tbl_keyword where name = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	
+	
+</mapper>
