@@ -18,8 +18,8 @@
 		<id column="brief" property="brief" jdbcType="VARCHAR" />
 		<id column="trait" property="trait" jdbcType="VARCHAR" />
 		<id column="demand" property="demand" jdbcType="VARCHAR" />
-		<id column="create_time" property="create_time" jdbcType="VARCHAR" />
-		<id column="create_user" property="create_user" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="VARCHAR" />
 		<id column="project_index" property="projectIndex" jdbcType="VARCHAR" />
 		<id column="project_tag" property="projectTag" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
 		<id column="charge_user" property="chargeUser" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByCustomId" resultType="com.crm.entity.Project">
+	<select id="queryByCustomId" resultMap="BaseResultMap">
 		select * from tbl_project where custom_id = #{customId,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	

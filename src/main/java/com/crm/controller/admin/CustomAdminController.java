@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,15 +30,19 @@ import com.crm.controller.admin.bo.DataStat;
 import com.crm.entity.Custom;
 import com.crm.entity.CustomLocation;
 import com.crm.entity.CustomType;
+import com.crm.entity.Department;
 import com.crm.entity.Project;
 import com.crm.entity.User;
 import com.crm.service.CustomLocationService;
 import com.crm.service.CustomService;
 import com.crm.service.CustomTypeService;
+import com.crm.service.DepartmentService;
 import com.crm.service.LogService;
 import com.crm.service.ProjectService;
 import com.crm.service.UserService;
+import com.crm.utils.CustomMailThread;
 import com.crm.utils.LogUtil.LogObject;
+import com.crm.utils.MailUtil;
 import com.crm.utils.PageCode;
 import com.crm.utils.Resource;
 import com.crm.utils.StringUtils;
@@ -68,6 +73,169 @@ public class CustomAdminController {
 	
 	@Autowired
 	private LogService logService;
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@RequestMapping("/session.custom.add.json")
+	public @ResponseBody Map<String,Object> addCustomSession(String checks,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		HttpSession session = request.getSession();
+		String old_checks = (String)session.getAttribute("checks");
+		if(old_checks != null){
+			String[] strs = old_checks.substring(0, old_checks.length()).split(",");
+			String[] news = checks.substring(0, checks.length()).split(",");
+			for(String n:news){
+				boolean flag = true;
+				for(String s:strs){
+					if(s.equals(n)){
+						flag = false;
+						break;
+					}
+				}
+				if(flag){
+					old_checks+=","+n;
+				}
+			}
+			session.setAttribute("checks", old_checks);
+		}else{
+			session.setAttribute("checks", checks);
+		}
+		return returnMap;
+	}
+	
+	@RequestMapping("/session.custom.remove.json")
+	public @ResponseBody Map<String,Object> removeCustomSession(String checks,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		HttpSession session = request.getSession();
+		String old_checks = (String)session.getAttribute("checks");
+		boolean remove = false;
+		if(old_checks != null){
+			String[] strs = old_checks.substring(0, old_checks.length()).split(",");
+			String[] news = checks.substring(0, checks.length()).split(",");
+			for(String n:news){
+				boolean flag = false;
+				for(String s:strs){
+					if(s.equals(n)){
+						flag = true;
+						break;
+					}
+				}
+				if(flag){
+					int index = old_checks.indexOf(n);
+					if(index > 0){
+						old_checks = old_checks.replace(","+n, "");
+					}else if(index == 0){
+						old_checks = old_checks.replace(n+",", "");
+						if(old_checks.length() == 32){
+							remove = true;
+						}
+					}
+				}
+			}
+			session.setAttribute("checks", old_checks);
+			if(remove){
+				session.removeAttribute("checks");
+			}
+		}
+		return returnMap;
+	}
+	
+	@RequestMapping("/checkmail.json")
+	public @ResponseBody Map<String,Object> checkmail(HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		String checks = (String) session.getAttribute("checks");
+		User user = (User)session.getAttribute("user");
+		Department d = departmentService.queryById(user.getDeptId());
+		if(d.getDeptEmail().equals("")){
+			returnMap.put("msg", "错误！部门邮箱尚未填写，无法发送邮件。");
+			returnMap.put("code", 4);
+		}
+		if(checks != null && !checks.equals("")){
+			returnMap.put("msg", "成功！很好地完成了提交。");
+			returnMap.put("code", 0);
+		}else{
+			returnMap.put("msg", "错误！请先选择客户。");
+			returnMap.put("code", 4);
+		}
+		
+		
+		return returnMap;
+	}
+	
+	@RequestMapping("/mailinit")
+	public String mailinit(HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String checks = (String)session.getAttribute("checks");
+		List<CustomBO> customs = customService.getCustomListByIn(checks);
+		Department dept = departmentService.queryById(user.getDeptId());
+		model.addAttribute("customs",customs);
+		model.addAttribute("dept",dept);
+		return "custom/sendMail";
+	}
+	
+	@RequestMapping("/sendmail")
+	public @ResponseBody Map<String,Object> sendmail(HttpServletRequest request,Model model){
+		String date = StringUtils.getDatetToString(new Date());
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		String checks = request.getParameter("checks");
+		String title = request.getParameter("title");
+		String password = request.getParameter("password");
+		String content = request.getParameter("content");
+		String deptEmail = request.getParameter("deptEmail");
+		String msg = "";
+		int code = 0;
+		if(checks != null && !checks.equals("")){
+			List<CustomBO> customs = customService.getCustomListByIn(checks);
+			List<String> to = new ArrayList<String>();
+			for(CustomBO c:customs){
+				if(!c.getEmail().equals("")){
+					to.add(c.getEmail());
+				}
+			}
+			if(to.size() > 0){
+				if(title == null || title.equals("")){
+					msg = "错误！请输入邮件标题!";
+					code = 4;
+				}
+				if(content == null || content.equals("")){
+					msg = "错误！请输入邮件正文!";
+					code = 4;
+				}
+				if(password == null || password.equals("")){
+					msg = "错误！请输入邮箱密码!";
+					code = 4;
+				}
+				if(msg.equals("")){
+					try{
+						//TODO 向总邮箱发送记录邮件
+						List<String> tos = new ArrayList<String>();
+						tos.add("shenwu.zhang@bridgebiomed.com");
+						MailUtil.sendMail(deptEmail,password,user.getUserName(), tos, "Customer Relationship Management", "您好，尊敬的管理员。"+user.getUserName()+"正在通过Customer Relationship Management向客户发送邮件。发送时间为"+date,null);
+					}catch(Exception e){
+						e.printStackTrace();
+						msg = "错误！部门邮箱密码输入错误，请确认后重新输入!";
+						code = 4;
+					}
+					//TODO 对客户发送邮件
+					Thread send = new CustomMailThread(deptEmail,password,customs,title,content);
+					send.start();
+					
+				}else{
+					msg = "成功！很好的完成了提交。";
+					code = 4;
+				}
+			}
+			
+		}
+		
+		return returnMap;
+	}
+	
 	
 	
 	@RequestMapping("/list/{page}")

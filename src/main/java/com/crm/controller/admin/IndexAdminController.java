@@ -44,7 +44,7 @@ public class IndexAdminController {
 			return "login";
 		String remember = request.getParameter("remember");
 		Subject subject = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(loginName,password,true);
+		UsernamePasswordToken token = new UsernamePasswordToken(loginName,password);
 		String error = null;
 		try {
 			subject.login(token);

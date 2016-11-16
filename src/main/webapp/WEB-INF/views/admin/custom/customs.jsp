@@ -294,7 +294,7 @@
 								</c:if>
 							</c:forEach>
 							<div>
-								<button class="btn" style="float:right;margin-top: 12px;margin-right: 15px;"  onclick="go_url('${contextPath}/admin/custom/mailinit')" >
+								<button class="btn" style="float:right;margin-top: 12px;margin-right: 15px;"  onclick="check_mail()" >
 									<i class="icon-pencil align-top bigger-125"></i>
 									邮件发送 &nbsp;(Send Email)
 								</button>
@@ -345,15 +345,15 @@
 				var action = "";
 				var checks = obj.value;
 				if(obj.checked){
-					action = "custom/session.custom.add.htm";
+					action = "custom/session.custom.add.json";
 				}else{
-					action = "custom/session.custom.remove.htm";
+					action = "custom/session.custom.remove.json";
 				}
 				$.ajax({
 					type:"POST",
-					url:action,
+					url:"${contextPath}/admin/"+action,
 					data:"checks="+checks,
-					error:function(request){
+					error:function(data){
 					},
 					success:function(data){
 					}
@@ -481,6 +481,24 @@
 				
 			}
 			
+			function check_mail(){
+				$.ajax({
+					url:"${contextPath}/admin/custom/checkmail.json",
+					type:"POST",
+					dataType:'json',
+					success:function(data){
+						if(data.code==0){
+							ace_msg.success(data.msg);
+							window.location.href = "${contextPath}/admin/custom/mailinit";
+						}else{
+							ace_msg.danger(data.msg);
+						}
+					},
+					error:function(data){
+						//console.log(data);
+					}
+				});
+			}
 			
 
 			
