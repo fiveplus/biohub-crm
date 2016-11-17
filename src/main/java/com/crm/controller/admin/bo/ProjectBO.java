@@ -33,6 +33,9 @@ public class ProjectBO {
 	private String customType;
 	private String customId;
 	
+	private String parentName;
+	private String parentId;
+	
 	public String getId() {
 		return id;
 	}
@@ -212,6 +215,18 @@ public class ProjectBO {
 	}
 	public void setCustomId(String customId) {
 		this.customId = customId;
+	}
+	public String getParentName() {
+		return parentName;
+	}
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 }

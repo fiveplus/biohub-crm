@@ -477,6 +477,49 @@ public class ProjectAdminController {
 		return "project/custom/select";
 	}
 	
+	@RequestMapping("/updateInitProject/{projectId}")
+	public String updateInitProject(@PathVariable String projectId,HttpServletRequest request,Model model){
+		Project project = projectService.queryById(projectId);
+		ProjectDomain domain = projectDomainService.queryById(project.getDomainId());
+		model.addAttribute("project",project);
+		model.addAttribute("domain",domain);
+		return "project/project/update";
+	}
+	
+	@RequestMapping("/projectSelect/{projectId}")
+	public String projectSelect(@PathVariable String projectId,HttpServletRequest request,Model model){
+		ProjectBO project = projectService.getProjectById(projectId);
+		model.addAttribute("project",project);
+		return "project/project/select";
+	}
+	
+	@RequestMapping("/update")
+	public @ResponseBody Map<String,Object> update(Project project,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		
+		Project p = projectService.queryByName(project.getName());
+		if(p == null || (p != null && project.getName().equals(p.getName()))){
+			int count = projectService.updateSelective(project);
+			if(count > 0){
+				/*
+				if(project.getRate().equals("A")){
+					//TODO 发送邮件
+					
+				}*/
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
+		}else{
+			returnMap.put("msg", "错误！项目名称已存在。");
+			returnMap.put("code", 4);
+		}
+		
+		return returnMap;
+	}
+	
 	
 	
 	@RequestMapping("/stat.json")

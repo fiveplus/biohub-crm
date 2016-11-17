@@ -60,6 +60,9 @@
 		<id column="location_name" property="locationName" jdbcType="VARCHAR" />
 		<id column="custom_type" property="customType" jdbcType="VARCHAR" />
 		<id column="custom_id" property="customId" jdbcType="VARCHAR" />
+		<id column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<id column="parent_name" property="parentName" jdbcType="VARCHAR" />
+		
 	</resultMap>
 
 	<sql id="Project_Column_List">
@@ -67,7 +70,7 @@
 		pd.name as domain_name,p.stage,p.brief,p.trait,p.demand,p.create_time,p.create_user,
 		p.status,p.project_index,p.project_tag,p.update_time,p.follow_user,p.charge_user,
 		c.telephone,c.email,c.qq,c.wechat,c.skype,c.linkedin,c.company,c.websize,cl.name as location_name,
-		ct.name as custom_type,p.custom_id
+		ct.name as custom_type,p.custom_id,pdd.id as parent_id,pdd.name as parent_name
 	</sql>
 	
 	<select id="getMaxProjectIndex" resultType="java.lang.Integer">
@@ -80,7 +83,8 @@
 		left join tbl_project_type pt on p.type_id = pt.id 
 		left join tbl_project_domain pd on p.domain_id = pd.id 
 		left join tbl_custom_location cl on c.location_id = cl.id 
-		left join tbl_custom_type ct on c.type_id = ct.id where p.id = #{id,jdbcType=VARCHAR}
+		left join tbl_custom_type ct on c.type_id = ct.id 
+		left join tbl_project_domain pdd on pd.parent_id = pdd.id where p.id = #{id,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getProjectList" resultMap="ProjectMap" parameterType="com.crm.entity.Project">
@@ -89,7 +93,8 @@
 		left join tbl_project_type pt on p.type_id = pt.id 
 		left join tbl_project_domain pd on p.domain_id = pd.id 
 		left join tbl_custom_location cl on c.location_id = cl.id 
-		left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1 
+		left join tbl_custom_type ct on c.type_id = ct.id 
+		left join tbl_project_domain pdd on pd.parent_id = pdd.id where 1 = 1 
 		<if test="projectNum != null and projectNum != ''">
 			and p.project_num = #{projectNum,jdbcType=VARCHAR} 
 		</if>
@@ -151,8 +156,12 @@
 	</select>
 	
 	<select id="getProjectListByIn" resultMap="ProjectMap">
-		select <include refid="Project_Column_List" /> from tbl_project p left join tbl_custom c on p.custom_id = c.id left join tbl_project_type pt on p.type_id = pt.id left join tbl_project_domain pd on p.domain_id = pd.id where p.status = 'Y' 
-		and p.id in (#{ids,jdbcType=VARCHAR})
+		select <include refid="Project_Column_List" /> from tbl_project p 
+		left join tbl_custom c on p.custom_id = c.id 
+		left join tbl_project_type pt on p.type_id = pt.id 
+		left join tbl_project_domain pd on p.domain_id = pd.id 
+		left join tbl_project_domain pdd on pd.parent_id = pdd.id
+		where p.status = 'Y' and p.id in (#{ids,jdbcType=VARCHAR})
 	</select>
 	
 	<select id="queryByCustomId" resultMap="BaseResultMap">
@@ -164,6 +173,8 @@
 	</select>
 	
 	<select id="getProjectStatList" resultMap="StatResultMap" >
-		select pd.name as name,count(*) as count from tbl_project p left join tbl_project_domain pd on p.domain_id = pd.id where p.status = 'Y' group by p.domain_id order by count(*) desc 
+		select pd.name as name,count(*) as count from tbl_project p 
+		left join tbl_project_domain pd on p.domain_id = pd.id 
+		where p.status = 'Y' group by p.domain_id order by count(*) desc 
 	</select>
 </mapper>

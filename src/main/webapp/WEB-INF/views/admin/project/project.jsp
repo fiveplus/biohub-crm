@@ -688,53 +688,62 @@
 			}
 			
 			function project_update(formid,ajaxid,url){
-				var rate = $("#"+formid+" select[name='project.rate']").val();
+				var rate = $("#"+formid+" select[name='rate']").val();
 				var send = 0;
-				if(rate == 'A'){
-					if(confirm("当前项目为A类项目，是否需要发送通知邮件？")){
-						send = 1;
+				bootbox.confirm("确认修改?A类项目修改后将会发送通知邮件，你准备好了吗?",function(result){
+					if(result){
+						if(rate == 'A'){
+							send = 1;
+						}
+						var action = $("#"+formid).attr("action")+"?send="+send;
+						var alldata = $('#'+formid).serialize();
+						$.ajax({
+							type:"POST",
+							url:action,
+							data:alldata,
+							dataType:"json",
+							error:function(request){
+								alert("Connection Error");
+							},
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+									form_select(url,ajaxid);
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							}
+						});	
 					}
-				}
-				
-				var action = $("#"+formid).attr("action")+"?send="+send;
-				var alldata = $('#'+formid).serialize();
-				$.ajax({
-					type:"POST",
-					url:action,
-					data:alldata,
-					error:function(request){
-						alert("Connection Error");
-					},
-					success:function(data){
-						var result = eval("("+data+")");
-						alert(result.message);
-						form_select(url,ajaxid);
-					}
-				});		
+				});
+					
 			}
 			
 		
 			function form_update(formid,ajaxid,url){
-				var action = $("#"+formid).attr("action");
-				var alldata = $('#'+formid).serialize();
-				$.ajax({
-					type:"POST",
-					url:action,
-					data:alldata,
-					dataType:'json',
-					error:function(request){
-						alert("Connection Error");
-					},
-					success:function(data){
-						if(data.code == 0){
-							ace_msg.success(data.msg);
-							form_select(url,ajaxid);
-						}else{
-							ace_msg.danger(data.msg);
-						}
-						
+				bootbox.confirm("确认修改?A类项目修改后将会发送通知邮件，你准备好了吗?",function(result){
+					if(result){
+						var action = $("#"+formid).attr("action");
+						var alldata = $('#'+formid).serialize();
+						$.ajax({
+							type:"POST",
+							url:action,
+							data:alldata,
+							dataType:'json',
+							error:function(request){
+								alert("Connection Error");
+							},
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+									form_select(url,ajaxid);
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							}
+						});		
 					}
-				});		
+				});
 			}
 		
 			function form_update_init(url,id){
