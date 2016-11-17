@@ -42,5 +42,9 @@ public class CustomService extends BaseService<Custom>{
 		return customMapper.queryByEmail(email);
 	}
 	
+	public Integer queryCount(){
+		return customMapper.queryCount();
+	}
+	
 	
 }

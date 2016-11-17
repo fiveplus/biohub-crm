@@ -93,8 +93,10 @@
 		<if test="endTime != null">
 			and c.modify_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
-		
-		
+	</select>
+	
+	<select id="queryCount" resultType="java.lang.Integer">
+		select count(*) from tbl_custom where status = 'Y'
 	</select>
 	
 	<select id="queryByEmail" resultType="com.crm.entity.Custom">

@@ -307,7 +307,7 @@
 														<i class="icon-pencil bigger-130"></i>
 													</a>
 													 -->
-													<a class="red" href="javascript:deleteHTML('${contextPath}/admin/project/delete/${p.id}')">
+													<a class="red" href="javascript:deleteHTML('${contextPath}/admin/project/del/${p.id}')">
 														<i class="icon-trash bigger-130"></i>
 													</a>
 												</div>
@@ -336,7 +336,7 @@
 															</li>
 															-->
 															<li>
-																<a href="javascript:deleteHTML('${contextPath}/admin/project/delete/${p.id}')" class="tooltip-error" data-rel="tooltip" title="Delete">
+																<a href="javascript:deleteHTML('${contextPath}/admin/project/del/${p.id}')" class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red">
 																		<i class="icon-trash bigger-120"></i>
 																	</span>
@@ -467,8 +467,6 @@
 						
 					}
 				});
-					
-					
 					
 			}
 		

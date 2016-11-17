@@ -80,8 +80,6 @@ public class ProjectDomainAdminController {
 	@RequestMapping("/upt/{id}")
 	public String upt(@PathVariable String id,HttpServletRequest request,Model model){
 		ProjectDomain projectDomain = projectDomainService.queryById(id);
-		List<ProjectDomain> parents = projectDomainService.getParentList();
-		model.addAttribute("parents",parents);
 		model.addAttribute("projectDomain",projectDomain);
 		return "project/update_domain";
 	}

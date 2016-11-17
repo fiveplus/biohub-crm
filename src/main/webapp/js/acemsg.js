@@ -12,7 +12,7 @@ var AceMsg = function(){
 
 AceMsg.prototype.success = function(msg){
 	msg = msg == undefined ? "成功！很好地完成了提交。" : msg;
-	remove_ace_msg("ace_msg");
+	$("#ace_msg").remove();
 	var html = "<div id='ace_msg' class='"+success_class+"'>";
 	html += close_button;
 	html += msg;
@@ -22,7 +22,7 @@ AceMsg.prototype.success = function(msg){
 }
 AceMsg.prototype.info = function(msg){
 	msg = msg == undefined ? "信息！请注意这个信息。" : msg;
-	remove_ace_msg("ace_msg");
+	$("#ace_msg").remove();
 	var html = "<div id='ace_msg' class='"+info_class+"'>";
 	html += close_button;
 	html += msg;
@@ -32,7 +32,7 @@ AceMsg.prototype.info = function(msg){
 }
 AceMsg.prototype.warning = function(msg){
 	msg = msg == undefined ? "警告！请不要提交。" : msg;
-	remove_ace_msg("ace_msg");
+	$("#ace_msg").remove();
 	var html = "<div id='ace_msg' class='"+warning_class+"'>";
 	html += close_button;
 	html += msg;
@@ -42,7 +42,7 @@ AceMsg.prototype.warning = function(msg){
 }
 AceMsg.prototype.danger = function(msg){
 	msg = msg == undefined ? "错误！请进行一些更改。" : msg;
-	remove_ace_msg("ace_msg");
+	$("#ace_msg").remove();
 	var html = "<div id='ace_msg' class='"+danger_class+"'>";
 	html += close_button;
 	html += msg;

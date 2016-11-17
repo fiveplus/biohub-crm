@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ import com.crm.controller.admin.bo.ProjectBO;
 import com.crm.entity.Custom;
 import com.crm.entity.CustomLocation;
 import com.crm.entity.CustomType;
+import com.crm.entity.KeyWord;
 import com.crm.entity.Project;
 import com.crm.entity.ProjectDomain;
 import com.crm.entity.ProjectType;
@@ -37,6 +39,7 @@ import com.crm.entity.User;
 import com.crm.service.CustomLocationService;
 import com.crm.service.CustomService;
 import com.crm.service.CustomTypeService;
+import com.crm.service.KeyWordService;
 import com.crm.service.ProjectDomainService;
 import com.crm.service.ProjectService;
 import com.crm.service.ProjectTypeService;
@@ -51,6 +54,9 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("/admin/project")
 public class ProjectAdminController {
+	
+	@Autowired
+	private KeyWordService keyWordService;
 	
 	@Autowired
 	private ProjectService projectService;
@@ -93,9 +99,7 @@ public class ProjectAdminController {
 		model.addAttribute("param",param);
 		
 		//列表参数
-		List<ProjectDomain> parents = projectDomainService.getParentList();
 		List<ProjectDomain> childs = projectDomainService.getChildList(param.getParentDomainId());
-		model.addAttribute("parents",parents);
 		model.addAttribute("childs",childs);
 		
 		return "project/projects";
@@ -286,6 +290,165 @@ public class ProjectAdminController {
         }
 		return returnMap;
 	}
+	
+	@RequestMapping("/check")
+	public @ResponseBody Map<String,Object> check(HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		int count = customService.queryCount();
+		if(count > 0){
+			returnMap.put("code", 0);
+			returnMap.put("msg", "成功！很好的完成了提交。");
+		}else{
+			returnMap.put("code", 4);
+			returnMap.put("msg", "错误!客户不存在。");
+		}
+		return returnMap;
+	}
+	
+	@RequestMapping("/add")
+	public String add(HttpServletRequest request,Model model){
+		String customId = request.getParameter("customId");
+		if(customId != null){
+			Custom custom = customService.queryById(customId);
+			model.addAttribute("custom",custom);
+		}
+		
+		return "project/add_project";
+	}
+	
+	@RequestMapping("/save")
+	public @ResponseBody Map<String,Object> save(Project project,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		Project p = projectService.queryByName(project.getName());
+		if(p == null){
+			Date now = new Date();
+			project.setCreateTime(StringUtils.getDateToLong(now));
+			project.setCreateUser(user.getUserName());
+			project.setChargeUser(user.getUserName());
+			project.setFollowUser(user.getUserName());
+			project.setStatus(Resource.Y);
+			project.setUpdateTime(StringUtils.getDateToLong(now));
+			int count = projectService.saveProject(project);
+			String[] keywords = project.getProjectTag().split(",");
+			//更新词库
+			for(String k:keywords){
+				k = k.trim();
+				KeyWord kw = keyWordService.queryByName(k);
+				if(kw == null){
+					kw = new KeyWord();
+					kw.setName(k);
+					kw.setUseCount(1);
+					kw.setCreateTime(StringUtils.getDateToLong(now));
+					keyWordService.saveSelect(kw);
+				}else{
+					kw.setUseCount(kw.getUseCount()+1);
+					keyWordService.updateSelective(kw);
+				}
+			}
+			if(count > 0){
+				returnMap.put("code", 0);
+				returnMap.put("msg", "成功！很好的完成了提交。");
+			}else{
+				returnMap.put("code", 4);
+				returnMap.put("msg", "错误!请进行一些修改。");
+			}
+		}else{
+			returnMap.put("code", 4);
+			returnMap.put("msg", "错误!项目名称已存在。");
+		}
+		
+		return returnMap;
+	}
+	
+	@RequestMapping("/del/{id}")
+	public @ResponseBody Map<String,Object> del(@PathVariable String id,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		Project p = projectService.queryById(id);
+		String msg = "";
+		if(p.getStatus().equals(Resource.D)){
+			msg = "错误！删除申请已经提交。";
+		}else if(p.getStatus().equals(Resource.N)){
+			msg = "错误！该项目已经删除。";
+		}
+		if(msg.equals("")){
+			p.setStatus(Resource.D);
+			int count = projectService.updateSelective(p);
+			if(count > 0){
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
+		}else{
+			returnMap.put("msg", msg);
+			returnMap.put("code", 4);
+		}
+		return returnMap;
+	}
+	
+	@RequestMapping("/delete/{id}")
+	public @ResponseBody Map<String,Object> delete(@PathVariable String id,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		Project p = projectService.queryById(id);
+		String msg = "";
+		if(p.getStatus().equals(Resource.Y)){
+			msg = "错误！该项目已经恢复。";
+		}else if(p.getStatus().equals(Resource.N)){
+			msg = "错误！该项目已经删除。";
+		}
+		if(msg.equals("")){
+			p.setStatus(Resource.N);
+			int count = projectService.updateSelective(p);
+			if(count > 0){
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
+		}else{
+			returnMap.put("msg", msg);
+			returnMap.put("code", 4);
+		}
+		
+		return returnMap;
+	}
+	
+	@RequestMapping("/recover/{id}")
+	public @ResponseBody Map<String,Object> recover(@PathVariable String id,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		
+		Project p = projectService.queryById(id);
+		String msg = "";
+		if(p.getStatus().equals(Resource.Y)){
+			msg = "错误！该项目已经恢复。";
+		}else if(p.getStatus().equals(Resource.N)){
+			msg = "错误！该项目已经删除。";
+		}
+		if(msg.equals("")){
+			p.setStatus(Resource.Y);
+			int count = projectService.updateSelective(p);
+			if(count > 0){
+				returnMap.put("msg", "成功！很好地完成了提交。");
+				returnMap.put("code", 0);
+			}else{
+				returnMap.put("msg", "错误！请进行一些更改。");
+				returnMap.put("code", 4);
+			}
+		}else{
+			returnMap.put("msg", msg);
+			returnMap.put("code", 4);
+		}
+		
+		return returnMap;
+	}
+	
+	
+	
+	
 	
 	
 	@RequestMapping("/stat.json")
