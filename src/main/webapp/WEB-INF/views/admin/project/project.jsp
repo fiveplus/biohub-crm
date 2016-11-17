@@ -107,7 +107,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 客户姓名 (Custom Name)</label>
 												<div class="col-sm-9" style="margin-top: 5px;">
-													<label class="col-xs-10 col-sm-10"><a href="${contextPath}/admin/custom/custom/${project.customId}">${project.customName}</a></label>
+													<label class="col-xs-10 col-sm-10"><a href="${contextPath}/admin/custom/select/${project.customId}">${project.customName}</a></label>
 												</div>
 											</div>&nbsp;
 											<div class="space-4"></div>
@@ -401,7 +401,7 @@
 														var ext = obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
 														if(ext == '.xls' || ext == '.xlsx'){
 															$.ajaxFileUpload({
-																url:'../process/upload.htm?id=${project.id}',
+																url:'${contextPath}/process/upload?projectId=${project.id}',
 																type:'post',
 																secureuri:false,
 																fileElementId:'upload',
@@ -721,13 +721,18 @@
 					type:"POST",
 					url:action,
 					data:alldata,
+					dataType:'json',
 					error:function(request){
 						alert("Connection Error");
 					},
 					success:function(data){
-						var result = eval("("+data+")");
-						alert(result.message);
-						form_select(url,ajaxid);
+						if(data.code == 0){
+							ace_msg.success(data.msg);
+							form_select(url,ajaxid);
+						}else{
+							ace_msg.danger(data.msg);
+						}
+						
 					}
 				});		
 			}

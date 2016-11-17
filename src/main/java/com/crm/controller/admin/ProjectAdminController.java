@@ -463,6 +463,19 @@ public class ProjectAdminController {
 		return "project/project";
 	}
 	
+	@RequestMapping("/updateInitCustom/{customId}")
+	public String updateInitCustom(@PathVariable String customId,HttpServletRequest request,Model model){
+		Custom custom = customService.queryById(customId);
+		model.addAttribute("custom",custom);
+		return "project/custom/update";
+	}
+	
+	@RequestMapping("/customSelect/{customId}")
+	public String customSelect(@PathVariable String customId,HttpServletRequest request,Model model){
+		Custom custom = customService.queryById(customId);
+		model.addAttribute("custom",custom);
+		return "project/custom/select";
+	}
 	
 	
 	
