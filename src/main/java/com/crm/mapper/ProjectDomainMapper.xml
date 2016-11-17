@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.ProjectDomainMapper">
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.entity.ProjectDomain" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="english_name" property="englishName" jdbcType="VARCHAR" />
+		<id column="english_short" property="englishShort" jdbcType="VARCHAR" />
+		<id column="information" property="information" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="parent_id" property="parentId" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="com.crm.controller.admin.bo.ProjectDomainBO" id="ProjectDomainMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="english_name" property="englishName" jdbcType="VARCHAR" />
+		<id column="english_short" property="englishShort" jdbcType="VARCHAR" />
+		<id column="information" property="information" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="parent_name" property="parentName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryByName" resultType="com.crm.entity.ProjectDomain">
+		select * from tbl_project_domain where name = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" resultMap="ProjectDomainMap">
+		select p.id,p.name,p.english_name,p.english_short,p.information,p.create_time,c.name as parent_name from tbl_project_domain p left join tbl_project_domain c on p.parent_id = c.id
+	</select>
+	
+	<select id="getParentList" resultMap="BaseResultMap">
+		select * from tbl_project_domain where parent_id is NULL
+	</select>
+	
+	
+	
+</mapper>

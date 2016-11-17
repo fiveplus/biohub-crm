@@ -56,6 +56,7 @@ public class PermissionAdminController {
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		
 		int count = permissionService.updateSelective(permission);
+		if(permission.getParentId().equals("")) permission.setParentId(null);
 		if(count > 0){
 			returnMap.put("code",0);
 			returnMap.put("msg","成功！很好地完成了提交。");
@@ -81,6 +82,7 @@ public class PermissionAdminController {
 			returnMap.put("msg", "错误！权限ID已存在。");
 			returnMap.put("code", 4);
 		}else{
+			if(permission.getParentId().equals("")) permission.setParentId(null);
 			permission.setCreateTime(StringUtils.getDateToLong(new Date()));
 			permission.setImageUrl("");
 			int count = permissionService.saveSelect(permission);
