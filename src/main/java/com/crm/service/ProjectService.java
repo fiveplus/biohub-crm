@@ -43,6 +43,11 @@ public class ProjectService extends BaseService<Project>{
 		return projectMapper.getProjectList(param);
 	}
 	
+	public ProjectBO getProjectById(String id){
+		return projectMapper.getProjectById(id);
+	}
+	
+	
 	public List<ProjectBO> getProjectListByIn(String ids){
 		return projectMapper.getProjectListByIn(ids);
 	}

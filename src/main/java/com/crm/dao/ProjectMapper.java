@@ -17,4 +17,5 @@ public interface ProjectMapper extends Mapper<Project>{
 	public List<ProjectBO> getProjectListByIn(@Param("ids") String ids);
 	public Project queryByName(@Param("name") String name);
 	public Integer getMaxProjectIndex();
+	public ProjectBO getProjectById(@Param("id") String id);
 }

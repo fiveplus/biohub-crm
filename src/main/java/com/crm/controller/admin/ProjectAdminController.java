@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.crm.controller.admin.bo.DataStat;
 import com.crm.controller.admin.bo.ProjectBO;
+import com.crm.controller.admin.bo.UserBO;
 import com.crm.entity.Custom;
 import com.crm.entity.CustomLocation;
 import com.crm.entity.CustomType;
@@ -40,6 +41,7 @@ import com.crm.service.CustomLocationService;
 import com.crm.service.CustomService;
 import com.crm.service.CustomTypeService;
 import com.crm.service.KeyWordService;
+import com.crm.service.LogService;
 import com.crm.service.ProjectDomainService;
 import com.crm.service.ProjectService;
 import com.crm.service.ProjectTypeService;
@@ -75,6 +77,9 @@ public class ProjectAdminController {
 	
 	@Autowired
 	private CustomTypeService customTypeService;
+	
+	@Autowired
+	private LogService logService;
 	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,Project param,HttpServletRequest request,Model model){
@@ -446,7 +451,17 @@ public class ProjectAdminController {
 		return returnMap;
 	}
 	
-	
+	@RequestMapping("/select/{id}")
+	public String select(@PathVariable String id,HttpServletRequest request,Model model){
+		ProjectBO project = projectService.getProjectById(id);
+		List<UserBO> cus = logService.getUserListByCustomId(project.getCustomId());
+		List<UserBO> pus = logService.getUserListByProjectId(id);
+		model.addAttribute("project",project);
+		model.addAttribute("cus",cus);
+		model.addAttribute("pus",pus);
+		
+		return "project/project";
+	}
 	
 	
 	

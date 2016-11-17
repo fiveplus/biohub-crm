@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crm.controller.admin.bo.LogBO;
+import com.crm.controller.admin.bo.UserBO;
 import com.crm.dao.LogMapper;
 import com.crm.entity.Log;
 import com.crm.entity.User;
@@ -53,6 +54,15 @@ public class LogService extends BaseService<Log>{
 	public Integer queryCountByUserId(String userId){
 		return logMapper.queryCountByUserId(userId);
 	}
-			
+	
+	public List<UserBO> getUserListByCustomId(String customId){
+		return logMapper.getUserListByCustomId(customId);
+	}
+	
+	public List<UserBO> getUserListByProjectId(String projectId){
+		return logMapper.getUserListByProjectId(projectId);
+	}
+	
+	
 	
 }

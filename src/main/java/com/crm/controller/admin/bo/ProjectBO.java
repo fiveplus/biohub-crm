@@ -31,7 +31,7 @@ public class ProjectBO {
 	private String websize;
 	private String locationName;
 	private String customType;
-	
+	private String customId;
 	
 	public String getId() {
 		return id;
@@ -206,6 +206,12 @@ public class ProjectBO {
 	}
 	public void setCustomType(String customType) {
 		this.customType = customType;
+	}
+	public String getCustomId() {
+		return customId;
+	}
+	public void setCustomId(String customId) {
+		this.customId = customId;
 	}
 	
 }
