@@ -13,22 +13,22 @@ import com.crm.utils.KeyValue;
 public class Resource {
 	
 	public static String contextPath = "/web-crm";
-	public static String URL_IMAGES = "/common/images/";
-	public static String URL_CSS = "/common/css/";
-	public static String URL_JS = "/common/js/";
-	public static String CURRENT_SYSTEM = "/admin";
+	public final static String URL_IMAGES = "/common/images/";
+	public final static String URL_CSS = "/common/css/";
+	public final static String URL_JS = "/common/js/";
+	public final static String CURRENT_SYSTEM = "/admin";
 	
 	public static final String Y = "Y";
 	public static final String D = "D";
 	public static final String N = "N";
 	
-	public static List<KeyValue> STAGES = new ArrayList<KeyValue>(){{
+	public final static List<KeyValue> STAGES = new ArrayList<KeyValue>(){{
 		add(new KeyValue("初创期", "初创期（试验阶段）"));
 		add(new KeyValue("成长期", "成长期（中试、临床前阶段）"));
 		add(new KeyValue("成熟期", "成熟期（申报、临床阶段）"));
 	}};
 	
-	public static List<KeyValue> DEMANDS = new ArrayList<KeyValue>(){{
+	public final static List<KeyValue> DEMANDS = new ArrayList<KeyValue>(){{
 		add(new KeyValue("技术转让", "技术转让"));
 		add(new KeyValue("平台服务", "平台服务"));
 		add(new KeyValue("投融资服务", "投融资服务"));
@@ -36,14 +36,14 @@ public class Resource {
 		add(new KeyValue("工商代理", "工商代理"));
 	}};
 	
-	public static List<KeyValue> METHODS = new ArrayList<KeyValue>(){{
+	public final static List<KeyValue> METHODS = new ArrayList<KeyValue>(){{
 		add(new KeyValue("电话", "电话"));
 		add(new KeyValue("邮件", "邮件"));
 		add(new KeyValue("见面", "见面"));
 		
 	}};
 	
-	public static List<KeyValue> RATES = new ArrayList<KeyValue>(){{
+	public final static List<KeyValue> RATES = new ArrayList<KeyValue>(){{
 		add(new KeyValue("A", "A"));
 		add(new KeyValue("B", "B"));
 		add(new KeyValue("C", "C"));

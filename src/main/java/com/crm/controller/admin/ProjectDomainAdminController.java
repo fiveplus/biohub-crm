@@ -27,6 +27,18 @@ public class ProjectDomainAdminController {
 	@Autowired
 	private ProjectDomainService projectDomainService;
 	
+	@RequestMapping("/childs.json")
+	public @ResponseBody Map<String,Object> childs(String pid,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		
+		List<ProjectDomain> childs = projectDomainService.getChildList(pid);
+		
+		returnMap.put("childs", childs);
+		returnMap.put("code", 0);
+		
+		return returnMap;
+	}
+	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,HttpServletRequest request,Model model){
 		PageInfo<ProjectDomainBO> pu = projectDomainService.queryList(page);

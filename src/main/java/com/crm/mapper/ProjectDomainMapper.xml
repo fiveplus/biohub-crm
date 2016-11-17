@@ -33,6 +33,10 @@
 		select * from tbl_project_domain where parent_id is NULL
 	</select>
 	
+	<select id="getChildList" resultMap="BaseResultMap">
+		select * from tbl_project_domain where parent_id = #{pid,jdbcType=VARCHAR}
+	</select>
+	
 	
 	
 </mapper>

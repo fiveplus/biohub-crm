@@ -1,62 +1,37 @@
-package com.crm.entity;
+package com.crm.controller.admin.bo;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-@Table(name="tbl_project")
-public class Project {
-	@Id
-	@GeneratedValue(generator="UUID")
+public class ProjectBO {
 	private String id;
-	@Column
 	private String projectNum;
-	@Column
-	private String typeId;
-	@Column
+	private String typeName;
 	private String name;
-	@Column
 	private String rate;
-	@Column
-	private String customId;
-	@Column
-	private String domainId;
-	@Column
+	private String customName;
+	private String domainName;
 	private String stage;
-	@Column
 	private String brief;
-	@Column
 	private String trait;
-	@Column
 	private String demand;
-	@Column
 	private Long createTime;
-	@Column
 	private String createUser;
-	@Column
 	private String status;
-	@Column
 	private Integer projectIndex;
-	@Column
 	private String projectTag;
-	@Column
-	@OrderBy("DESC")
 	private Long updateTime;
-	@Column
 	private String followUser;
-	@Column
 	private String chargeUser;
 	
-	@Transient
-	private Long startTime;
-	@Transient
-	private Long endTime;
-	@Transient
-	private String parentDomainId;
+	private String telephone;
+	private String email;
+	private String qq;
+	private String wechat;
+	private String skype;
+	private String linkedin;
+	private String company;
+	private String websize;
+	private String locationName;
+	private String customType;
+	
 	
 	public String getId() {
 		return id;
@@ -70,11 +45,11 @@ public class Project {
 	public void setProjectNum(String projectNum) {
 		this.projectNum = projectNum;
 	}
-	public String getTypeId() {
-		return typeId;
+	public String getTypeName() {
+		return typeName;
 	}
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 	public String getName() {
 		return name;
@@ -88,17 +63,17 @@ public class Project {
 	public void setRate(String rate) {
 		this.rate = rate;
 	}
-	public String getCustomId() {
-		return customId;
+	public String getCustomName() {
+		return customName;
 	}
-	public void setCustomId(String customId) {
-		this.customId = customId;
+	public void setCustomName(String customName) {
+		this.customName = customName;
 	}
-	public String getDomainId() {
-		return domainId;
+	public String getDomainName() {
+		return domainName;
 	}
-	public void setDomainId(String domainId) {
-		this.domainId = domainId;
+	public void setDomainName(String domainName) {
+		this.domainName = domainName;
 	}
 	public String getStage() {
 		return stage;
@@ -172,24 +147,65 @@ public class Project {
 	public void setChargeUser(String chargeUser) {
 		this.chargeUser = chargeUser;
 	}
-	
-	public Long getStartTime() {
-		return startTime;
+	public String getTelephone() {
+		return telephone;
 	}
-	public void setStartTime(Long startTime) {
-		this.startTime = startTime;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
-	public Long getEndTime() {
-		return endTime;
+	public String getEmail() {
+		return email;
 	}
-	public void setEndTime(Long endTime) {
-		this.endTime = endTime;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getParentDomainId() {
-		return parentDomainId;
+	public String getQq() {
+		return qq;
 	}
-	public void setParentDomainId(String parentDomainId) {
-		this.parentDomainId = parentDomainId;
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public String getWechat() {
+		return wechat;
+	}
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+	public String getSkype() {
+		return skype;
+	}
+	public void setSkype(String skype) {
+		this.skype = skype;
+	}
+	public String getLinkedin() {
+		return linkedin;
+	}
+	public void setLinkedin(String linkedin) {
+		this.linkedin = linkedin;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getWebsize() {
+		return websize;
+	}
+	public void setWebsize(String websize) {
+		this.websize = websize;
+	}
+	public String getLocationName() {
+		return locationName;
+	}
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+	public String getCustomType() {
+		return customType;
+	}
+	public void setCustomType(String customType) {
+		this.customType = customType;
 	}
 	
 }

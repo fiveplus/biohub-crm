@@ -315,12 +315,12 @@
 					for(var i = 0;i<t.length;i++){
 						t[i].checked = false;
 					}
-					action = "../custom/session.custom.remove.htm";
+					action = "${contextPath}/admin/custom/session.custom.remove.json";
 				}else{
 					for(var i = 0;i<t.length;i++){
 						t[i].checked = true;
 					}
-					action = "../custom/session.custom.add.htm";
+					action = "${contextPath}/admin/custom/session.custom.add.json";
 				}
 				for(var i = 0;i<t.length;i++){
 					if(i == t.length - 1){
@@ -332,7 +332,7 @@
 				$.ajax({
 					type:"POST",
 					url:action,
-					data:"checks="+checks,
+					data:{checks:checks},
 					error:function(request){
 					},
 					success:function(data){

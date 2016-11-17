@@ -23,12 +23,15 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import com.crm.controller.admin.bo.CustomBO;
 import com.crm.controller.admin.bo.LogBO;
 import com.crm.controller.admin.bo.PermissionBO;
 import com.crm.controller.admin.bo.UserBO;
+import com.crm.entity.Custom;
 import com.crm.entity.Log;
 import com.crm.entity.Permission;
 import com.crm.entity.User;
+import com.crm.service.CustomService;
 import com.crm.service.LogService;
 import com.crm.service.PermissionService;
 import com.crm.service.UserService;
@@ -43,6 +46,9 @@ public class UserRealm extends AuthorizingRealm{
 	
 	@Resource
 	private LogService logService;
+	
+	@Resource
+	private CustomService customService;
 	
 	/** 
      * 为当前登录的Subject授予角色和权限 
@@ -92,11 +98,14 @@ public class UserRealm extends AuthorizingRealm{
     	        user.setPers(pers);
     	        
     	        List<UserBO> users = userService.getUserList();
+    	        Custom param = new Custom();
+    	        List<CustomBO> customs = customService.getCustomList(param);
     	        
     	        Session session = SecurityUtils.getSubject().getSession();
     	        session.setAttribute("user", user);
     	        session.setAttribute("menus", pbos);
     	        session.setAttribute("users", users);
+    	        session.setAttribute("customs", customs);
     	        
     	        //个人日志加载
     			List<LogBO> logs = logService.getLogList(user.getId(), 5);

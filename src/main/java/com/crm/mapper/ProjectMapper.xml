@@ -21,15 +21,132 @@
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="VARCHAR" />
-		<id column="project_index" property="projectIndex" jdbcType="VARCHAR" />
+		<id column="project_index" property="projectIndex" jdbcType="INTEGER" />
 		<id column="project_tag" property="projectTag" jdbcType="VARCHAR" />
 		<id column="update_time" property="updateTime" jdbcType="VARCHAR" />
 		<id column="follow_user" property="followUser" jdbcType="VARCHAR" />
 		<id column="charge_user" property="chargeUser" jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<resultMap type="com.crm.controller.admin.bo.ProjectBO" id="ProjectMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="project_num" property="projectNum" jdbcType="VARCHAR" />
+		<id column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="rate" property="rate" jdbcType="VARCHAR" />
+		<id column="custom_name" property="customName" jdbcType="VARCHAR" />
+		<id column="domain_name" property="domainName" jdbcType="VARCHAR" />
+		<id column="stage" property="stage" jdbcType="VARCHAR" />
+		<id column="brief" property="brief" jdbcType="VARCHAR" />
+		<id column="trait" property="trait" jdbcType="VARCHAR" />
+		<id column="demand" property="demand" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="VARCHAR" />
+		<id column="project_index" property="projectIndex" jdbcType="INTEGER" />
+		<id column="project_tag" property="projectTag" jdbcType="VARCHAR" />
+		<id column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<id column="follow_user" property="followUser" jdbcType="VARCHAR" />
+		<id column="charge_user" property="chargeUser" jdbcType="VARCHAR" />
+		
+		<id column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<id column="email" property="email" jdbcType="VARCHAR" />
+		<id column="qq" property="qq" jdbcType="VARCHAR" />
+		<id column="wechat" property="wechat" jdbcType="VARCHAR" />
+		<id column="skype" property="skype" jdbcType="VARCHAR" />
+		<id column="linkedin" property="linkedin" jdbcType="VARCHAR" />
+		<id column="company" property="company" jdbcType="VARCHAR" />
+		<id column="websize" property="websize" jdbcType="VARCHAR" />
+		<id column="location_name" property="locationName" jdbcType="VARCHAR" />
+		<id column="custom_type" property="customType" jdbcType="VARCHAR" />
+		
+	</resultMap>
+
+	<sql id="Project_Column_List">
+		p.id,p.project_num,pt.name as type_name,p.name,p.rate,c.name as custom_name,
+		pd.name as domain_name,p.stage,p.brief,p.trait,p.demand,p.create_time,p.create_user,
+		p.status,p.project_index,p.project_tag,p.update_time,p.follow_user,p.charge_user,
+		c.telephone,c.email,c.qq,c.wechat,c.skype,c.linkedin,c.company,c.websize,cl.name as location_name,
+		ct.name as custom_type
+	</sql>
+	
+	<select id="getMaxProjectIndex" resultType="java.lang.Integer">
+		select max(project_index) from tbl_project
+	</select>
+	
+	<select id="getProjectList" resultMap="ProjectMap" parameterType="com.crm.entity.Project">
+		select <include refid="Project_Column_List" /> from tbl_project p left join tbl_custom c on p.custom_id = c.id left join tbl_project_type pt on p.type_id = pt.id left join tbl_project_domain pd on p.domain_id = pd.id left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1 
+		<if test="projectNum != null and projectNum != ''">
+			and p.project_num = #{projectNum,jdbcType=VARCHAR} 
+		</if>
+		<if test="typeId != null and typeId != ''">
+			and p.type_id = #{typeId,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name != ''">
+			and p.name like CONCAT('%','${name}','%') 
+		</if>
+		<if test="rate != null and rate != ''">
+			and p.rate = #{rate,jdbcType=VARCHAR} 
+		</if>
+		<if test="customId != null and customId != ''">
+			and p.custom_id = #{customId,jdbcType=VARCHAR} 
+		</if>
+		<if test="domainId != null and domainId != ''">
+			and p.domain_id = #{domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="parentDomainId != null and parentDomainId != ''">
+			and pd.parent_id = #{parentDomainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="stage != null and stage != ''">
+			and p.stage = #{stage,jdbcType=VARCHAR} 
+		</if>
+		<if test="brief != null and brief != ''">
+			and p.brief = #{brief,jdbcType=VARCHAR} 
+		</if>
+		<if test="trait != null and trait != ''">
+			and p.trait = #{trait,jdbcType=VARCHAR} 
+		</if>
+		<if test="demand != null and demand != ''">
+			and p.demand = #{demand,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and p.create_time = #{createTime,jdbcType=VARCHAR} 
+		</if>
+		<if test="createUser != null and createUser != ''">
+			and (p.create_user = #{createUser,jdbcType=VARCHAR} or p.follow_user = #{createUser,jdbcType=VARCHAR} )
+		</if>
+		<if test="status != null and status != ''">
+			and p.status = #{status,jdbcType=VARCHAR} 
+		</if>
+		<if test="projectIndex != null and projectIndex != ''">
+			and p.project_index = #{projectIndex,jdbcType=VARCHAR} 
+		</if>
+		<if test="projectTag != null and projectTag != ''">
+			and p.project_tag = #{projectTag,jdbcType=VARCHAR} 
+		</if>
+		<if test="chargeUser != null and chargeUser != ''">
+			and p.charge_user = #{chargeUser,jdbcType=VARCHAR} 
+		</if>
+		<if test="startTime != null">
+			and c.update_time &gt;= #{startTime,jdbcType=VARCHAR}
+		</if>
+		<if test="endTime != null">
+			and c.update_time &lt;= #{endTime,jdbcType=VARCHAR}
+		</if>
+		
+	</select>
+	
+	<select id="getProjectListByIn" resultMap="ProjectMap">
+		select <include refid="Project_Column_List" /> from tbl_project p left join tbl_custom c on p.custom_id = c.id left join tbl_project_type pt on p.type_id = pt.id left join tbl_project_domain pd on p.domain_id = pd.id where p.status = 'Y' 
+		and p.id in (#{ids,jdbcType=VARCHAR})
+	</select>
+	
 	<select id="queryByCustomId" resultMap="BaseResultMap">
 		select * from tbl_project where custom_id = #{customId,jdbcType=VARCHAR} and status = 'Y' 
+	</select>
+	
+	<select id="queryByName" resultMap="BaseResultMap">
+		select * from tbl_project where name = #{name,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	
 	<select id="getProjectStatList" resultMap="StatResultMap" >

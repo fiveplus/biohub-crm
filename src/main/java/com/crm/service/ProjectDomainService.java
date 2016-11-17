@@ -31,4 +31,8 @@ public class ProjectDomainService extends BaseService<ProjectDomain>{
 		return projectDomainMapper.getParentList();
 	}
 	
+	public List<ProjectDomain> getChildList(String pid){
+		return projectDomainMapper.getChildList(pid);
+	}
+	
 }

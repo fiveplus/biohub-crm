@@ -225,14 +225,14 @@ public class CustomAdminController {
 					Thread send = new CustomMailThread(deptEmail,password,customs,title,content);
 					send.start();
 					
-				}else{
-					msg = "成功！很好的完成了提交。";
-					code = 4;
 				}
+				
 			}
 			
 		}
-		
+		if(code == 0) msg = "成功！很好的完成了提交。";
+		returnMap.put("msg", msg);
+		returnMap.put("code", code);
 		return returnMap;
 	}
 	
@@ -256,7 +256,7 @@ public class CustomAdminController {
 		model.addAttribute("pu",pu);
 		model.addAttribute("pc",pc);
 		
-		model.addAttribute("dateRangePicker");
+		model.addAttribute("dateRangePicker",dateRangePicker);
 		model.addAttribute("param",param);
 		
 		return "custom/customs";
@@ -503,13 +503,14 @@ public class CustomAdminController {
             bufferedOutPut.flush();
             workbook.write(bufferedOutPut);
             bufferedOutPut.close();
+            returnMap.put("code", 0);
+            returnMap.put("msg", "成功！很好地完成了提交。");
         } catch (IOException e) {
         	returnMap.put("msg", "错误！请进行一些更改。");
 			returnMap.put("code", 4);
             e.printStackTrace();
         }
-        returnMap.put("code", 0);
-        returnMap.put("msg", "成功！很好地完成了提交。");
+        
         return returnMap;
 	}
 	
@@ -542,10 +543,10 @@ public class CustomAdminController {
     					CustomType ct = customTypeService.queryByName(cbo.getTypeName());
     					Custom cus = customService.queryByEmail(cbo.getEmail());
     					if(cl == null){
-    						temp += "客户区域["+cbo.getName()+"]不存在;";
+    						temp += "客户类型["+cbo.getTypeName()+"]不存在;";
     					}
     					if(ct == null){
-    						temp += "客户类型["+cbo.getLocationName()+"]不存在;";
+    						temp += "客户区域["+cbo.getLocationName()+"]不存在;";
     					}
     					if(cus != null){
     						temp += "客户E-mail["+cbo.getEmail()+"]已存在;";

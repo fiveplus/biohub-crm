@@ -12,4 +12,5 @@ public interface ProjectDomainMapper extends Mapper<ProjectDomain>{
 	public ProjectDomain queryByName(@Param("name") String name);
 	public List<ProjectDomainBO> queryList();
 	public List<ProjectDomain> getParentList();
+	public List<ProjectDomain> getChildList(@Param("pid") String pid);
 }

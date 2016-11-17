@@ -1,0 +1,589 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib uri="/master-tag" prefix="fms" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="/date-tag" prefix="date" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"  %>
+<fms:ContentPage masterPageId="master">
+	<fms:Content contentPlaceHolderId="title">
+		Customer Relationship Management
+	</fms:Content>
+	<fms:Content contentPlaceHolderId="main">
+		<div class="breadcrumbs" id="breadcrumbs">
+			<script type="text/javascript">
+				try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+			</script>
+
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home home-icon"></i>
+					<a href="${contextPath}/admin/index">Home</a>
+				</li>
+				<!-- 
+				<li>
+					<a href="#">Other Pages</a>
+				</li> -->
+				<li class="active">项目管理</li>
+			</ul><!-- .breadcrumb -->
+
+			<div class="nav-search" id="nav-search">
+				<form action="" method="post" onsubmit="return false;" class="form-search">
+					<span class="input-icon">
+						<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+						<i class="icon-search nav-search-icon"></i>
+					</span>
+				</form>
+			</div><!-- #nav-search -->
+		</div>
+
+		<div class="page-content">
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- PAGE CONTENT BEGINS -->
+					<div class="row">
+						<div class="col-xs-12">
+							<h3 class="header smaller lighter blue">
+							<span>项目列表</span> <small>Project List</small>
+							<c:forEach items="${user.pers}" var="p">
+								<c:if test="${p.id == 'addProject'}">
+								<button class="btn" style="float:right;margin-top: -12px;" onclick="go_url('${contextPath}/admin/project/add')" ><i class="icon-pencil align-top bigger-125"></i>项目新增 (Project Add)</button>
+								</c:if>
+							</c:forEach>
+							
+							</h3>
+							<div>
+								<form action="${contextPath}/admin/project/list" role="form" class="form-horizontal" method="post" id="form_post">
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 项目名称 </label>
+										<div class="col-sm-9">
+											<input type="text"  placeholder="Project Name" class="col-xs-10 col-sm-5" name="name" id="dataInput" value="${param.name}" />
+											<!-- <span style="color:#b399a6">&nbsp;&nbsp; (Please enter a project name.)</span>  -->
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right"for="form-field-1" for="form-field-1"> 请选择项目领域</label>
+										<div class="col-sm-9">
+											<select name="parentDomainId" onchange="selectDomain(this)">
+												<option value="">请选择</option>
+												<c:forEach items="${parents}" var="p">
+													<c:if test="${param.parentDomainId == p.id}">
+														<option value="${p.id}" selected="selected">${p.name}</option>
+													</c:if>
+													<c:if test="${param.parentDomainId != p.id}">
+														<option value="${p.id}" >${p.name}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+											<select name="domainId" id="project-domain">
+												<option value="">请选择</option>
+												<c:forEach items="${childs}" var="c">
+													<c:if test="${param.domainId == c.id}">
+														<option value="${c.id}" selected="selected">${c.name}</option>
+													</c:if>
+													<c:if test="${param.domainId != c.id}">
+														<option value="${c.id}" >${c.name}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+											<span style="color:#b399a6">&nbsp;&nbsp;Project Domain</span>
+											<script type="text/javascript">
+											function selectDomain(obj){
+												var list = [];
+												var index = obj.selectedIndex;
+												$.ajax({
+													url:"${contextPath}/admin/projectdomain/childs.json",
+													data:{pid:obj.value},
+													type:"POST",
+													dataType:'json',
+													success:function(data){
+														var childs = data.childs;
+														var text = "<option value=''>请选择</option>";
+														//遍历list
+														if(index > 0){
+															for(var i = 0;i<childs.length;i++){
+																var child = childs[i];
+																text += "<option value='"+child.id+"' >"+child.name+"</option>";
+															}
+														}
+														text += "";
+														$("#project-domain").empty();
+														$("#project-domain").html(text);
+													},
+													error:function(data){
+														//console.log(data);
+													}
+												});
+												
+											}
+										</script>
+										</div>
+									</div>
+									
+									
+								<c:if test="${fn:length(customs) > 0}">
+									<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 项目所有人 </label>
+									<div class="col-sm-9" >
+										<select class="width-20 chosen-select" data-placeholder="Choose a Custom..." name="customId">
+										<option value="">请选择</option>
+										<c:forEach items="${customs}" var="c">
+											<c:if test="${param.customId == c.id}">
+												<option value="${c.id}" selected="selected">${c.name}</option>
+											</c:if>
+											<c:if test="${param.customId != c.id}">
+												<option value="${c.id}">${c.name}</option>
+											</c:if>
+										</c:forEach>
+										</select>
+										<span style="color:#b399a6">&nbsp;&nbsp; (Customer's Name)</span>
+									</div>
+									</div>
+								</c:if>
+								<div class="space-4"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 创建人/跟进人 </label>
+									<div class="col-sm-9">
+										<select class="width-20 chosen-select" data-placeholder="Choose a userName..." name="createUser">
+											<option value="">请选择</option>
+											<c:forEach items="${users}" var="u">
+												<c:if test="${param.createUser == u.userName}">
+													<option value="${u.userName}" selected="selected">${u.userName}</option>
+												</c:if>
+												<c:if test="${param.createUser != u.userName}">
+													<option value="${u.userName}">${u.userName}</option>
+												</c:if>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+								<div class="space-4"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 项目分类级别</label>
+									<div class="col-sm-9">
+										<select name="rate">
+											<option value="">请选择</option>
+											<c:forEach items="${RATES}" var="r">
+												<c:if test="${param.rate == r.key}">
+													<option value="${r.key}" selected="selected">${r.value}</option>
+												</c:if>
+												<c:if test="${param.rate != r.key}">
+													<option value="${r.key}">${r.value}</option>
+												</c:if>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+								<div class="space-4"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 时间段 </label>
+									<div class="col-sm-9">
+										<div class="input-group">
+											<span class="input-group-addon">
+												<i class="icon-calendar bigger-110"></i>
+											</span>
+											<input style="width:180px;" class="form-control" type="text" readonly="readonly" name="dateRangePicker" id="id-date-range-picker-1" value="${param.dateRangePicker}" />
+											<span style="color:#b399a6">&nbsp;&nbsp; (Time Period.)</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3">
+									</label>
+									<div class="col-sm-9">
+										<span class="input-group-btn" >
+											<button type="button" class="btn btn-purple btn-sm" onclick="form_submit('form_post',1)">
+											数据查询 (Data Query)
+											<i class="icon-search icon-on-right bigger-110"></i>
+											</button>
+											&nbsp;
+											
+											<c:forEach items="${user.pers}" var="p">
+												<c:if test="${p.id == 'exportProject'}">
+													<button type="button" class="btn btn-purple btn-sm" onclick="exportJSON('${contextPath}/admin/project/export','form_post')" >
+													<i class="icon-pencil align-top bigger-125"></i>
+													数据导出 (Data Export)
+													</button>
+												</c:if>
+											</c:forEach>
+											
+										</span>
+										
+									</div>
+									
+									
+								</div>
+								</form>
+						
+							</div>
+							<div class="table-header">
+								共有${pu.total}条数据 &nbsp;(A total of ${pu.total} records) 
+							</div>
+
+							<div class="table-responsive">
+								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center">
+												<label>
+													<input type="checkbox" class="ace" onclick="checkAll(this)" />
+													<span class="lbl"></span>
+												</label>
+											</th>
+											<th>项目编号(Project Number)</th>
+											<th>项目类别(Project Type)</th>
+											<th class="cursor" onclick="orderHTML('form_post','rate')">项目分类级别 (Project Rate)</th>
+											<th>项目持有人(Customer's Name)</th>
+											<th>项目名称(Project Name)</th>
+											<th>项目星级(Project Star)</th>
+											<th class="hidden-480">项目领域(Project Domain)</th> 
+											<th>项目阶段(Project Stage)</th>
+											<th>
+												<i class="icon-time bigger-110 hidden-480"></i>
+												更新时间(Update Time)
+											</th>
+											<th>跟进人(Follow User)</th>
+											<th class="hidden-480">状态(Status)</th>
+											<th>操作(Operation)</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<c:forEach items="${pu.list}" var="p" >
+										<tr>
+											<td class="center">
+												<label>
+													<input type="checkbox" class="ace" name="checks" value="${p.id}" />
+													<span class="lbl"></span>
+												</label>
+											</td>
+
+											<td>
+												<a href="${contextPath}/admin/project/select/${p.id}">${p.projectNum}</a>
+											</td>
+											<td>${p.typeName}</td>
+											<td>${p.rate}</td>
+											<td>${p.customName}</td>
+											<td>${p.name}</td>
+											<td>
+												<c:set value="${fn:split(p.demand, ',')}" var="stars" />
+												<c:if test="${p.demand!=''}">
+													<c:forEach items="${stars}" var="s">
+														<img alt="${p.demand}" data-original-title="${p.demand}" data-rel="tooltip" src="${contextPath}/assets/images/star.png" width="20">
+													</c:forEach>
+												</c:if>
+												<c:if test="${p.demand==''}">
+													<img alt="暂无评分" data-original-title="暂无评分" data-rel="tooltip" src="${contextPath}/assets/images/star.png" width="20">
+												</c:if>
+												
+											</td>
+											<td class="hidden-480">${p.domainName}</td>
+											<td>${p.stage}</td>
+											<td><date:date value="${p.updateTime}" /></td>
+											
+											<td>${p.followUser}</td>
+
+											<td class="hidden-480">
+												<c:if test="${p.status == 'Y'}">
+													<span class="label label-sm label-success">已创建</span>
+												</c:if>
+												<c:if test="${p.status == 'D'}">
+													<span class="label label-sm label-warning">删除审核中</span>
+												</c:if>
+											</td>
+											
+											
+											
+
+											<td>
+												<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+													<a class="blue" href="${contextPath}/admin/project/select/${p.id}">
+														<i class="icon-zoom-in bigger-130"></i>
+													</a>
+													<!-- 
+													<a class="green" href="javascript:void(0)">
+														<i class="icon-pencil bigger-130"></i>
+													</a>
+													 -->
+													<a class="red" href="javascript:deleteHTML('${contextPath}/admin/project/delete/${p.id}')">
+														<i class="icon-trash bigger-130"></i>
+													</a>
+												</div>
+												
+												<div class="visible-xs visible-sm hidden-md hidden-lg">
+													<div class="inline position-relative">
+														<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+															<i class="icon-caret-down icon-only bigger-120"></i>
+														</button>
+
+														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+															<li>
+																<a href="${contextPath}/admin/project/select/${p.id}" class="tooltip-info" data-rel="tooltip" title="View">
+																	<span class="blue">
+																		<i class="icon-zoom-in bigger-120"></i>
+																	</span>
+																</a>
+															</li>
+															<!-- 
+															<li>
+																<a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title="Edit">
+																	<span class="green">
+																		<i class="icon-edit bigger-120"></i>
+																	</span>
+																</a>
+															</li>
+															-->
+															<li>
+																<a href="javascript:deleteHTML('${contextPath}/admin/project/delete/${p.id}')" class="tooltip-error" data-rel="tooltip" title="Delete">
+																	<span class="red">
+																		<i class="icon-trash bigger-120"></i>
+																	</span>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="modal-footer no-margin-top">
+								<ul class="pagination pull-right no-margin" id="page">
+									<!-- 分页 -->
+									<c:if test="${pu.pageNum==1}">
+										<li class="prev disabled">
+											<a href="javascript:void(0)">
+												<i class="icon-double-angle-left"></i>
+											</a>
+										</li>
+									</c:if>
+									<c:if test="${pu.pageNum!=1}">
+										<li class="prev">
+											<a href="javascript:form_submit('form_post',1)">
+												<i class="icon-double-angle-left"></i>
+											</a>
+										</li>
+									</c:if>
+									<c:forEach items="${pc.pageList}" var="p">
+										<c:if test="${p==pu.pageNum}">
+											<li class="active">
+												<a href="javascript:void(0)">${p}</a>
+											</li>
+										</c:if>
+										<c:if test="${p!=pu.pageNum}">
+											<li>
+												<a href="javascript:form_submit('form_post',${p})">${p}</a>
+											</li>
+										</c:if>
+									</c:forEach>
+									<c:if test="${pu.pageNum==pu.lastPage}">
+										<li class="next disabled">
+											<a href="javascript:void(0)">
+												<i class="icon-double-angle-right"></i>
+											</a>
+										</li>
+									</c:if>
+									<c:if test="${pu.pageNum!=pu.lastPage}">
+										<li class="next">
+											<a href="javascript:form_submit('form_post',${pu.lastPage})">
+												<i class="icon-double-angle-right"></i>
+											</a>
+										</li>
+									</c:if>
+								</ul>
+							</div>
+								
+							<div>
+								<button class="btn" style="float:right;margin-top: 12px;margin-left: 15px;"  onclick="downloadFile('${contextPath}/downloads/project_temple.xlsx')" ><i class="icon-pencil align-top bigger-125"></i>模板下载&nbsp;(Template Download)</button>
+							</div>
+								
+								
+							<c:forEach items="${user.pers}" var="p">
+								<c:if test="${p.id == 'addProject'}">
+									<div>
+										<button class="btn" style="float:right;margin-top: 12px;" onclick="fileSelect()" ><i class="icon-pencil align-top bigger-125"></i>项目资料上传&nbsp;(Upload Project Info)</button>
+										<form action="${contextPath}/admin/project/upload" method="post" enctype="multipart/form-data" style="width:auto;" id="file_upload">
+											<input type="file" name="file" id="file" onchange="fileSelected(this)" style="display:none;" />
+										</form>
+									</div>
+								</c:if>
+							</c:forEach>
+						</div>
+					</div>
+					<!-- PAGE CONTENT ENDS -->
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+		</div><!-- /.page-content -->
+		<script type="text/javascript">
+			function exportJSON(url,formid){
+				bootbox.confirm("确认导出?",function(result){
+					if(result){
+						var time = $("#id-date-range-picker-1").val();
+						var vdata = $("#"+formid).serialize();
+						var action = url;
+						var checksarr = new Array();
+						var checks = "";
+						var cname = document.getElementsByName("checks");
+						if(cname){
+							for(var i = 0;i<cname.length;i++){
+								if(cname[i].checked){
+									checksarr.push(cname[i].value);
+								}
+							}
+							checks = checksarr.toString();
+						}
+						//伪造form提交
+						var form = $('<form></form>');
+						form.attr('action',url);
+						form.attr('method', 'post');
+				    	//form.attr("target","_blank");
+						var checks_input = $('<input type="hidden" name="checks" />');
+						checks_input.attr("value",checks);
+						form.append(checks_input);
+						$("#"+formid+" input").each(function(e){
+							var val = $(this).val();
+							if(val != ''){
+								var input = $('<input type="hidden" />');
+								input.attr("name",$(this).attr("name"));
+								input.attr("value",$(this).attr("value"));
+								form.append(input);
+							}
+						});
+						$("#"+formid+" select").each(function(e){
+							var val = $(this).val();
+							if(val != ''){
+								var input = $('<input type="hidden" />');
+								input.attr("name",$(this).attr("name"));
+								input.attr("value",$(this).val());
+								form.append(input);
+							}
+						});
+						form.submit();
+						
+					}
+				});
+					
+					
+					
+			}
+		
+		
+			function form_submit(id,page){
+				var form = $("#"+id);
+				var action = form.attr("action")+"/"+page;
+				form.attr("action",action);
+				form.submit();
+			}
+			function deleteHTML(url){
+				bootbox.confirm("确认删除?",function(result){
+					if(result){
+						$.ajax({
+							url:url,
+							dataType:'json',
+							type:'POST',
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+									window.location.reload();
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							},
+							error:function(data){
+								//console.log(data);
+							}
+						});	
+					}
+				});
+			}
+			$(document).ready(function(){
+				$("#dataInput").focus();
+				
+				$("#dataInput").keydown(function(e){
+					if(e.keyCode == 13){
+						submit('form_post',1);
+						$("#dataInput")[0].focus();
+					}
+				});
+				
+				$(".chosen-select").chosen();
+				
+				$('[data-rel=tooltip]').tooltip();
+				
+				$('input[name=dateRangePicker]').daterangepicker().prev().on(ace.click_event, function(){
+					$(this).next().focus();
+				});
+				
+				
+			});
+			
+			function fileSelect(){
+				document.getElementById("file").click();
+			}
+			
+			function fileSelected(obj){
+				if(obj.value == ''){
+					alert("请选择文件!");
+					return;
+				}
+				var ext = obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
+				if(ext == '.xls' || ext == '.xlsx'){
+					$.ajaxFileUpload({
+						url:'${contextPath}/admin/project/upload',
+						type:'post',
+						secureuri:false,
+						fileElementId:'file',
+						dataType:'json',
+						success:function(data,status){
+							if(data.code==0){
+								ace_msg.success(data.msg);
+								window.location.reload();
+							}else{
+								ace_msg.danger(data.msg);
+							}
+						}
+					});
+				}else{
+					alert("请选择一个Excel文件上传!");
+				}
+			}
+			
+			function downloadFile(path){
+				bootbox.confirm("确认下载?",function(result){
+					if(result){
+						window.location.href = path;
+					}
+				});
+			}
+			
+			function orderHTML(formid,order){
+				var form = $("#"+formid);
+				var action = form.attr("action");
+				action += "?order="+order+"&pu.pageNum=1";
+				form.attr("action",action);
+				form.submit();
+			}
+			
+			function checkAll(obj){
+				var t = document.getElementsByName("checks");
+				if(!obj.checked){
+					for(var i = 0;i<t.length;i++){
+						t[i].checked = false;
+					}
+				}else{
+					for(var i = 0;i<t.length;i++){
+						t[i].checked = true;
+					}
+				}
+			}
+			
+			
+		</script>
+	
+	</fms:Content>
+</fms:ContentPage>
