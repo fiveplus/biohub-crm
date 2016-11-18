@@ -79,6 +79,35 @@ public class ProjectAdminController {
 	@Autowired
 	private UserService userService;
 	
+	@RequestMapping("/dellist/{page}")
+	public String dellist(@PathVariable int page,Project param,HttpServletRequest request,Model model){
+		if(param == null) param = new Project();
+		param.setStatus(Resource.D);
+		String dateRangePicker = request.getParameter("dateRangePicker");
+		Map<String,Long> betweens= null;
+		if(dateRangePicker != null && !dateRangePicker.equals("")){
+			betweens = StringUtils.getBetweenTime(dateRangePicker);
+		}
+		if(betweens != null){
+			param.setStartTime(betweens.get("beforeTime"));
+			param.setEndTime(betweens.get("afterTime"));
+		}
+		PageInfo<ProjectBO> pu = projectService.getProjectList(page, param);
+		PageCode pc = new PageCode(page, pu.getPages());
+		
+		model.addAttribute("pu",pu);
+		model.addAttribute("pc",pc);
+		
+		model.addAttribute("dateRangePicker",dateRangePicker);
+		model.addAttribute("param",param);
+		
+		//列表参数
+		List<ProjectDomain> childs = projectDomainService.getChildList(param.getParentDomainId());
+		model.addAttribute("childs",childs);
+		
+		return "project/projectdels";
+	}
+	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,Project param,HttpServletRequest request,Model model){
 		if(param == null) param = new Project();
