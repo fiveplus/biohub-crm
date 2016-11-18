@@ -81,6 +81,7 @@ public class ProjectAdminController {
 	@Autowired
 	private LogService logService;
 	
+	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,Project param,HttpServletRequest request,Model model){
 		if(param == null) param = new Project();
@@ -279,7 +280,7 @@ public class ProjectAdminController {
 							}
     					}else{
     						//记录错误信息
-    						temp += "行数" + (i+1) + "：" + temp;
+    						temp = "行数" + (i+1) + "：" + temp;
     						break;
     					}
             		}

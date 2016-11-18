@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,14 @@ public class UserService extends BaseService<User>{
 		us = passwordHelper.encryptPassword(us);
 		Integer count = saveSelect(us);
 		return count;
+	}
+	
+	public List<User> queryUserListByDeptId(String deptId){
+		return userMapper.queryUserListByDeptId(deptId);
+	}
+	
+	public User getUserByUserName(String userName){
+		return userMapper.getUserByUserName(userName);
 	}
 	
 	

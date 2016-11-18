@@ -8,10 +8,38 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.crm.controller.admin.bo.CustomBO;
+import com.crm.controller.admin.bo.ProcessBO;
 import com.crm.controller.admin.bo.ProjectBO;
 import com.crm.controller.admin.bo.UserBO;
 
 public class ExportUtils {
+	
+	public static XSSFWorkbook exportProcessBO(List<ProcessBO> models) throws Exception{
+		if(models == null || models.size() == 0){
+			//throw new Exception("暂无数据导出");
+		}
+		List<ExcelMapping> ems = new ArrayList<>();
+        Map<Integer, List<ExcelMapping>> map = new LinkedHashMap<>();
+        XSSFWorkbook book = null;
+        //一个ems 为一行标题
+        ems.add(new ExcelMapping("项目编号","projectNum",0));
+        ems.add(new ExcelMapping("项目名称","projectName",0));
+        ems.add(new ExcelMapping("跟进人","processUser",0));
+        ems.add(new ExcelMapping("跟进时间","createTime",0));
+        ems.add(new ExcelMapping("会谈内容","information",0));
+        ems.add(new ExcelMapping("会谈对象","customName",0));
+        ems.add(new ExcelMapping("记录人","createUser",0));
+        ems.add(new ExcelMapping("会谈方式","method",0));
+        ems.add(new ExcelMapping("项目需求","demand",0));
+        
+        map.put(0, ems);
+        try {
+        	book = ExcelUtils.createExcelFile(models, map,"项目跟踪数据");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return book;
+	}
 	
 	public static XSSFWorkbook exportProjectBO(List<ProjectBO> models) throws Exception{
 		if(models == null || models.size() == 0){
@@ -54,7 +82,7 @@ public class ExportUtils {
 	
 	public static XSSFWorkbook exportCustomBO(List<CustomBO> models) throws Exception {
 		if(models == null || models.size() == 0){
-			throw new Exception("暂无数据导出");
+			//throw new Exception("暂无数据导出");
 		}
 		List<ExcelMapping> ems = new ArrayList<>();
         Map<Integer, List<ExcelMapping>> map = new LinkedHashMap<>();

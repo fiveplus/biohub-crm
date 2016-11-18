@@ -577,7 +577,7 @@ public class CustomAdminController {
     						}
     					}else{
     						//记录错误信息
-    						temp += "行数" + (i+1) + "：" + temp;
+    						temp = "行数" + (i+1) + "：" + temp;
     						break;
     					}
             		}

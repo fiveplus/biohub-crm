@@ -51,6 +51,15 @@
     <select id="getUserByLoginName" resultMap="BaseResultMap">
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
+    
+    <select id="getUserByUserName" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" /> from sys_user where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="queryUserListByDeptId" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" /> from sys_user where dept_id = #{deptId,jdbcType=VARCHAR}
+    </select>
+    
 	 <!-- 
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">

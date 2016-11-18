@@ -387,33 +387,36 @@
 												<button class="btn" style="float:right;margin-top: -8px;margin-left: 15px;"  onclick="downloadFile('${contextPath}/downloads/process_temple.xlsx')" ><i class="icon-pencil align-top bigger-125"></i>模板下载&nbsp;(Template Download)</button>	
 												<button class="btn" style="float:right;margin-top: -8px;" onclick="fileSelect()" ><i class="icon-pencil align-top bigger-125"></i>上传跟踪信息&nbsp;(Upload Process Info)</button>
 												<form action="" method="post" enctype="multipart/form-data" style="width:auto;" >
-													<input type="file" name="upload" id="upload" onchange="fileSelected(this)" style="display:none;" />
+													<input type="file" name="file" id="file" onchange="fileSelected(this)" style="display:none;" />
 												</form>
 												<script type="text/javascript">
 													function fileSelect(){
-														document.getElementById("upload").click();
+														document.getElementById("file").click();
 													}
 													function fileSelected(obj){
 														if(obj.value == ''){
-															alert("请选择文件!");
+															ace_msg.danger("错误！请选择文件!");
 															return;
 														}
 														var ext = obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
 														if(ext == '.xls' || ext == '.xlsx'){
 															$.ajaxFileUpload({
-																url:'${contextPath}/process/upload?projectId=${project.id}',
+																url:'${contextPath}/admin/process/upload',
 																type:'post',
 																secureuri:false,
-																fileElementId:'upload',
+																fileElementId:'file',
+																dataType:'json',
 																success:function(data,status){
-																	data = eval("("+data+")");
-																	$("#process_msg").html(data.message);
-																	$("#process_msg_div").show();
-																	$("#list").load("../process/list.htm?pu.pageNum=1&id=${project.id}")
+																	if(data.code==0){
+																		ace_msg.success(data.msg);
+																		$("#list").load("${contextPath}/admin/process/list/1?id=${project.id}");
+																	}else{
+																		ace_msg.danger(data.msg);
+																	}
 																}
 															});
 														}else{
-															alert("请选择一个Excel文件上传!");
+															ace_msg.danger("错误！请选择一个Excel文件上传!");
 														}
 													}
 												</script>
@@ -421,13 +424,13 @@
 											</div>
 											<div class="row">
 												<div class="col-xs-12">
-													<form action="../process/add.htm" role="form" class="form-horizontal" method="post" id="process_post" >
+													<form action="${contextPath}/admin/process/save" role="form" class="form-horizontal" method="post" id="process_post" >
 													
 														<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 会谈对象</label>
 														<div class="col-sm-9" >
-															<input type="hidden" name="process.project.id" value="${project.id}" />
-															<label style="margin-top:4px;color: red;" ><b>${project.customName}</b></label>
+															<input type="hidden" name="projectId" value="${project.id}" />
+															<label style="margin:5px 0 0 2px;color: red;" ><b>${project.customName}</b></label>
 															<!-- 
 															<select name="process.custom.id" class="width-20 chosen-select" data-placeholder="Choose a Custom..."  >
 																<option value="">请选择</option>
@@ -439,7 +442,7 @@
 														</div>
 														</div>
 														<div class="space-4"></div>
-													
+														<!-- 
 														<div class="form-group" style="display: none;">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 跟进人</label>
 														<div class="col-sm-9" id="select-user" >
@@ -448,7 +451,7 @@
 																<c:forEach items="${depts}" var="d">
 																	<option value="${d.id}">${d.name}</option>
 																</c:forEach>
-															</select> 
+															</select>
 															<select id="process-user" name="process.processUser.id" class="width-20 chosen-select" data-placeholder="Choose a User..." >
 																<option value="">请选择</option>
 															</select>
@@ -456,39 +459,46 @@
 																function selectUser(obj){
 																	var list = [];
 																	var index = obj.selectedIndex;
-																	<c:forEach items="${depts}" var="d">
-																		var child = [];
-																		<c:forEach items="${d.users}" var="u">
-																		child.push({"id":"${u.id}","name":"${u.userName}"});
-																		</c:forEach>
-																		list.push(child);
-																	</c:forEach>
-																	var text = "<select id='process-user' name='process.processUser.id' class='width-20 chosen-select' data-placeholder='Choose a User...' ><option value=''>请选择</option>";
-																	//遍历list
-																	if(index > 0){
-																		for(var i=0;i<list[index-1].length;i++){
-																			var child = list[index-1][i];
-																			text += "<option value='"+child.id+"' >"+child.name+"</option>";
+																	var text = "<select id='process-user' name='processId' class='width-20 chosen-select' data-placeholder='Choose a User...' ><option value=''>请选择</option>";
+																	
+																	$.ajax({
+																		url:'{contextPath}/admin/user/childs.json',
+																		data:{deptId:obj.value},
+																		type:"POST",
+																		dataType:"json",
+																		success:function(data){
+																			//遍历list
+																			var childs = data.childs;
+																			if(index > 0){
+																				for(var i=0;i<childs.length;i++){
+																					var child = childs[i];
+																					text += "<option value='"+child.id+"' >"+child.userName+"</option>";
+																				}
+																			}
+																			text += "</select>";
+																			$("#process-user").remove();
+																			$("#process_user_chosen").remove();
+																			
+																			$("#select-user").append(text);
+																			
+																			$("#process-user").chosen();
+																			$(".chosen-container").css({"width":"200px","margin-top":"-3px"});
+																		},
+																		error:function(data){
+																			//console.log(data);
 																		}
-																	}
-																	text += "</select>";
-																	$("#process-user").remove();
-																	$("#process_user_chosen").remove();
+																	});
 																	
-																	$("#select-user").append(text);
-																	
-																	$("#process-user").chosen();
-																	$(".chosen-container").css({"width":"200px","margin-top":"-3px"});
 																}
 															</script>
 														</div>
 														</div>
 														<div class="space-4"></div>
-														
+														 -->
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 项目需求</label>
 															<div class="col-sm-9" >
-																<select name="process.demand">
+																<select name="demand">
 																	<option value="" >请选择</option>
 																	<c:forEach items="${DEMANDS}" var="d">
 																	<option value="${d.key}" >${d.value}</option>
@@ -502,7 +512,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 会谈方式</label>
 															<div class="col-sm-9" >
-																<select name="process.method">
+																<select name="method">
 																	<option value="" >请选择</option>
 																	<c:forEach items="${METHODS}" var="d">
 																	<option value="${d.key}" >${d.value}</option>
@@ -540,7 +550,7 @@
 																</span>
 															</span>
 														</h4>
-														<div class="wysiwyg-editor" id="editor1" name="process.information"></div>
+														<div class="wysiwyg-editor" id="editor1" name="information"></div>
 														</div>
 														<div class="space-4"></div>
 														
@@ -583,6 +593,15 @@
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
+		
+			function downloadFile(path){
+				bootbox.confirm("确认下载?",function(result){
+					if(result){
+						window.location.href = path;
+					}
+				});
+			}
+		
 			//批量上传
 			function fileSubmit(formid,fileid,listid){
 				var form = $("#"+formid);
@@ -719,6 +738,30 @@
 					
 			}
 			
+			function exportJSON(url,formid){
+				var projectId = '${project.id}';
+				bootbox.confirm("确认导出?",function(result){
+					if(result){
+						var vdata = $("#"+formid).serialize();
+						var action = url;
+						
+						//伪造form提交
+						var form = $('<form></form>');
+						form.attr('action',url);
+						form.attr('method', 'post');
+				    	//form.attr("target","_blank");
+						form.append("<input type='hidden' name='projectId' value='"+projectId+"' />");
+				    	
+						form.submit();
+						
+					}
+				});
+					
+			}
+			
+			function load_list(id,url){
+				$("#"+id).load(url);
+			}
 		
 			function form_update(formid,ajaxid,url){
 				bootbox.confirm("确认修改?A类项目修改后将会发送通知邮件，你准备好了吗?",function(result){
@@ -748,7 +791,7 @@
 		
 			function form_update_init(url,id){
 				if(typeof($("#project_post").attr("action")) != "undefined"){
-					alert("清先保存修改!");
+					ace_msg.danger("清先保存修改!");
 					return;
 				}
 				var scroll_offset = $("#"+id).offset();
@@ -761,23 +804,33 @@
 			}
 			
 			function form_select(url,id){
-				var scroll_offset = $("#"+id).offset();
-				$("#"+id).empty();
+				var scroll_offset = $("#ace_msg").offset();
 				$("#"+id).load(url,function(){
 					$("body,html").animate({
 						scrollTop:scroll_offset.top
 					},0);
 				});
+				//var scroll_offset = $("#"+id).offset();
+				//$("#"+id).empty();
+				//$("#"+id).load(url,function(){
+					/*$("body,html").animate({
+						scrollTop:scroll_offset.top
+					},0);*/
+				//});
 			}
 		
 			function form_submit(id,ajaxid){
 				var form = $("#"+id);
-				if($("#"+id+" [name='process.demand']").val() == ''){
-					alert("请选择项目需求!");
+				if($("#"+id+" [name='demand']").val() == ''){
+					ace_msg.danger("错误！请选择项目需求!");
 					return;
 				}
-				if($("#"+id+" [name='process.method']").val() == ''){
-					alert("请选择会谈方式!");
+				if($("#"+id+" [name='method']").val() == ''){
+					ace_msg.danger("错误！请选择会谈方式!");
+					return;
+				}
+				if($("#editor1").html()==''){
+					ace_msg.danger("错误！请输入内容!");
 					return;
 				}
 				submit_ajax(id,ajaxid);
@@ -795,15 +848,20 @@
 					type:"POST",
 					url:action,
 					data:alldata,
+					dataType:'json',
 					error:function(request){
-						alert("Connection Error");
+						//alert("Connection Error");
 					},
 					success:function(data){
-						alert("恭喜您，数据添加成功!");
-						if($("#editor1")){
-							$("#editor1").html("");
+						if(data.code == 0){
+							ace_msg.success(data.msg);
+							$("#list").load("${contextPath}/admin/process/list/1?projectId=${project.id}");
+							if($("#editor1")){
+								$("#editor1").html("");
+							}
+						}else{
+							ace_msg.danger(data.msg);
 						}
-						$("#"+ajaxid).html(data);
 					}
 				});
 			}
@@ -813,7 +871,7 @@
 			}	
 			
 			$(document).ready(function(){
-				$("#list").load("../process/list.htm?pu.pageNum=1&id=${project.id}");
+				$("#list").load("${contextPath}/admin/process/list/1?projectId=${project.id}");
 				$("#file_list").load("../upload/list.htm?pu.pageNum=1&id=${project.id}");
 				
 				$(".chosen-select").chosen(); 

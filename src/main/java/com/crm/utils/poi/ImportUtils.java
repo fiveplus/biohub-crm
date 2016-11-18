@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.crm.controller.admin.bo.CustomBO;
+import com.crm.controller.admin.bo.ProcessBO;
 import com.crm.controller.admin.bo.ProjectBO;
+import com.crm.utils.StringUtils;
 
 
 public class ImportUtils {
@@ -70,4 +72,26 @@ public class ImportUtils {
 		
 		return cbos;
 	}
+	
+	/**
+	 * 跟进文档模板定义
+	 */
+	
+	public static List<ProcessBO> getProcessBOList(List<List<String>> list){
+		List<ProcessBO> pbos = new ArrayList<ProcessBO>();
+		for(List<String> l:list){
+			ProcessBO pbo = new ProcessBO();
+			pbo.setProjectName(l.get(0));
+			pbo.setProcessUser(l.get(1));
+			pbo.setCreateTime(StringUtils.getLongByString(l.get(2)));
+			pbo.setInformation(l.get(3));
+			pbo.setCustomName(l.get(4));
+			pbo.setCreateUser(l.get(5));
+			pbo.setMethod(l.get(6));
+			pbo.setDemand(l.get(7));
+			pbos.add(pbo);
+		}
+		return pbos;
+	}
+	
 }

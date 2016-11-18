@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.ProjectProcessMapper">
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	
+	<resultMap type="com.crm.controller.admin.bo.ProcessBO" id="ProcessMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="custom_name" property="customName" jdbcType="VARCHAR" />
+		<id column="method" property="method" jdbcType="VARCHAR" />
+		<id column="demand" property="demand" jdbcType="VARCHAR" />
+		<id column="information" property="information" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="project_id" property="projectId" jdbcType="VARCHAR" />
+	
+		<id column="project_num" property="projectNum" jdbcType="VARCHAR" />
+		<id column="project_name" property="projectName" jdbcType="VARCHAR" />
+		<id column="process_user" property="processUser" jdbcType="VARCHAR" />
+	
+	</resultMap>
+	
+	<sql id="Process_Column_List">
+		pp.id,c.name as custom_name,pp.method,pp.demand,pp.information,
+		u.user_name as create_user,pp.create_time,pp.project_id,
+		p.project_num,p.name as project_name,pu.user_name as process_user 
+	</sql>
+	
+	<select id="queryProcessByProjectId" resultMap="ProcessMap">
+		select <include refid="Process_Column_List" /> from tbl_process pp 
+		left join tbl_project p on pp.project_id = p.id 
+		left join tbl_custom c on p.custom_id = c.id 
+		left join sys_user u on pp.user_id = u.id 
+		left join sys_user pu on pp.process_id = pu.id 
+		where pp.project_id = #{projectId,jdbcType=VARCHAR} 
+		order by pp.create_time desc 
+	</select>
+	
+</mapper>

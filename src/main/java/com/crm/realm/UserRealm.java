@@ -28,6 +28,7 @@ import com.crm.controller.admin.bo.LogBO;
 import com.crm.controller.admin.bo.PermissionBO;
 import com.crm.controller.admin.bo.UserBO;
 import com.crm.entity.Custom;
+import com.crm.entity.Department;
 import com.crm.entity.KeyWord;
 import com.crm.entity.Log;
 import com.crm.entity.Permission;
@@ -35,6 +36,7 @@ import com.crm.entity.ProjectDomain;
 import com.crm.entity.ProjectType;
 import com.crm.entity.User;
 import com.crm.service.CustomService;
+import com.crm.service.DepartmentService;
 import com.crm.service.KeyWordService;
 import com.crm.service.LogService;
 import com.crm.service.PermissionService;
@@ -64,6 +66,9 @@ public class UserRealm extends AuthorizingRealm{
 	
 	@Resource
 	private ProjectDomainService projectDomainService;
+	
+	@Resource
+	private DepartmentService departmentService;
 	
 	/** 
      * 为当前登录的Subject授予角色和权限 
@@ -123,12 +128,15 @@ public class UserRealm extends AuthorizingRealm{
     	        	keystr += kw.getName()+",";
     	        }
     	        keystr = keystr.substring(0,keystr.length()-1);
+
+    	        List<Department> depts = departmentService.queryAll();
     	        
     	        Session session = SecurityUtils.getSubject().getSession();
     	        session.setAttribute("user", user);
     	        session.setAttribute("menus", pbos);
     	        session.setAttribute("users", users);
     	        session.setAttribute("customs", customs);
+    	        session.setAttribute("depts", depts);
     	        
     	        session.setAttribute("types", types);
     	        session.setAttribute("keywords", keystr);

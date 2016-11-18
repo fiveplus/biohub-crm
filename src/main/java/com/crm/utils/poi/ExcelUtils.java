@@ -248,7 +248,9 @@ public class ExcelUtils{
                 if (rtn != null) {
                     if (rtn instanceof Date) {
                         value = StringUtils.getDatetToString((Date)rtn);
-                    } else {
+                    }else if(rtn instanceof Long){
+                    	value = StringUtils.getLongToString((Long)rtn);
+                    }else {
                         value = rtn.toString();
                     }
                 }

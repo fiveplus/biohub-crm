@@ -31,6 +31,19 @@ public class UserAdminController {
 	@Autowired
 	private DepartmentService departmentService;
 	
+	@RequestMapping("/childs.json")
+	public @ResponseBody Map<String,Object> childs(HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		
+		String deptId = request.getParameter("userId");
+		
+		List<User> users = userService.queryUserListByDeptId(deptId);
+		
+		returnMap.put("users", users);
+		
+		return returnMap;
+	}
+	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,HttpServletRequest request,Model model){
 		PageInfo<UserBO> pu = userService.getUserList(page);
