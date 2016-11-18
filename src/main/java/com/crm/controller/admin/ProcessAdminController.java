@@ -83,11 +83,11 @@ public class ProcessAdminController {
 	}
 	
 	@RequestMapping("/upload")
-	public @ResponseBody Map<String,Object> upload(HttpServletRequest request,@RequestParam MultipartFile file) throws IOException {
+	public @ResponseBody Map<String,Object> upload(HttpServletRequest request,@RequestParam MultipartFile upload) throws IOException {
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		//手工导入
 		int total = 0;
-		String fileName = file.getOriginalFilename();
+		String fileName = upload.getOriginalFilename();
 		if (fileName == null || "".equals(fileName))  
         {  
 			returnMap.put("code", 4);
@@ -95,7 +95,7 @@ public class ProcessAdminController {
         }else{
         	String fileEx = fileName.substring(fileName.lastIndexOf("."));
         	if(fileEx.equals(".xls")|| fileEx.equals(".xlsx")){
-        		InputStream input = file.getInputStream();
+        		InputStream input = upload.getInputStream();
             	List<List<String>> ls = ExcelUtils.readExcel(input);
             	if(ls != null){
             		List<ProcessBO> pbos = ImportUtils.getProcessBOList(ls);

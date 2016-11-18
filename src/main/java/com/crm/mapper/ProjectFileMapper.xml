@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.ProjectFileMapper">
+	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	<resultMap type="com.crm.controller.admin.bo.ProjectFileBO" id="ProjectFileMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="project_id" property="projectId" jdbcType="VARCHAR" />
+		<id column="url" property="url" jdbcType="VARCHAR" />
+		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<id column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryFileByProjectId" resultMap="ProjectFileMap">
+		select f.id,f.project_id,f.url,f.create_time,u.user_name as create_user,f.name from tbl_file f 
+		left join sys_user u on f.create_user = u.id 
+		where f.project_id = #{projectId,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryByName" resultType="com.crm.entity.ProjectFile">
+		select * from tbl_file where name = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	
+</mapper>

@@ -387,11 +387,11 @@
 												<button class="btn" style="float:right;margin-top: -8px;margin-left: 15px;"  onclick="downloadFile('${contextPath}/downloads/process_temple.xlsx')" ><i class="icon-pencil align-top bigger-125"></i>模板下载&nbsp;(Template Download)</button>	
 												<button class="btn" style="float:right;margin-top: -8px;" onclick="fileSelect()" ><i class="icon-pencil align-top bigger-125"></i>上传跟踪信息&nbsp;(Upload Process Info)</button>
 												<form action="" method="post" enctype="multipart/form-data" style="width:auto;" >
-													<input type="file" name="file" id="file" onchange="fileSelected(this)" style="display:none;" />
+													<input type="file" name="upload" id="upload" onchange="fileSelected(this)" style="display:none;" />
 												</form>
 												<script type="text/javascript">
 													function fileSelect(){
-														document.getElementById("file").click();
+														document.getElementById("upload").click();
 													}
 													function fileSelected(obj){
 														if(obj.value == ''){
@@ -404,7 +404,7 @@
 																url:'${contextPath}/admin/process/upload',
 																type:'post',
 																secureuri:false,
-																fileElementId:'file',
+																fileElementId:'upload',
 																dataType:'json',
 																success:function(data,status){
 																	if(data.code==0){
@@ -604,106 +604,111 @@
 		
 			//批量上传
 			function fileSubmit(formid,fileid,listid){
-				var form = $("#"+formid);
-				var sub_url = form.attr("action");
-				var index = sub_url.lastIndexOf("id=");
-				var idp = sub_url.substring(index);
-				var index2 = idp.lastIndexOf("&");
-				if(index2 > 0){
-					idp = idp.substring(index2);
-				}
-				var file_input = form.find('input[type=file]');
-				if(!file_input.data('ace_input_files')) return false;
-				var deferred;
-				
-				if("FormData" in window){
-					var fd = new FormData(form.get(0));
-					if(file_input.data('ace_input_method')=='drop'){
-						var files = file_input.data('ace_input_files');
-						if(files && files.length > 0){
-							fd.append(file_input.attr('name'),files[0]);
+				bootbox.confirm("确认上传？",function(result){
+					if(result){
+						var form = $("#"+formid);
+						var sub_url = form.attr("action");
+						var index = sub_url.lastIndexOf("projectId=");
+						var idp = sub_url.substring(index);
+						var index2 = idp.lastIndexOf("&");
+						if(index2 > 0){
+							idp = idp.substring(index2);
 						}
-					}
-					upload_in_progress = true;
-					
-					deferred = $.ajax({
-							url: sub_url,
-							type: form.attr('method'),
-							processData: false,
-							contentType: false,
-							dataType: 'json',
-							data: fd,
-							xhr: function() {
-								var req = $.ajaxSettings.xhr();
-								if (req && req.upload) {
-									req.upload.addEventListener('progress', function(e) {
-										if(e.lengthComputable) {	
-											var done = e.loaded || e.position, total = e.total || e.totalSize;
-											var percent = parseInt((done/total)*100) + '%';
-											//percentage of uploaded file
-										}
-									}, false);
+						var file_input = form.find('input[type=file]');
+						if(!file_input.data('ace_input_files')) return false;
+						var deferred;
+						
+						if("FormData" in window){
+							var fd = new FormData(form.get(0));
+							if(file_input.data('ace_input_method')=='drop'){
+								var files = file_input.data('ace_input_files');
+								if(files && files.length > 0){
+									fd.append(file_input.attr('name'),files[0]);
 								}
-								return req;
-							},
-							beforeSend : function() {
-							},
-							success : function() {
 							}
-						});
-				}else{
-					upload_in_progress = true;
-					deferred = new $.Deferred;
-					var iframe_id = 'temporary-iframe-'+(new Date()).getTime()+'-'+(parseInt(Math.random()*1000));
-					$form.after('<iframe id="'+iframe_id+'" name="'+iframe_id+'" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
-					$form.append('<input type="hidden" name="temporary-iframe-id" value="'+iframe_id+'" />');
-					$form.next().data('deferrer' , deferred);//save the deferred object to the iframe
-					$form.attr({'method' : 'POST', 'enctype' : 'multipart/form-data',
-								'target':iframe_id, 'action':sub_url});
-					$form.get(0).submit();
+							upload_in_progress = true;
+							
+							deferred = $.ajax({
+									url: sub_url,
+									type: form.attr('method'),
+									processData: false,
+									contentType: false,
+									dataType: 'json',
+									data: fd,
+									xhr: function() {
+										var req = $.ajaxSettings.xhr();
+										if (req && req.upload) {
+											req.upload.addEventListener('progress', function(e) {
+												if(e.lengthComputable) {	
+													var done = e.loaded || e.position, total = e.total || e.totalSize;
+													var percent = parseInt((done/total)*100) + '%';
+													//percentage of uploaded file
+												}
+											}, false);
+										}
+										return req;
+									},
+									beforeSend : function() {
+									},
+									success : function() {
+									}
+								});
+						}else{
+							upload_in_progress = true;
+							deferred = new $.Deferred;
+							var iframe_id = 'temporary-iframe-'+(new Date()).getTime()+'-'+(parseInt(Math.random()*1000));
+							$form.after('<iframe id="'+iframe_id+'" name="'+iframe_id+'" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
+							$form.append('<input type="hidden" name="temporary-iframe-id" value="'+iframe_id+'" />');
+							$form.next().data('deferrer' , deferred);//save the deferred object to the iframe
+							$form.attr({'method' : 'POST', 'enctype' : 'multipart/form-data',
+										'target':iframe_id, 'action':sub_url});
+							$form.get(0).submit();
 
-					//if we don't receive the response after 60 seconds, declare it as failed!
-					setTimeout(function(){
-						var iframe = document.getElementById(iframe_id);
-						if(iframe != null) {
-							iframe.src = "about:blank";
-							$(iframe).remove();	
-							deferred.reject({'status':'fail','message':'Timeout!'});
+							//if we don't receive the response after 60 seconds, declare it as failed!
+							setTimeout(function(){
+								var iframe = document.getElementById(iframe_id);
+								if(iframe != null) {
+									iframe.src = "about:blank";
+									$(iframe).remove();	
+									deferred.reject({'status':'fail','message':'Timeout!'});
+								}
+							} , 60000);
 						}
-					} , 60000);
-				}
-							
-				deferred.done(function(result){
-					upload_in_progress = false;
-					if(result.message == 'ok') {
-						alert("恭喜您，文件上传成功!");
-						$("#"+listid).load("../upload/list.htm?pu.pageNum=1&"+idp);
-					}else {
-						//发生错误
-						alert("文件["+result.message+"]已存在，请更名后重新上传!");
+									
+						deferred.done(function(result){
+							upload_in_progress = false;
+							if(result.code == 0) {
+								ace_msg.success(result.msg);
+								$("#"+listid).load("${contextPath}/admin/file/list/1?"+idp);
+							}else {
+								//发生错误
+								ace_msg.danger(result.msg);
+							}
+						}).fail(function(res){
+							upload_in_progress = false;
+							alert("There was an error");						
+							//console.log(result.responseText);
+						});
+						deferred.promise();
+									
+						/*
+						var loginName = "${loginName}";
+						$.ajaxFileUpload({  
+							url : 'upload/file.htm?loginName='+loginName,   //submit to UploadFileServlet  
+					     	type: 'post',
+							secureuri : false,  
+							fileElementId : fileid,  
+							dataType : 'json', //or json xml HTML whatever you like~
+							success : function(data, status) { 
+								$("#"+listid).load("upload/list.htm?pu.pageNum=1&loginName="+loginName);
+						 	},  
+					  		error : function(data, status, e) {  
+							  	alert(e);
+							}
+						});  */
 					}
-				}).fail(function(res){
-					upload_in_progress = false;
-					alert("There was an error");						
-					//console.log(result.responseText);
 				});
-				deferred.promise();
-							
-				/*
-				var loginName = "${loginName}";
-				$.ajaxFileUpload({  
-					url : 'upload/file.htm?loginName='+loginName,   //submit to UploadFileServlet  
-			     	type: 'post',
-					secureuri : false,  
-					fileElementId : fileid,  
-					dataType : 'json', //or json xml HTML whatever you like~
-					success : function(data, status) { 
-						$("#"+listid).load("upload/list.htm?pu.pageNum=1&loginName="+loginName);
-				 	},  
-			  		error : function(data, status, e) {  
-					  	alert(e);
-					}
-				});  */
+				
 			}
 			
 			function project_update(formid,ajaxid,url){
@@ -872,7 +877,7 @@
 			
 			$(document).ready(function(){
 				$("#list").load("${contextPath}/admin/process/list/1?projectId=${project.id}");
-				$("#file_list").load("../upload/list.htm?pu.pageNum=1&id=${project.id}");
+				$("#file_list").load("${contextPath}/admin/file/list/1?projectId=${project.id}");
 				
 				$(".chosen-select").chosen(); 
 				$(".chosen-container").css({"width":"200px","margin-top":"-3px"});

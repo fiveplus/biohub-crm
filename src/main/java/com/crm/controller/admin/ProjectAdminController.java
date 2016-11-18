@@ -45,9 +45,12 @@ import com.crm.service.LogService;
 import com.crm.service.ProjectDomainService;
 import com.crm.service.ProjectService;
 import com.crm.service.ProjectTypeService;
+import com.crm.service.UserService;
 import com.crm.utils.PageCode;
 import com.crm.utils.Resource;
 import com.crm.utils.StringUtils;
+import com.crm.utils.LogUtil.LogObject;
+import com.crm.utils.LogUtil.LogType;
 import com.crm.utils.poi.ExcelUtils;
 import com.crm.utils.poi.ExportUtils;
 import com.crm.utils.poi.ImportUtils;
@@ -59,28 +62,22 @@ public class ProjectAdminController {
 	
 	@Autowired
 	private KeyWordService keyWordService;
-	
 	@Autowired
 	private ProjectService projectService;
-	
 	@Autowired
 	private ProjectDomainService projectDomainService;
-	
 	@Autowired
 	private ProjectTypeService projectTypeService;
-	
 	@Autowired
 	private CustomService customService;
-	
 	@Autowired
 	private CustomLocationService customLocationService;
-	
 	@Autowired
 	private CustomTypeService customTypeService;
-	
 	@Autowired
 	private LogService logService;
-	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,Project param,HttpServletRequest request,Model model){
@@ -496,8 +493,10 @@ public class ProjectAdminController {
 	
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(Project project,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
 		Map<String,Object> returnMap = new HashMap<String,Object>();
-		
+		User user = (User)session.getAttribute("user");
+		Date now = new Date();
 		Project p = projectService.queryByName(project.getName());
 		if(p == null || (p != null && project.getName().equals(p.getName()))){
 			int count = projectService.updateSelective(project);
@@ -507,6 +506,8 @@ public class ProjectAdminController {
 					//TODO 发送邮件
 					
 				}*/
+				logService.saveLog(user, now, project, LogType.UPDATE, LogObject.Project, project.getId());
+				
 				returnMap.put("msg", "成功！很好地完成了提交。");
 				returnMap.put("code", 0);
 			}else{
