@@ -592,6 +592,9 @@ public class CustomAdminController {
             		returnMap.put("code", 4);
                     returnMap.put("msg", "错误！上传文件格式错误！");
             	}
+        	}else{
+        		returnMap.put("code", 4);
+        		returnMap.put("msg", "错误！上传文件格式错误。");
         	}
         }
 		

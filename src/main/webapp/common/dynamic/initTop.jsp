@@ -291,13 +291,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</a>
 		<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 			<li>
-				<a  href="../user/updateUserInit.htm?id=${user.id}"  >
+				<a  href="${contextPath}/admin/user/uptuser"  >
 					<i class="icon-cog"></i>
 					Settings
 				</a>
 			</li>
 			<li>
-				<a href="../project/mylist.htm?pu.pageNum=1" >
+				<a href="${contextPath}/admin/project/mylist/1" >
 					<i class="icon-user"></i>
 					Projects
 				</a>					

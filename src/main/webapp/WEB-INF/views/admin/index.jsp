@@ -58,7 +58,7 @@
 						<tr>
 							<td class="center-top" style="background: #f4f5fa;">
 								<div class="custom-stat">
-									<div class="stat-top">
+									<div class="stat-top" style="margin-bottom:15px;">
 										<div class="stat-left">
 											&nbsp;&nbsp;&nbsp;客户看板
 										</div>

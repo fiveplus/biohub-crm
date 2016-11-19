@@ -318,6 +318,9 @@ public class ProjectAdminController {
                         returnMap.put("msg", "错误！"+temp+"成功提交"+total+"次");
             		}
             	}
+        	}else{
+        		returnMap.put("code", 4);
+                returnMap.put("msg", "错误！上传文件格式错误。");
         	}
         }
 		return returnMap;
