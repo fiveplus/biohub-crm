@@ -46,6 +46,7 @@ import com.crm.service.ProjectDomainService;
 import com.crm.service.ProjectService;
 import com.crm.service.ProjectTypeService;
 import com.crm.service.UserService;
+import com.crm.utils.OrderUtils;
 import com.crm.utils.PageCode;
 import com.crm.utils.Resource;
 import com.crm.utils.StringUtils;
@@ -79,6 +80,43 @@ public class ProjectAdminController {
 	@Autowired
 	private UserService userService;
 	
+	@RequestMapping("/mylist/{page}")
+	public String mylist(@PathVariable int page,Project param,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		if(param == null) param = new Project();
+		param.setStatus(Resource.Y);
+		param.setCreateUser(user.getUserName());
+		String dateRangePicker = request.getParameter("dateRangePicker");
+		Map<String,Long> betweens= null;
+		if(dateRangePicker != null && !dateRangePicker.equals("")){
+			betweens = StringUtils.getBetweenTime(dateRangePicker);
+		}
+		if(betweens != null){
+			param.setStartTime(betweens.get("beforeTime"));
+			param.setEndTime(betweens.get("afterTime"));
+		}
+		//TODO 排序
+		String order = request.getParameter("order");
+		String str = OrderUtils.getOrder(order, session);
+		param.setOrder(str);
+		PageInfo<ProjectBO> pu = projectService.getProjectList(page, param);
+		PageCode pc = new PageCode(page, pu.getPages());
+		
+		model.addAttribute("pu",pu);
+		model.addAttribute("pc",pc);
+		
+		model.addAttribute("dateRangePicker",dateRangePicker);
+		model.addAttribute("param",param);
+		
+		//列表参数
+		List<ProjectDomain> childs = projectDomainService.getChildList(param.getParentDomainId());
+		model.addAttribute("childs",childs);
+		
+		return "project/mylist";
+	}
+	
+	
 	@RequestMapping("/dellist/{page}")
 	public String dellist(@PathVariable int page,Project param,HttpServletRequest request,Model model){
 		if(param == null) param = new Project();
@@ -110,6 +148,7 @@ public class ProjectAdminController {
 	
 	@RequestMapping("/list/{page}")
 	public String list(@PathVariable int page,Project param,HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
 		if(param == null) param = new Project();
 		param.setStatus(Resource.Y);
 		String dateRangePicker = request.getParameter("dateRangePicker");
@@ -121,6 +160,12 @@ public class ProjectAdminController {
 			param.setStartTime(betweens.get("beforeTime"));
 			param.setEndTime(betweens.get("afterTime"));
 		}
+		
+		//TODO 排序
+		String order = request.getParameter("order");
+		String str = OrderUtils.getOrder(order, session);
+		param.setOrder(str);
+		
 		PageInfo<ProjectBO> pu = projectService.getProjectList(page, param);
 		PageCode pc = new PageCode(page, pu.getPages());
 		
@@ -570,5 +615,9 @@ public class ProjectAdminController {
 		
 		return returnMap;
 	}
+	
+	
+	
+	
 	
 }

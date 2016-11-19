@@ -57,6 +57,8 @@ public class Project {
 	private Long endTime;
 	@Transient
 	private String parentDomainId;
+	@Transient
+	private String order;
 	
 	public String getId() {
 		return id;
@@ -190,6 +192,12 @@ public class Project {
 	}
 	public void setParentDomainId(String parentDomainId) {
 		this.parentDomainId = parentDomainId;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
 	}
 	
 }

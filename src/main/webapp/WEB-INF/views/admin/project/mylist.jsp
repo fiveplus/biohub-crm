@@ -51,7 +51,7 @@
 							
 							</h3>
 							<div>
-								<form action="${contextPath}/admin/project/list" role="form" class="form-horizontal" method="post" id="form_post">
+								<form action="${contextPath}/admin/project/mylist" role="form" class="form-horizontal" method="post" id="form_post">
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right"  for="form-field-select-3"> 项目名称 </label>
 										<div class="col-sm-9">
