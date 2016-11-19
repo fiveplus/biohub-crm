@@ -18,4 +18,7 @@ public interface ProjectMapper extends Mapper<Project>{
 	public Project queryByName(@Param("name") String name);
 	public Integer getMaxProjectIndex();
 	public ProjectBO getProjectById(@Param("id") String id);
+	
+	public List<DataStat> getProjectStatListByCreateTime(@Param("startTime") Long startTime,@Param("endTime") Long endTime);
+	public Integer getProjectCount(@Param("startTime") Long startTime,@Param("endTime") Long endTime);
 }

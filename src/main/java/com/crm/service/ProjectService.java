@@ -3,6 +3,7 @@ package com.crm.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,14 @@ public class ProjectService extends BaseService<Project>{
 		String num = StringUtils.getDateToSmallString(new Date())+"-"+pd.getEnglishShort()+"-"+random;
 		p.setProjectNum(num);
 		return saveSelect(p);
+	}
+	
+	public List<DataStat> getProjectStatListByCreateTime(Long startTime,Long endTime){
+		return projectMapper.getProjectStatListByCreateTime(startTime, endTime);
+	}
+	
+	public Integer getProjectCount(Long startTime,Long endTime){
+		return projectMapper.getProjectCount(startTime, endTime);
 	}
 	
 	

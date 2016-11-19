@@ -97,7 +97,7 @@
 				</script>
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<button class="btn btn-success" onclick="go_url('../statistics/select_time.htm')" >
+						<button class="btn btn-success" onclick="go_url('${contextPath}/admin/statistics/select_time')" >
 							<i class="icon-signal"></i>
 						</button>
 

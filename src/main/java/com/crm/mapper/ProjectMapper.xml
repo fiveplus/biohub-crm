@@ -177,4 +177,21 @@
 		left join tbl_project_domain pd on p.domain_id = pd.id 
 		where p.status = 'Y' group by p.domain_id order by count(*) desc 
 	</select>
+	
+	<select id="getProjectStatListByCreateTime" resultMap="StatResultMap" >
+		select p.create_user as name,count(*) as count from tbl_project p 
+		where p.status = 'Y' and p.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
+		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
+		 group by p.create_time 
+		 order by count(*) desc  
+	</select>
+	
+	<select id="getProjectCount" resultType="java.lang.Integer">
+		select count(*) from tbl_project p where p.status = 'Y' and
+		p.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
+		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
+	</select>
+	
+	
+	
 </mapper>

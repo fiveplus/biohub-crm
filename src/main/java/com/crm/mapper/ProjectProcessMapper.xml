@@ -2,7 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.ProjectProcessMapper">
 	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
-	
+	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<id column="count" property="count" jdbcType="INTEGER" />
+	</resultMap>
 	<resultMap type="com.crm.controller.admin.bo.ProcessBO" id="ProcessMap">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<id column="custom_name" property="customName" jdbcType="VARCHAR" />
@@ -34,5 +37,26 @@
 		where pp.project_id = #{projectId,jdbcType=VARCHAR} 
 		order by pp.create_time desc 
 	</select>
+	
+	<select id="getProcessStatListByCreateTime" resultMap="StatResultMap">
+		select u.user_name as name,count(DISTINCT pp.project_id) as count from tbl_process pp 
+		left join sys_user u on pp.user_id = u.id 
+		where pp.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
+		and pp.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
+		group by pp.user_id order by count(DISTINCT pp.project_id) desc 
+	</select>
+	
+	<select id="getProcessListByCreateTime" resultMap="ProcessMap">
+		select <include refid="Process_Column_List" /> from tbl_process pp 
+		left join tbl_project p on pp.project_id = p.id 
+		left join tbl_custom c on p.custom_id = c.id 
+		left join sys_user u on pp.user_id = u.id 
+		left join sys_user pu on pp.process_id = pu.id 
+		where pp.user_id = #{userId,jdbcType=VARCHAR}
+		and pp.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
+		and pp.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
+		order by pp.create_time desc 
+	</select>
+	
 	
 </mapper>
