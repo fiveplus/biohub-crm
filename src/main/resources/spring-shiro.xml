@@ -119,7 +119,7 @@
 	    <property name="successUrl" value="/admin/index"/>
 	    <!-- 用户访问未对其授权的资源时,所显示的连接 -->  
 	    <!-- 若想更明显的测试此属性可以修改它的值,如unauthor.jsp,然后用[玄玉]登录后访问/admin/listUser.jsp就看见浏览器会显示unauthor.jsp -->  
-	    <property name="unauthorizedUrl" value="/admin/login"/>  
+	    <!--   <property name="unauthorizedUrl" value="/admin/login"/>  -->
 	    <!-- Shiro连接约束配置,即过滤链的定义 /admin/**/**=roles[admin] -->  
 	    <!-- 此处可配合我的这篇文章来理解各个过滤连的作用http://blog.csdn.net/jadyer/article/details/12172839 -->  
 	    <!-- 下面value值的第一个'/'代表的路径是相对于HttpServletRequest.getContextPath()的值来的 -->  
@@ -134,8 +134,6 @@
 	             /admin/login=anon
 	             /admin/logout=anon
 	             /admin/**=roles[admin]
-	             /admin/**/**=roles[admin]
-	             /admin/**/**/**=roles[admin]
 	             /**=user
 	        </value>  
 	    </property>
