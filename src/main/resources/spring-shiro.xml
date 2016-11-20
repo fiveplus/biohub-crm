@@ -134,7 +134,7 @@
 	             /admin/login=anon
 	             /admin/logout=anon
 	             /admin/**=roles[admin]
-	             /**=user
+	             /site/**=anon
 	        </value>  
 	    </property>
 	</bean> 
