@@ -129,6 +129,7 @@
 	        <value> 
 	        	 /assets/**=anon
 	        	 /js/**=anon
+	        	 /css/**/**=anon
 	        	 /css/**=anon
 	        	 /admin=anon
 	             /admin/login=anon

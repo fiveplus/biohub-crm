@@ -406,7 +406,7 @@
 			}
 			function fileSelected(obj){
 				if(obj.value == ''){
-					alert("请选择文件!");
+					ace_msg.danger("请选择文件!");
 					return;
 				}
 				var ext = obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
@@ -428,7 +428,7 @@
 						}
 					});
 				}else{
-					ace_msg.warning("请选择一个Excel文件上传!");
+					ace_msg.danger("请选择一个Excel文件上传!");
 				}
 			}
 			

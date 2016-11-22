@@ -317,6 +317,13 @@
 		    <version>2.3.20</version>
 		</dependency>
 		
+		<!-- solrj -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>web-crm</finalName>

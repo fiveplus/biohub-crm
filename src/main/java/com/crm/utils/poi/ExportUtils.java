@@ -14,7 +14,7 @@ import com.crm.controller.admin.bo.UserBO;
 
 public class ExportUtils {
 	
-	public static XSSFWorkbook exportProcessBO(List<ProcessBO> models) throws Exception{
+	public static XSSFWorkbook exportProcessBO(List<ProcessBO> models){
 		if(models == null || models.size() == 0){
 			//throw new Exception("暂无数据导出");
 		}

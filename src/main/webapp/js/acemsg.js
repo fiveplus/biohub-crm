@@ -19,6 +19,7 @@ AceMsg.prototype.success = function(msg){
 	html += "</div>";
 	$("#breadcrumbs").after(html);
 	window.location.hash = "#ace_msg";
+	window.location.hash = "";
 	setTimeout('remove_ace_msg("ace_msg")', 5000);
 }
 AceMsg.prototype.info = function(msg){
@@ -30,6 +31,7 @@ AceMsg.prototype.info = function(msg){
 	html += "</div>";
 	$("#breadcrumbs").after(html);
 	window.location.hash = "#ace_msg";
+	window.location.hash = "";
 	setTimeout('remove_ace_msg("ace_msg")', 5000);
 }
 AceMsg.prototype.warning = function(msg){
@@ -41,6 +43,7 @@ AceMsg.prototype.warning = function(msg){
 	html += "</div>";
 	$("#breadcrumbs").after(html);
 	window.location.hash = "#ace_msg";
+	window.location.hash = "";
 	setTimeout('remove_ace_msg("ace_msg")', 5000);
 }
 AceMsg.prototype.danger = function(msg){
@@ -52,6 +55,7 @@ AceMsg.prototype.danger = function(msg){
 	html += "</div>";
 	$("#breadcrumbs").after(html);
 	window.location.hash = "#ace_msg";
+	window.location.hash = "";
 	//setTimeout('remove_ace_msg("ace_msg")', 5000);
 }
 

@@ -1,9 +1,25 @@
 <html>
 	<head>
 		<title>百创汇-项目展示页</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="${base.ctx}/css/default/default.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${base.ctx}/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="${base.ctx}/js/default/index.js"></script>
 	</head>
 	<body>
-		<h2>百创汇[springmvc+mybatis+shiro+freemarker]</h2>
-		<a href="${base.ctx}/admin">管理登入</a>
+		<div class="content">
+			<form action="${base.ctx}/site/q" method="post">
+				<div class="top"></div>
+				<div class="main" style="padding-top:109px" align="center">
+					<div class="logo"></div>
+					<div class="search" id="search-div">
+						<input type="text" name="c" class="search-text" maxlength="2048" onfocus="search_focus(true)" onblur="search_focus(false)" />
+					</div>
+					<div>
+						<input type="submit" class="search-button" value="Nobmr搜索"  />
+					</div>
+				</div>
+			</form>
+		</div>
 	</body>
 </html>

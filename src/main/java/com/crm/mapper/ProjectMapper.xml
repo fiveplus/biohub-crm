@@ -194,6 +194,11 @@
 		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
 	</select>
 	
-	
-	
+	<!-- 检索 -->
+	<!-- 
+	<select id="getMatchProjectList">
+		select match(name,brief,demand,project_tag) against(#{param,jdbcType=VARCHAR}) as score from tbl_project p 
+		where match(name,brief,demand,project_tag) against(#{param,jdbcType=VARCHAR}) > 0 
+	</select>
+	 -->
 </mapper>
