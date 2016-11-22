@@ -26,6 +26,7 @@ import com.crm.service.UserService;
 import com.crm.utils.ImageUtils;
 import com.crm.utils.PageCode;
 import com.crm.utils.PasswordHelper;
+import com.crm.utils.PropertiesUtils;
 import com.crm.utils.StringUtils;
 import com.github.pagehelper.PageInfo;
 
@@ -83,6 +84,31 @@ public class UserAdminController {
 	@RequestMapping("/update")
 	public @ResponseBody Map<String,Object> update(User us,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
+		int count = userService.updateSelective(us);
+		if(count > 0){
+			returnMap.put("msg", "成功！很好地完成了提交。");
+			returnMap.put("code", 0);
+		}else{
+			returnMap.put("msg", "错误！请进行一些更改。");
+			returnMap.put("code", 4);
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * 初始化密码
+	 * @param id
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/initpass")
+	public @ResponseBody Map<String,Object> update(String id,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String, Object>();
+		User us = userService.queryById(id);
+		PropertiesUtils util = new PropertiesUtils();
+		us.setPassword(util.getProperty("init.pass"));
+		us = passwordHelper.encryptPassword(us);
 		int count = userService.updateSelective(us);
 		if(count > 0){
 			returnMap.put("msg", "成功！很好地完成了提交。");

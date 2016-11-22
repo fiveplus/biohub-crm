@@ -24,7 +24,7 @@ public class SolrServer {
 	public SolrServer(){
 		try {
 			if(server == null){
-				String url = new PropertiesUtils().getProperty("solrurl");
+				String url = new PropertiesUtils().getProperty("solr.url");
 				server = new CommonsHttpSolrServer(url);
 			}
 			server.setSoTimeout(3000);

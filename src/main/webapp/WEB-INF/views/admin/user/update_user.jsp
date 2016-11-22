@@ -83,6 +83,17 @@
 									</div>
 								</div>
 								<div class="space-4"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"></label>
+									<div class="col-sm-9">
+										<button class="btn btn-info" type="button" onclick="init_pass()">
+											<i class="icon-ok bigger-110"></i>
+											用户密码初始化
+										</button>
+									</div>
+								</div>
+								<div class="space-4"></div>
 					
 								<div class="clearfix form-actions">
 									<div class="col-md-offset-3 col-md-9">
@@ -106,25 +117,51 @@
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
+			function init_pass(){
+				var id = '${us.id}';
+				bootbox.confirm("确认初始化密码?",function(result){
+					if(result){
+						$.ajax({
+							url:'${contextPath}/admin/user/initpass',
+							type:"POST",
+							data:{id:id},
+							dataType:'json',
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							},
+							error:function(data){
+								//console.log(data);
+							}
+						});
+					}
+				});
+			}
+		
 			function form_submit(id){
 				bootbox.confirm("确认修改?",function(result){
-					var form = $("#"+id);
-					$.ajax({
-						url:form.attr('action'),
-						type:"POST",
-						data:form.serialize(),
-						dataType:'json',
-						success:function(data){
-							if(data.code == 0){
-								ace_msg.success(data.msg);
-							}else{
-								ace_msg.danger(data.msg);
+					if(result){
+						var form = $("#"+id);
+						$.ajax({
+							url:form.attr('action'),
+							type:"POST",
+							data:form.serialize(),
+							dataType:'json',
+							success:function(data){
+								if(data.code == 0){
+									ace_msg.success(data.msg);
+								}else{
+									ace_msg.danger(data.msg);
+								}
+							},
+							error:function(data){
+								//console.log(data);
 							}
-						},
-						error:function(data){
-							//console.log(data);
-						}
-					});
+						});
+					}
 				});
 			}
 		</script>
