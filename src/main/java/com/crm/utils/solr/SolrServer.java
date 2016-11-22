@@ -31,7 +31,7 @@ public class SolrServer {
 			server.setParser(new XMLResponseParser());
 			server.setConnectionTimeout(1000);
 			server.setDefaultMaxConnectionsPerHost(1000);
-			server.setMaxRetries(10);
+			//server.setMaxRetries(10);
 			server.setFollowRedirects(false);
 			server.setAllowCompression(true);
 			server.setMaxRetries(1);
@@ -54,14 +54,14 @@ public class SolrServer {
 			query.addHighlightField("brief");// 高亮字段
 			query.addHighlightField("demand");// 高亮字段
 			query.addHighlightField("project_tag");// 高亮字段
-			query.setHighlightSimplePre("<font color=\"red\"><b>");// 标记
-			query.setHighlightSimplePost("</b></font>");
+			query.setHighlightSimplePre("<font color=\"red\">");// 标记
+			query.setHighlightSimplePost("</font>");
 			query.setHighlightSnippets(2);// 结果分片数，默认为1
 			query.setHighlightFragsize(100);// 每个分片的最大长度，默认为100
 			//不模糊高亮
 			query.set("hl.highlightMultiTerm", false);
 				
-			query.setStart((page - 1) * PAGE_SIZE);
+			query.setStart((page-1)*PAGE_SIZE);
 			query.setRows(PAGE_SIZE); 
 			
 			QueryResponse resp = server.query(query); 
@@ -74,8 +74,8 @@ public class SolrServer {
 	        	List<String> tags = map.get(bean.getId()).get("project_tag");
 	        	bean.setName(names!=null&&names.size()>0?names.get(0):bean.getName());
 	        	bean.setBrief(briefs!=null&&briefs.size()>0?briefs.get(0):bean.getBrief());
-	        	bean.setDemand(demands!=null&&demands.size()>0?demands.get(0):bean.getDemand());
-	        	bean.setProjectTag(tags!=null&&tags.size()>0?tags.get(0):bean.getProjectTag());
+	        	bean.setDemand(demands!=null&&names.size()>0?demands.get(0):bean.getDemand());
+	        	bean.setProjectTag(tags!=null&&names.size()>0?tags.get(0):bean.getProjectTag());
 	        }
 	        
 	     
@@ -87,7 +87,6 @@ public class SolrServer {
 	        
 		}catch(Exception e){
 			System.err.println("solrc FileNotFoundException:'"+content+"' no found.");
-			e.printStackTrace();
 		}
 		return beans;
 	}

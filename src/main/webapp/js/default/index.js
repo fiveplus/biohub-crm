@@ -1,11 +1,6 @@
 function get_url(url){
 	window.location.href=url;
 }
-function to(page){
-	var form = document.getElementById("search-form");
-	form.action += "?p="+page;
-	form.submit();
-}
 function search_focus(flag){
 	var div = $("#search-div");
 	if(flag){

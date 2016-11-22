@@ -1,5 +1,6 @@
 package com.crm.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,9 @@ public class IndexController {
 	}
 	
 	@RequestMapping("/q")
-	public String query(HttpServletRequest request,Model model){
+	public String query(HttpServletRequest request,Model model) throws UnsupportedEncodingException{
 		String content = request.getParameter("c");
+		content = new String(content.getBytes("iso-8859-1"), "utf-8");
 		String p = request.getParameter("p");
 		int page = 1;
 		if(p != null && !p.equals("")){

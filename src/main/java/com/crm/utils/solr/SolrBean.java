@@ -3,16 +3,20 @@ package com.crm.utils.solr;
 import org.apache.solr.client.solrj.beans.Field;
 
 public class SolrBean {
-	@Field
+	@Field("id")
 	private String id;
-	@Field
+	@Field("name")
 	private String name;
-	@Field
+	@Field("brief")
 	private String brief;
-	@Field
+	@Field("project_tag")
 	private String projectTag;
-	@Field
+	@Field("demand")
 	private String demand;
+	@Field("follow_user")
+	private String followUser;
+	@Field("update_time")
+	private Long updateTime;
 	
 	private String text;
 	
@@ -27,8 +31,8 @@ public class SolrBean {
 
 	public String getText() {
 		if(brief !=null){
-			if(brief.length() > 200){
-				this.text = brief.substring(0,200);
+			if(brief.length() > 100){
+				this.text = brief.substring(0,100)+"...";
 			}else{
 				this.text = brief;
 			}
@@ -71,7 +75,21 @@ public class SolrBean {
 	public void setDemand(String demand) {
 		this.demand = demand;
 	}
-	
-	
+
+	public String getFollowUser() {
+		return followUser;
+	}
+
+	public void setFollowUser(String followUser) {
+		this.followUser = followUser;
+	}
+
+	public Long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Long updateTime) {
+		this.updateTime = updateTime;
+	}
 	
 }

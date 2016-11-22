@@ -2,18 +2,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="${base.ctx}/default/css/default.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base.ctx}/default/js/index.js"></script>
+<link href="${base.ctx}/css/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base.ctx}/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="${base.ctx}/js/default/index.js"></script>
 <title>百创汇</title>
 </head>
 <body>
 	<div class="search-index" style="padding:10px;">
-		<form action="q" method="post" id="search-form">
+		<form action="${base.ctx}/site/q" method="get" id="search-form">
 		<div style="float:left;">
-			<img src="${base.ctx}/default/css/images/logo.png" width="100px" />&nbsp;&nbsp;&nbsp;
+			<img src="${base.ctx}/css/default/images/logo.png" width="100px" />&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="search" style="float:left;border: 1px solid #4285f4;">
-			<input type="text" name="content" class="search-text" maxlength="2048" value="${c}"  />
+			<input type="text" name="c" class="search-text" maxlength="2048" value="${c}"  />
 		</div>
 		<div >
 			<input type="submit" class="query-button" value="Nobmr" />
@@ -22,29 +23,29 @@
 		</form>
 	</div>
 	<div class="main-content">
-		<#if (beans?size>0) >
-			<div style="font-size:12px;color: #565656;">找到${count}条结果 (用时${time}秒)</div>
-			<br />
+		<#if beans?? >
+			<div style="font-size:12px;color: #565656;padding:0 0 10px 0;">找到${count}条结果 (用时${time}秒)</div>
 		</#if>
-		
-		<#list beans as b>
-			<div class="item">
-				<div class="title">
-					<a href="#" target="_blank">${b.title}"</a>
+		<#if beans?? >
+			<#list beans as b>
+				<div class="item">
+					<div class="title">
+						<a href="#" target="_blank">${b.name}</a>
+					</div>
+					<div class="content">
+						${b.text}
+					</div>
+					<div class="bottom">
+						标签：${b.projectTag}
+					</div>
 				</div>
-				<div class="content">
-					${b.text}...
-				</div>
-				<div class="bottom">
-					${b.projectTag}
-				</div>
-			</div>
-		</#list>
+			</#list>
+		</#if>
 		<!-- 分页 -->
-		<#if (beans?size>0) >
+		<#if beans?? >
 			<div class="page" align="center">
 				<#if (p>1) >
-					<a href="javascript:to(${p-1})">上一页</a>
+					<a href="${base.ctx}/site/q?c=${c}&p=${p-1}">上一页</a>
 				</#if>
 				&nbsp;
 				<#list pagelist as pp>
@@ -52,18 +53,18 @@
 						<a style="color:black;">${pp}</a>
 					</#if>
 					<#if (pp!=p) >
-						<a href="javascript:to(${pp})">${pp}</a>
+						<a href="${base.ctx}/site/q?c=${c}&p=${pp}">${pp}</a>
 					</#if>
 				</#list>
 				&nbsp;
 				<#if (p<pageCount) >
-					<a href="javascript:to(${p+1})">下一页</a>
+					<a href="${base.ctx}/site/q?c=${c}&p=${p+1}">下一页</a>
 				</#if>
 			</div>
 		</#if>
 		
-		<#if (beans?size==0) >
-			很抱歉，没有找到与“<span style="color:red;">${content}</span>”相关的网页。
+		<#if !beans?? >
+			很抱歉，没有找到与“<span style="color:red;">${c}</span>”相关的网页。
 			<br />
 			<br />
 			<div class="tishi">
@@ -74,7 +75,7 @@
 				</ul>
 			</div>
 		</#if>
-		<br /><br />
+		<br />
 	</div>
 	<div style="border-top: 1px solid #eee;">
 		<div class="main-bottom">
