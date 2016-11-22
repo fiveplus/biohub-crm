@@ -8,20 +8,24 @@
 <script type="text/javascript" src="${base.ctx}/js/default/index.js"></script>
 <title>-百创汇-</title>
 </head>
-<body>
-	<div class="search-index" style="padding:10px;">
+<body style="background: #eee;">
+	<div class="main" style="background: #fff">
+	<div class="search-index" style="padding:10px;min-width:800px;">
 		<form action="${base.ctx}/site/q" method="get" id="search-form">
-		<div style="float:left;">
-			<img src="${base.ctx}/css/default/images/logo.png" width="100px" />&nbsp;&nbsp;&nbsp;
-		</div>
-		<div class="search" style="float:left;border: 1px solid #4285f4;">
-			<input type="text" name="c" class="search-text" maxlength="2048" value="${c}"  />
-		</div>
-		<div >
-			<input type="submit" class="query-button" value="Nobmr" />
-		</div>
-		<div class="clear"></div>
+			<div style="float:left;">
+				<img src="${base.ctx}/css/default/images/logo.png" width="100px" />&nbsp;&nbsp;&nbsp;
+			</div>
+			<div class="search" style="float:left;border: 1px solid #4285f4;">
+				<input type="text" name="c" class="search-text" maxlength="2048" value="${c}"  />
+			</div>
+			<div>
+				<input type="submit" class="query-button" value="Nobmr" />
+				<a class="login_btn" href="${base.ctx}/admin" style="float:right;margin-top: 5px;">管理入口</a>
+			</div>
 		</form>
+		
+		
+		<div class="clear"></div>
 	</div>
 	<div class="main-content">
 		<#if beans?? >
@@ -83,13 +87,14 @@
 		</#if>
 		<br />
 	</div>
-	<div style="border-top: 1px solid #eee;">
+	<div style="border-top: 1px solid #eee;background-size:100% auto;background: #eee;">
 		<div class="main-bottom">
 			<a href="h">帮助</a>
 			<a href="#">发送反馈</a>
 			<a href="#">隐私权</a>
 			<a href="#">条款</a>
 		</div>
+	</div>
 	</div>
 </body>
 </html>
