@@ -49,7 +49,6 @@ public class RedisCache implements Cache{
 			borrowOrOprSuccess = false;
 			if (jedis != null)
 				jedisPool.returnBrokenResource(jedis);
-			e.printStackTrace();
 		} finally {
 			if (borrowOrOprSuccess)
 				jedisPool.returnResource(jedis);
@@ -73,7 +72,6 @@ public class RedisCache implements Cache{
 			borrowOrOprSuccess = false;
 			if (jedis != null)
 				jedisPool.returnBrokenResource(jedis);
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -99,7 +97,6 @@ public class RedisCache implements Cache{
 			borrowOrOprSuccess = false;
 			if (jedis != null)
 				jedisPool.returnBrokenResource(jedis);
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -124,7 +121,6 @@ public class RedisCache implements Cache{
 			borrowOrOprSuccess = false;
 			if (jedis != null)
 				jedisPool.returnBrokenResource(jedis);
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -149,7 +145,6 @@ public class RedisCache implements Cache{
 			borrowOrOprSuccess = false;
 			if (jedis != null)
 				jedisPool.returnBrokenResource(jedis);
-			e.printStackTrace();
 		} finally {
 			if (borrowOrOprSuccess)
 				jedisPool.returnResource(jedis);

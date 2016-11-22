@@ -16,6 +16,9 @@ public class RedisUtils {
 	 * 默认缓存时间
 	 */
 	private static final int DEFAULT_CACHE_SECONDS = 60 * 60 * 1; //单位秒，设置为1小时
+	
+	private static int timeout = 60 * 1000;
+	
 	/**
 	 * 连接池
 	 */
@@ -26,9 +29,9 @@ public class RedisUtils {
             JedisPoolConfig config = new JedisPoolConfig();  
             //控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；  
             //如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。  
-            config.setMaxIdle(100);  
+            config.setMaxIdle(20);  
             //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。  
-            config.setMaxTotal(100);  
+            config.setMaxTotal(20);  
             //表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException；  
             config.setMaxWaitMillis(1000 * 100);  
             //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；  
@@ -37,7 +40,7 @@ public class RedisUtils {
             config.setTimeBetweenEvictionRunsMillis(30000);  
             config.setNumTestsPerEvictionRun(-1);  
             config.setMinIdle(0);  
-            jedisPool = new JedisPool(config, "127.0.0.1", 6380);  
+            jedisPool = new JedisPool(config, "127.0.0.1", 6379,timeout);  
         }  
 		
 		

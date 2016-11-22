@@ -3,29 +3,33 @@ package com.crm.quartz;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.crm.utils.HttpUtils;
 import com.crm.utils.PropertiesUtils;
+import com.crm.utils.StringUtils;
 
-//@Component
-//@Lazy(value=false)
+@Component
 public class SolrScheduler{
 	
-	//@Scheduled(cron="* */10 * * * ? ")
+	private Log log = LogFactory.getLog(SolrScheduler.class);
+	
+	private PropertiesUtils putil = new PropertiesUtils();
+	
+	@Scheduled(cron="*/10 * * * * ? ")
 	public void work(){
-		 try {  
-			 String url = new PropertiesUtils().getProperty("solr.dataimport");
-			 System.out.println(url);
+		 try {
+			 String url = putil.getProperty("solr.dataimport");
+			 HttpUtils.doGet(url, null, "utf8", true);
+			 log.info("["+StringUtils.getDatetToString(new Date())+"][Solr]dataimport/fullimport更新成功。");
          } catch (Exception e) {  
-             e.printStackTrace();  
+        	 log.error("Solr定时全量索引搜索错误。");
          }  
-		 System.out.println("Solr定时全量索引:" + new Date().toString()); 
-		 
-		 //String result = HttpUtils.doGet(url, null, "utf8", true);
-		 //System.out.println(result);
+		
 	}
 	
 }
