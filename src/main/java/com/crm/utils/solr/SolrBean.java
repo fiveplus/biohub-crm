@@ -31,11 +31,13 @@ public class SolrBean {
 
 	public String getText() {
 		if(brief !=null){
+			this.text = brief;
+			/*
 			if(brief.length() > 100){
 				this.text = brief.substring(0,100)+"...";
 			}else{
 				this.text = brief;
-			}
+			}*/
 		}
 		return text;
 	}

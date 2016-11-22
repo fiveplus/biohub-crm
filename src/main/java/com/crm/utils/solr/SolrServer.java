@@ -43,6 +43,7 @@ public class SolrServer {
 
 	
 	public List<SolrBean> query(String content,int page){
+		if(page <= 0) page = 1;
 		List<SolrBean> beans = null;
 		try{
 			long start_time = System.currentTimeMillis();
@@ -74,8 +75,8 @@ public class SolrServer {
 	        	List<String> tags = map.get(bean.getId()).get("project_tag");
 	        	bean.setName(names!=null&&names.size()>0?names.get(0):bean.getName());
 	        	bean.setBrief(briefs!=null&&briefs.size()>0?briefs.get(0):bean.getBrief());
-	        	bean.setDemand(demands!=null&&names.size()>0?demands.get(0):bean.getDemand());
-	        	bean.setProjectTag(tags!=null&&names.size()>0?tags.get(0):bean.getProjectTag());
+	        	bean.setDemand(demands!=null&&demands.size()>0?demands.get(0):bean.getDemand());
+	        	bean.setProjectTag(tags!=null&&tags.size()>0?tags.get(0):bean.getProjectTag());
 	        }
 	        
 	     
@@ -86,6 +87,7 @@ public class SolrServer {
 	        time = end_time - start_time;
 	        
 		}catch(Exception e){
+			//e.printStackTrace();
 			System.err.println("solrc FileNotFoundException:'"+content+"' no found.");
 		}
 		return beans;

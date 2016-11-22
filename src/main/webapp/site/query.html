@@ -1,3 +1,4 @@
+<#setting datetime_format="yyyy年MM月dd日"/>
 <!DOCTYPE html >
 <html>
 <head>
@@ -5,7 +6,7 @@
 <link href="${base.ctx}/css/default/default.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base.ctx}/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="${base.ctx}/js/default/index.js"></script>
-<title>百创汇</title>
+<title>-百创汇-</title>
 </head>
 <body>
 	<div class="search-index" style="padding:10px;">
@@ -30,13 +31,18 @@
 			<#list beans as b>
 				<div class="item">
 					<div class="title">
-						<a href="#" target="_blank">${b.name}</a>
+						<a href="javascript:void(0)" target="_blank">${b.name}</a>
 					</div>
 					<div class="content">
-						${b.text}
+						<label style="color:#565656;">${b.updateTime?number_to_datetime}-${b.followUser}</label> 
+						${b.text}  
+						<label style="color:#888888;font-size: 11px;">
+							- <#if b.demand==''>无</#if><#if b.demand!=''>${b.demand}</#if>
+						</label>
 					</div>
 					<div class="bottom">
-						标签：${b.projectTag}
+						标签：<#if b.projectTag==''>无</#if>
+						<#if b.projectTag!=''>${b.projectTag}</#if>
 					</div>
 				</div>
 			</#list>

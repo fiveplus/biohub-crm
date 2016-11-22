@@ -78,8 +78,11 @@ body{
 	height: 38px;
 }
 .main-content{
-	width:600px; 
-	margin-left: 120px;
+	width:900px; 
+	margin-left: 126px;
+}
+.main-content .item{
+	padding: 0 0 10px 0;
 }
 .main-content .item a{
 	text-decoration: none;
@@ -89,7 +92,8 @@ body{
 }
 .main-content .item .content{
 	font-size: 13px;
-	color: #565656;
+	color: #333333;
+	padding: 5px 0 5px 0;
 }
 .main-content .item .bottom{
 	font-size: 12px;
