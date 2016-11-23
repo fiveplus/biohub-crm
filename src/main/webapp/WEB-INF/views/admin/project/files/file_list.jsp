@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="panel-collapse <c:if test="${stat.index == 0 }">in</c:if>" id="collapsef${stat.index}" style="height: <c:if test="${stat.index == 0 }">auto</c:if><c:if test="${stat.index > 0 }">0</c:if>;">
 						<div class="panel-body">
 							<div>
-								<label><a href="javascript:export_file('${f.url}')">文件下载</a></label>
+								<label><a href="javascript:export_file('${f.name}')">文件下载</a></label>
 							</div>
 							
 						</div>
@@ -111,12 +111,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
-	function export_file(desurl){
+	function export_file(name){
 		//伪造form
 		var form = $('<form></form>');
 		form.attr('action','${contextPath}/admin/file/download');
 		form.attr('method','post');
-		form.append("<input type='hidden' name='desurl' value='"+desurl+"' />");
+		form.append("<input type='hidden' name='name' value='"+name+"' />");
 		form.submit();
 	}
 

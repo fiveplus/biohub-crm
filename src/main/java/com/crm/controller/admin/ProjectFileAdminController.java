@@ -121,12 +121,12 @@ public class ProjectFileAdminController {
 	
 	@RequestMapping("/download")
 	public ResponseEntity<byte[]> download(String name,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException, Exception{
-		if(name != null) name = new String(name.getBytes("iso-8859-1"), "utf-8");
 		String filePath = request.getSession().getServletContext().getRealPath("/") + "uploads/"+name;  
 		File file = new File(filePath);
+		String fileName = new String(name.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", file.getName());
+        headers.setContentDispositionFormData("attachment", fileName);
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
                                           headers, HttpStatus.CREATED);
 	}
