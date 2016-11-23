@@ -184,7 +184,7 @@
 		select p.create_user as name,count(*) as count from tbl_project p 
 		where p.status = 'Y' and p.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
 		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
-		 group by p.create_time 
+		 group by p.create_user 
 		 order by count(*) desc  
 	</select>
 	

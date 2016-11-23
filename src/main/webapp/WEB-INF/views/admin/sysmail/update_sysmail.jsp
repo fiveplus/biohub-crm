@@ -68,7 +68,7 @@
 										</button>
 		
 										&nbsp; &nbsp; &nbsp;
-										<button class="btn" type="reset" onclick="history.go(-1)">
+										<button class="btn" type="reset" onclick="go_back()">
 											<i class="icon-undo bigger-110"></i>
 											返回
 										</button>

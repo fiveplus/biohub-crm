@@ -178,9 +178,9 @@ public class DesUtil {
 		//System.out.println(mi);
 		//System.out.println(mi);14yPBpir6M8fVCHK5Ia4
 		//String mima = encryptPassword("123456aA_aabbbccc");
-		String mima2 = encryptPassword("sdfsdfsdf@#$@#$111");
-		String mima1 = encryptPassword("sdfsdfsdf@#$@#$111");
-		System.out.println(mima2.equals(mima1));
+		//String mima2 = encryptPassword("sdfsdfsdf@#$@#$111");
+		//String mima1 = encryptPassword("sdfsdfsdf@#$@#$111");
+		//System.out.println(mima2.equals(mima1));
 	}
 	
 	
