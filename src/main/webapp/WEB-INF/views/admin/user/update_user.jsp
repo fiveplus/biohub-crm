@@ -85,11 +85,10 @@
 								<div class="space-4"></div>
 								
 								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"></label>
+									<label class="col-sm-3 control-label no-padding-right" for="form-field-1">密码初始化</label>
 									<div class="col-sm-9">
-										<button class="btn btn-info" type="button" onclick="init_pass()">
-											<i class="icon-ok bigger-110"></i>
-											用户密码初始化
+										<button class="btn btn-purple btn-sm" type="button" onclick="init_pass()">
+											提交请求
 										</button>
 									</div>
 								</div>
@@ -102,7 +101,7 @@
 											提交
 										</button>
 										&nbsp; &nbsp; &nbsp;
-										<button class="btn" type="reset" onclick="go_back()">
+										<button class="btn" type="reset" onclick="history.go(-1)">
 											<i class="icon-undo bigger-110"></i>
 											返回
 										</button>

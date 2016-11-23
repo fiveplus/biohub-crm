@@ -74,9 +74,10 @@ body{
 	padding: 5px 40px;
 	margin: 0;
 	height: 38px;
+	cursor: pointer;
 }
 .main-content{
-	width:900px; 
+	width:800px; 
 	margin-left: 126px;
 	min-height:300px;
 }

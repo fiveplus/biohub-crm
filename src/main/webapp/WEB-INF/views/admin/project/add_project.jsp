@@ -219,7 +219,7 @@
 											提交(Submit)
 										</button>
 										&nbsp; &nbsp; &nbsp;
-										<button class="btn" type="reset" onclick="go_back()" >
+										<button class="btn" type="reset" onclick="history.go(-1)" >
 										<i class="icon-undo bigger-110"></i>
 										返回(Back)
 										</button>

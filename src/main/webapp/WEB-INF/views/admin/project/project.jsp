@@ -44,7 +44,7 @@
 							Project Information
 							</i>
 						</small>
-						<button class="btn" style="float:right;margin-top: -8px;" onclick="go_back() " ><i class="icon-pencil align-top bigger-125"></i>Back</button>
+						<button class="btn" style="float:right;margin-top: -8px;" onclick="history.go(-1)" ><i class="icon-pencil align-top bigger-125"></i>Back</button>
 						</h1>
 					</div>
 					

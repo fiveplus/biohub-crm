@@ -34,7 +34,7 @@ public class PasswordHelper {
 	}
 	
 	public static void main(String[] args) {
-		String algorithmName = "md5";
+		/*String algorithmName = "md5";
 		String username = "admin";
 		String password = "Wuhan2016";
 		String salt1 = username;
@@ -45,6 +45,14 @@ public class PasswordHelper {
 		String encodedPassword = hash.toHex();
 		System.out.println(encodedPassword);
 		System.out.println(salt2);
+		*/
+		User u = new User();
+		u.setPassword("Wuhan2016");
+		u.setLoginName("admin");
+		u = new PasswordHelper().encryptPassword(u);
+		System.out.println(u.getPassword());
+		System.out.println(u.getSalt());
+		
 	}
 	
 }

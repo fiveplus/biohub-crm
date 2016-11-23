@@ -65,7 +65,7 @@
 											保存
 										</button>
 										
-										<button class="btn btn-sm btn-primary pull-right" type="reset" onclick="go_back()">
+										<button class="btn btn-sm btn-primary pull-right" type="reset" onclick="history.go(-1)">
 											<i class="icon-undo bigger-110"></i>
 											返回
 										</button>

@@ -24,7 +24,7 @@
 	<bean id="passwordHelper"
 		class="com.crm.utils.PasswordHelper">
 		<property name="algorithmName" value="md5" />
-		<property name="hashIterations" value="2" />
+		<property name="hashIterations" value="3" />
 	</bean>
 	
 	<!-- 缓存管理器 使用Ehcache实现 -->  

@@ -103,7 +103,7 @@ public class UserAdminController {
 	 * @return
 	 */
 	@RequestMapping("/initpass")
-	public @ResponseBody Map<String,Object> update(String id,HttpServletRequest request,Model model){
+	public @ResponseBody Map<String,Object> initpass(String id,HttpServletRequest request,Model model){
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		User us = userService.queryById(id);
 		PropertiesUtils util = new PropertiesUtils();

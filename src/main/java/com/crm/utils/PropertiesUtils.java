@@ -45,7 +45,7 @@ public class PropertiesUtils {
     }  
 	
 	public String getProperty(String key){    
-        return props.getProperty(key);    
+        return props.getProperty(key).trim();    
     }  
 	
 	public static void main(String[] args) {

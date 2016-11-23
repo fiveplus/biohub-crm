@@ -15,7 +15,7 @@
 			<ul class="breadcrumb">
 				<li class="active">
 					<i class="icon-home home-icon"></i>
-					<a href="../system/index.htm">Home</a>
+					<a href="${contextPath}/admin/index">Home</a>
 				</li>
 				<li class="active">数据统计</li> 
 			</ul><!-- .breadcrumb -->
