@@ -336,12 +336,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
         		
 	function see_help(value){
-		$("#help-hide").load("../help/"+value+".html",function(){
+		$("#help-hide").load("${contextPath}/help/"+value+".html",function(){
 			var html = $("#help-hide").html();
 			$.gritter.add({
 				title: 'Chinese-English Help',
 				text: html,
-				image: '../assets/head/'+value+'.jpg',
+				image: '${contextPath}/assets/head/'+value+'.jpg',
 				sticky: false,
 				time: '',
 				class_name: ('')
