@@ -85,7 +85,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请选择项目类别 </label>
 									<div class="col-sm-9">
-										<select name="project.ptype.id">
+										<select name="typeId">
 											<c:forEach items="${types}" var="t">
 												<option value="${t.id}">${t.name}</option>
 											</c:forEach>
@@ -99,7 +99,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请选择项目分类级别 </label>
 									<div class="col-sm-9">
-										<select name="project.rate">
+										<select name="rate">
 											<c:forEach items="${RATES}" var="r">
 												<option value="${r.key}">${r.value}</option>
 											</c:forEach>
