@@ -152,9 +152,11 @@
 		<if test="endTime != null">
 			and c.update_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
+		  order by  
 		<if test="order != null and order != ''">
-			order by ${order}
+			 ${order},
 		</if>
+		 p.update_time desc
 	</select>
 	
 	<select id="getProjectListByIn" resultMap="ProjectMap">

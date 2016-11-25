@@ -93,6 +93,7 @@
 		<if test="endTime != null">
 			and c.modify_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
+		 order by c.modify_time desc 
 	</select>
 	
 	<select id="queryCount" resultType="java.lang.Integer">
