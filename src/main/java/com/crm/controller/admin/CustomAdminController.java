@@ -314,6 +314,7 @@ public class CustomAdminController {
 			custom.setStatus(Resource.Y);
 			int count = customService.saveSelect(custom);
 			if(count > 0){
+				custom = customService.queryByEmail(custom.getEmail());
 				logService.saveLog(user, now, custom, LogType.INSERT, LogObject.Custom, custom.getId());
 				returnMap.put("msg", "成功！很好地完成了提交。");
 				returnMap.put("code", 0);
@@ -573,6 +574,8 @@ public class CustomAdminController {
     						int count = customService.saveSelect(c);
     						if(count > 0){
     							//导入成功，总数++
+    							c = customService.queryByEmail(c.getEmail());
+    							logService.saveLog(user, new Date(), c, LogType.INSERT, LogObject.Custom, c.getId());
     							total++;
     						}
     					}else{

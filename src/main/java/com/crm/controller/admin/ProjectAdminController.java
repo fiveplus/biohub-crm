@@ -311,6 +311,11 @@ public class ProjectAdminController {
     						c.setStatus(Resource.Y);
     						c.setTypeId(ct.getId());
     						int count = customService.saveSelect(c);
+    						if(count > 0){
+    							//save log
+    							c = customService.queryByEmail(c.getEmail());
+    							logService.saveLog(user, new Date(), c, LogType.INSERT, LogObject.Custom, c.getId());
+    						}
     					}
     					ProjectDomain param = new ProjectDomain();
     					param.setEnglishShort(pbo.getDomainName());
@@ -346,6 +351,8 @@ public class ProjectAdminController {
 							
 							int count = projectService.saveProject(p);
 							if(count > 0){
+								p = projectService.queryByName(p.getName());
+								logService.saveLog(user, new Date(), p, LogType.INSERT, LogObject.Project, p.getId());
 								total++;
 							}
     					}else{
@@ -427,6 +434,8 @@ public class ProjectAdminController {
 				}
 			}
 			if(count > 0){
+				project = projectService.queryByName(project.getName());
+				logService.saveLog(user, new Date(), project, LogType.INSERT, LogObject.Project, project.getId());
 				returnMap.put("code", 0);
 				returnMap.put("msg", "成功！很好的完成了提交。");
 			}else{
