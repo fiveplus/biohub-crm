@@ -63,7 +63,7 @@ body{
 }
 .search-index{
 	border-bottom: 1px solid #ddd;
-	margin-bottom: 10px;
+	
 }
 .query-button{
 	background: transparent;
@@ -146,4 +146,3 @@ body{
 	text-decoration: none;
 	font-size: 12px;
 }
-

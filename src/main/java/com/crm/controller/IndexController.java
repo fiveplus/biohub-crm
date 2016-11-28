@@ -5,10 +5,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.crm.controller.admin.bo.ProjectBO;
+import com.crm.entity.Project;
+import com.crm.service.ProjectService;
 import com.crm.utils.PageCode;
 import com.crm.utils.solr.SolrBean;
 import com.crm.utils.solr.SolrServer;
@@ -18,9 +23,22 @@ import com.crm.utils.solr.SolrServer;
 @RequestMapping("/site")
 public class IndexController {
 	
+	@Autowired
+	private ProjectService projectService;
+	
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request,Model model){
 		return "main";
+	}
+	
+	@RequestMapping("/select/{id}")
+	public String select(@PathVariable String id,HttpServletRequest request,Model model) throws UnsupportedEncodingException{
+		String c = request.getParameter("c");
+		if(c != null) c = new String(c.getBytes("iso-8859-1"), "utf-8");
+		ProjectBO project = projectService.getProjectById(id);
+		model.addAttribute("project",project);
+		model.addAttribute("c",c);
+		return "project";
 	}
 	
 	@RequestMapping("/q")
