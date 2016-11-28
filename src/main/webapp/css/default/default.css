@@ -3,6 +3,9 @@ body{
 	padding:0;
 	font-family: "黑体";
 }
+.main{
+	
+}
 .logo{
 	background:url("images/logo.png") no-repeat;
 	background-size:272px 92px;
@@ -18,8 +21,8 @@ body{
 	padding: 6px 9px 0;
 	border: 1px solid #eee;
 	width: 60%;
-	min-width: 400px;
-	max-width: 500px;
+	min-width: 600px;
+	max-width: 600px;
 }
 .search:hover{
 	border: 1px solid #ddd;
@@ -71,15 +74,16 @@ body{
 	background-color: #4285f4;
 	color: #fff;
 	font-size: 14px;
-	padding: 5px 40px;
+	padding: 5px 20px;
 	margin: 0;
 	height: 38px;
 	cursor: pointer;
 }
 .main-content{
-	width:800px; 
-	margin-left: 126px;
+	margin:0 126px;
 	min-height:300px;
+	width:800px;
+	
 }
 .main-content .item{
 	padding: 0 0 10px 0;
