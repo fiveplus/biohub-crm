@@ -4,7 +4,7 @@
 .nav {height:70px;background:#fff;margin:0 auto;}
 .nav_inner {width:1190px;height:70px;margin:0 auto;}
 .nav_inner a img {width:182px;height:70px;float:left;}
-.content {margin:0 auto;background:url("images/bg01.jpg") no-repeat;padding:0 0 100px 0;}
+.content {margin:0 auto;background:url("images/bg01.jpg") no-repeat;padding:0 0 70px 0;}
 .content_main {width:1190px;margin:0 auto;background:#fff;position:relative;top:50px;}
 .title {}
 .title_in {border-bottom:#a0a0a0 solid 1px;margin:0 40px;padding:20px 0 10px 0;}

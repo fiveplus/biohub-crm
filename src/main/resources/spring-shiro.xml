@@ -136,12 +136,12 @@
 	    <property name="filterChainDefinitions">  
 	        <value> 
 	        	 /assets/**=anon
+	        	 /static/**=anon
 	        	 /js/**=anon
 	        	 /css/**/**=anon
 	        	 /css/**=anon
 	        	 /admin=anon
 	             /admin/login=anon
-	             /admin/logout=anon
 	             /admin/**=roles[admin]
 	             /site/**=anon
 	        </value>  

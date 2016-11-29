@@ -11,3 +11,4 @@
 
 - 数据库增加字段：sys_user add column locked int(11) 是否上锁,salt varcher(100) 密码随机盐值,status varcher(100) 是否删除
 - 密码加密模式更新：(salt+login_name) md5两次迭代
+- 数据库新增字段：tbl_custom add column country varchar(500), province varchar(500), city varchar(500)

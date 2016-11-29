@@ -20,7 +20,7 @@ public class SolrScheduler{
 	
 	private PropertiesUtils putil = new PropertiesUtils();
 	
-	@Scheduled(cron="0 */5 * * * ? ")
+	@Scheduled(cron="0 0/5 * * * ? ")
 	public void work(){
 		 try {
 			 String url = putil.getProperty("solr.dataimport");

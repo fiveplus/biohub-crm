@@ -90,6 +90,14 @@
 								</div>
 								<div class="space-4"></div>
 								
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入客户城市 </label>
+									<div class="col-sm-9">
+										<select name="country" onchange="getProvince(this)">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
 							
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 请输入客户姓名 </label>
@@ -235,6 +243,70 @@
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->
 		<script type="text/javascript">
+		
+			function getCity(){
+				var obj = $("select[name='province']");
+				var p = obj.val();
+				$.ajax({
+					url:"${contextPath}/static/city.xml",
+					dataType:"xml",
+					type:"POST",
+					success:function(data){
+						var c = $("<select name='city'><option value=''>请选择</option></select>");
+						$(data).find("Location").find("CountryRegion").find("State").each(function(index,ele){
+							$("select[name='city']").remove();
+							var name = $(this).attr("Name");
+							if(name == p){
+								$(this).find("City").each(function(){
+									var v = $(this).attr("Name");
+									c.append("<option value='"+v+"'>"+v+"</option>");
+								});
+							}
+						});
+						$(obj).parent().append(c);
+					}
+				});
+			}
+		
+			function getProvince(obj){
+				var c = obj.value;
+				$.ajax({
+					url:"${contextPath}/static/city.xml",
+					dataType:"xml",
+					type:"POST",
+					success:function(data){
+						var flag = true;
+						var p = $("<select name='province' onchange='getCity()'><option value=''>请选择</option></select>");
+						$("select[name='province']").remove();
+						$("select[name='city']").remove();
+						$(data).find("Location").find("CountryRegion").each(function(index,ele){
+							var name = $(this).attr("Name");
+							if(name == c){
+								$(this).find("State").each(function(){
+									var v = $(this).attr("Name");
+									if(v == undefined){
+										var c = $("<select name='city'><option value=''>请选择</option></select>");
+										$(this).find("City").each(function(){
+											var vv = $(this).attr("Name");
+											c.append("<option value='"+vv+"'>"+vv+"</option>");
+										});
+										$(obj).parent().append(c);
+										flag = false;
+										return false;
+									}else{
+										p.append("<option value='"+v+"'>"+v+"</option>");
+									}
+								});
+							}
+						});
+						var length = p.find("option").size();
+						if(flag && length > 1){
+							$(obj).parent().append(p);
+						}
+					}
+				});
+			}
+		
 			function form_submit(id){
 				var form = $("#"+id);
 				if($("#"+id+" [name='name']").val() == ''){
@@ -278,6 +350,22 @@
 				
 			}
 			$(document).ready(function(){
+				
+				//初始化国家
+				$.ajax({
+					url:"${contextPath}/static/city.xml",
+					dataType:"xml",
+					type:"POST",
+					success:function(data){
+						var c = $("select[name='country']");
+						$(data).find("Location").find("CountryRegion").each(function(index,ele){
+							var name = $(this).attr("Name");
+							c.append("<option value='"+name+"'>"+name+"</option>");
+						});
+					}
+				});
+				
+				
 				function showErrorAlert (reason, detail) {
 					var msg='';
 					if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
