@@ -550,7 +550,8 @@
 																</span>
 															</span>
 														</h4>
-														<div class="wysiwyg-editor" id="editor1" name="information"></div>
+														<div class="wysiwyg-editor" id="editor1" ></div>
+														<input type="hidden" name="information" value="" />
 														</div>
 														<div class="space-4"></div>
 														
@@ -825,30 +826,34 @@
 			}
 		
 			function form_submit(id,ajaxid){
-				var form = $("#"+id);
-				if($("#"+id+" [name='demand']").val() == ''){
-					ace_msg.danger("错误！请选择项目需求!");
-					return;
-				}
-				if($("#"+id+" [name='method']").val() == ''){
-					ace_msg.danger("错误！请选择会谈方式!");
-					return;
-				}
-				if($("#editor1").html()==''){
-					ace_msg.danger("错误！请输入内容!");
-					return;
-				}
-				submit_ajax(id,ajaxid);
+				bootbox.confirm("确认提交？",function(result){
+					if(result){
+						var form = $("#"+id);
+						if($("#"+id+" [name='demand']").val() == ''){
+							ace_msg.danger("错误！请选择项目需求!");
+							return;
+						}
+						if($("#"+id+" [name='method']").val() == ''){
+							ace_msg.danger("错误！请选择会谈方式!");
+							return;
+						}
+						if($("#editor1").html()==''){
+							ace_msg.danger("错误！请输入内容!");
+							return;
+						}
+						submit_ajax(id,ajaxid);
+					}
+				});
+				
 			}
 			
 			function submit_ajax(id,ajaxid){
 				var action = $("#"+id).attr("action");
-				var alldata = $("#"+id).serialize();
 				if($("#editor1")){
-					var ename = $("#editor1").attr("name");
 					var evalue = $("#editor1").html();
-					alldata += "&" + ename + "=" + evalue;
+					$("#"+id+" [name='information']").val(evalue);
 				}
+				var alldata = $("#"+id).serialize();
 				$.ajax({
 					type:"POST",
 					url:action,
@@ -863,6 +868,7 @@
 							$("#list").load("${contextPath}/admin/process/list/1?projectId=${project.id}");
 							if($("#editor1")){
 								$("#editor1").html("");
+								$("#"+id+" [name='information']").val("");
 							}
 						}else{
 							ace_msg.danger(data.msg);

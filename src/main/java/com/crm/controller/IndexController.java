@@ -94,4 +94,9 @@ public class IndexController {
 		return "help";
 	}
 	
+	@RequestMapping("/map")
+	public String map(HttpServletRequest request,Model model){
+		return "map";
+	}
+	
 }
