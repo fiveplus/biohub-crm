@@ -38,7 +38,7 @@
 						<a href="${base.ctx}/site/select/${b.id}?c=${c}" target="_blank">${b.name}</a>
 					</div>
 					<div class="content">
-						<label style="color:#565656;">${b.updateTime?number_to_datetime}-${b.followUser}</label> 
+						<label style="color:#565656;">${b.updateTime?number_to_datetime}-<a style="color:#565656;" href="${base.ctx}/site/q?c=${b.followUser}">${b.followUser}</a></label> 
 						${b.text}  
 						<label style="color:#888888;font-size: 11px;">
 							- <#if b.demand==''>无</#if><#if b.demand!=''>${b.demand}</#if>
