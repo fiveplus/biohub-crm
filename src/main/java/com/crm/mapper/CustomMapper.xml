@@ -104,4 +104,8 @@
 		select * from tbl_custom where email = #{email,jdbcType=VARCHAR} and status = 'Y'
 	</select>
 	
+	<select id="getStatListByBaidu" resultMap="StatResultMap">
+		select city as name,count(*) as count from tbl_custom where city is not null and city != '' group by city
+	</select>
+	
 </mapper>

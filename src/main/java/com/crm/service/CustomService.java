@@ -46,5 +46,8 @@ public class CustomService extends BaseService<Custom>{
 		return customMapper.queryCount();
 	}
 	
+	public List<DataStat> getStatListByBaidu(){
+		return customMapper.getStatListByBaidu();
+	}
 	
 }
