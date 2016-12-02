@@ -150,3 +150,23 @@ body{
 	text-decoration: none;
 	font-size: 12px;
 }
+/** 首页 center-menus  */
+.center_menus{
+	margin: auto;
+	width:900px;
+	border: 1px solid #ccc;
+}
+.center_menus .s_map{
+	
+}
+.center_menus .s_center_menus{
+	border-bottom: 1px solid #ccc;
+}
+.center_menus .s_center_menus .item{
+	float:left;
+	padding:10px 20px;
+}
+.active{
+	background: #9a9da2;
+	color:#fff;
+}

@@ -109,11 +109,11 @@ public class IndexController {
 	public String support(HttpServletRequest request,Model model){
 		return "help";
 	}
-	
+	/*
 	@RequestMapping("/map")
 	public String map(HttpServletRequest request,Model model){
 		return "map";
-	}
+	}*/
 	
 	@RequestMapping("/world.json")
 	public @ResponseBody Map<String,Object> world(HttpServletRequest request,Model model){

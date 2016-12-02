@@ -5,10 +5,15 @@
 		<link href="${base.ctx}/css/default/default.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${base.ctx}/js/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="${base.ctx}/js/default/index.js"></script>
+		<!--引入百度地图的jssdk，这里需要使用你在百度地图开发者平台申请的 ak-->
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=B064a4ea88112dd0912c374b911d62df"></script>
+		<script src="${base.ctx}/js/echarts.min.js"></script>
+		<script src="${base.ctx}/js/map/bmap.js"></script>
+		<script src="${base.ctx}/js/default.js"></script>
 	</head>
 	<body >
 		<#include "top.html" >
-		<div class="content">
+		<div class="content" style="margin-bottom: 30px;">
 			<form action="${base.ctx}/site/q" method="get">
 				<div class="top"></div>
 				<div class="main" style="padding-top:109px" align="center">
@@ -22,5 +27,143 @@
 				</div>
 			</form>
 		</div>
+		<div class="center_menus">
+			<div class="s_center_menus">
+				<div class="item active">百创地图</div>
+				<div class="clear"></div>
+			</div>
+			<div class="s_map">
+				<div id="main" style="height:500px;"></div>
+			</div>
+		</div>
+		<div style="padding:20px">&nbsp;</div>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				$.ajax({
+					url:'${base.ctx}/site/world.json',
+					type:'POST',
+					dataType:'json',
+					success:function(result){
+						var stats = result.stats;
+						var citys = result.citys;
+						
+						var data = new Array();
+						var geoCoordMap = new Map();
+						for(var i = 0;i<stats.length;i++){
+							data.push({name:stats[i].name,value:stats[i].count});
+						}
+						for(var j = 0;j<citys.length;j++){
+							var name = citys[j].name;
+							var lat = parseFloat(citys[j].lat);
+							var lng = parseFloat(citys[j].lng);
+							geoCoordMap.put(name,[lng,lat]);
+						}
+						var convertData = function (data) {
+				    	    var res = [];
+				    	    for (var i = 0; i < data.length; i++) {
+				    	        var geoCoord = geoCoordMap.get(data[i].name);
+				    	        if (geoCoord) {
+				    	            res.push({
+				    	                name: data[i].name,
+				    	                value: geoCoord.concat(data[i].value)
+				    	            });
+				    	        }
+				    	    }
+				    	    return res;
+				    	};
+				    	
+				    	
+				    	var option = {
+								title: {
+								       text: '百创汇客户全球布局地图',
+								       subtext: 'data from crm application',
+								       sublink: 'http://www.bridgebiomed.com',
+								       left: 'center'
+								},
+								tooltip:{
+									trigger:'item'
+								},
+								bmap:{
+									center:[104.114129, 37.550339],
+									room:5,//地图缩放比例
+									roam:true, //开启用户缩放
+									mapStyle: {
+										
+									} //百度地图样式定义
+								},
+								series:[{
+									name:'BioHub Custom',
+									type:'scatter',
+									coordinateSystem: 'bmap',
+									data: convertData(data),
+						            symbolSize: function (val) {
+						                return val[2] * 10;
+						            },
+						            label: {
+						                normal: {
+						                    formatter: '{b}',
+						                    position: 'right',
+						                    show: false
+						                },
+						                emphasis: {
+						                    show: true
+						                }
+						            },
+						            itemStyle: {
+						                normal: {
+						                    color: 'purple'
+						                }
+						            }
+								},
+								{
+									name:'Top 5',
+									type: 'effectScatter',
+						            coordinateSystem: 'bmap',
+						            data: convertData(data.sort(function (a, b) {
+						                return b.value - a.value;
+						            }).slice(0, 6)),
+						            symbolSize: function (val) {
+						                return val[2] * 10;
+						            },
+						            showEffectOn: 'render',
+						            rippleEffect: {
+						                brushType: 'stroke'
+						            },
+						            hoverAnimation: true,
+						            label: {
+						                normal: {
+						                    formatter: '{b}',
+						                    position: 'right',
+						                    show: true
+						                }
+						            },
+						            itemStyle: {
+						                normal: {
+						                    color: 'purple',
+						                    shadowBlur: 10,
+						                    shadowColor: '#333'
+						                }
+						            },
+						            zlevel: 1
+								}]
+							};
+					       	var chart = echarts.init(document.getElementById('main'));
+					       	chart.setOption(option);
+					       	
+					       	var bmap = chart.getModel().getComponent("bmap").getBMap();
+					       	bmap.addControl(new BMap.NavigationControl());
+					       	bmap.addControl(new BMap.ScaleControl());
+					       	var b = new BMap.Bounds(new BMap.Point(-179.212121,-80.59102),new BMap.Point(179.167222,84.534842));
+					       	try {    // js中尽然还有try catch方法，可以避免bug引起的错误
+					            BMapLib.AreaRestriction.setBounds(bmap, b); // 已map为中心，已b为范围的地图
+					        } catch (e) {
+					            // 捕获错误异常
+					            alert(e);
+					        }
+					}
+				});
+			});
+		</script>
 	</body>
 </html>
