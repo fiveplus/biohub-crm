@@ -109,6 +109,9 @@
 						};
 						var chart = echarts.init(document.getElementById('keyword'));
 				       	chart.setOption(option);
+				       	chart.on('click',function(params){
+				       		window.location.href="${base.ctx}/site/q?c="+params.name;
+				       	});
 				       	$(".s_keyword").css({"display":"none"});
 					}
 				});
