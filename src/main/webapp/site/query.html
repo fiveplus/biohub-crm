@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div class="main" style="background: #fff;">
-	<div class="search-index" style="padding:10px;min-width:920px;">
+	<div class="search-index" style="padding:10px;min-width:920px;width:100%;z-index:1;background: #fff;position: fixed;">
 		<form action="${base.ctx}/site/q" method="get" id="search-form">
 			<div style="float:left;">
 				<img src="${base.ctx}/css/default/images/logo.png" width="100px" />&nbsp;&nbsp;&nbsp;
@@ -23,11 +23,9 @@
 				<a class="login_btn" href="${base.ctx}/admin" style="float:right;margin-top: 5px;">管理入口</a>
 			</div>
 		</form>
-		
-		
 		<div class="clear"></div>
 	</div>
-	<div class="main-content">
+	<div class="main-content" style="padding-top: 60px;">
 		<#if (count>0) >
 			<div style="font-size:12px;color: #565656;padding:10px 0 10px 0;">找到${count}条结果 (用时${time}秒)</div>
 		</#if>
