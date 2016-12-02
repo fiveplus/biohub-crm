@@ -29,17 +29,91 @@
 		</div>
 		<div class="center_menus">
 			<div class="s_center_menus">
-				<div class="item active">百创地图</div>
+				<div class="item active" show="s_map">百创地图</div>
+				<div class="item" show="s_keyword">关键词排行</div>
 				<div class="clear"></div>
 			</div>
-			<div class="s_map">
+			<div class="s_item s_map">
 				<div id="main" style="height:500px;"></div>
+			</div>
+			<div class="s_item s_keyword">
+				<div id="keyword" style="height:500px;"></div>
 			</div>
 		</div>
 		<div style="padding:20px">&nbsp;</div>
 		<script type="text/javascript">
 			$(document).ready(function(){
+				$(".center_menus .s_center_menus .item").hover(function(){
+					if(!$(this).is(".active")){
+						$(this).addClass("hover");
+					}
+				},function(){
+					if(!$(this).is(".active")){
+						$(this).removeClass("hover");
+					}
+				});
+				$(".center_menus .s_center_menus .item").click(function(){
+					$(".center_menus .s_center_menus .item").removeClass("hover");
+					$(".center_menus .s_center_menus .item").removeClass("active");
+					$(this).addClass("active");
+					var show = $(this).attr("show");
+					$(".center_menus .s_item").css({"display":"none"});
+					$(".center_menus ."+show).css({"display":"block"});
+				});
 				
+				$.ajax({
+					url:'${base.ctx}/site/keyword.json',
+					type:'POST',
+					dataType:'json',
+					success:function(result){
+						var stats = result.stats;
+						var names = new Array();
+						var values = new Array();
+						for(var i = stats.length - 1;i >= 0;i--){
+							names.push(stats[i].name);
+							values.push(stats[i].count);
+						}
+						var option = {
+								title: {
+							        text: '关键词排行',
+							        subtext: '数据来自crm application'
+							    },
+							    tooltip: {
+							        trigger: 'axis',
+							        axisPointer: {
+							            type: 'shadow'
+							        }
+							    },
+							    grid: {
+							        left: '3%',
+							        right: '4%',
+							        bottom: '3%',
+							        containLabel: true
+							    },
+							    xAxis: {
+							        type: 'value',
+							        boundaryGap: [0, 0.01]
+							    },
+							    yAxis: {
+							        type: 'category',
+							        data: names
+							    },
+							    series: [
+							        {
+							            name: '使用次数',
+							            type: 'bar',
+							            data: values
+							        }
+							       
+							    ]
+						};
+						var chart = echarts.init(document.getElementById('keyword'));
+				       	chart.setOption(option);
+				       	$(".s_keyword").css({"display":"none"});
+					}
+				});
+				
+				//世界地图
 				$.ajax({
 					url:'${base.ctx}/site/world.json',
 					type:'POST',

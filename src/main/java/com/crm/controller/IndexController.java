@@ -26,6 +26,7 @@ import com.crm.controller.admin.bo.ProjectBO;
 import com.crm.controller.bo.CityBO;
 import com.crm.entity.Project;
 import com.crm.service.CustomService;
+import com.crm.service.KeyWordService;
 import com.crm.service.ProjectService;
 import com.crm.utils.PageCode;
 import com.crm.utils.solr.SolrBean;
@@ -41,6 +42,9 @@ public class IndexController {
 	
 	@Autowired
 	private CustomService customService;
+	
+	@Autowired
+	private KeyWordService keyWordService;
 	
 	@RequestMapping("/main")
 	public String main(HttpServletRequest request,Model model){
@@ -114,6 +118,14 @@ public class IndexController {
 	public String map(HttpServletRequest request,Model model){
 		return "map";
 	}*/
+	
+	@RequestMapping("/keyword.json")
+	public @ResponseBody Map<String,Object> keyword(HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		List<DataStat> stats = keyWordService.getStatListByKeyWord();
+		returnMap.put("stats", stats);
+		return returnMap;
+	}
 	
 	@RequestMapping("/world.json")
 	public @ResponseBody Map<String,Object> world(HttpServletRequest request,Model model){

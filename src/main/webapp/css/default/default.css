@@ -156,8 +156,10 @@ body{
 	width:900px;
 	border: 1px solid #ccc;
 }
+.center_menus .s_keyword{
+	padding: 10px;
+}
 .center_menus .s_map{
-	
 }
 .center_menus .s_center_menus{
 	border-bottom: 1px solid #ccc;
@@ -165,8 +167,15 @@ body{
 .center_menus .s_center_menus .item{
 	float:left;
 	padding:10px 20px;
+	font-size: 12px;
+	cursor: pointer;
 }
+
 .active{
 	background: #9a9da2;
+	color:#fff;
+}
+.hover{
+	background:#b3b6bb;
 	color:#fff;
 }
