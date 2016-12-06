@@ -93,7 +93,11 @@ public class UserRealm extends AuthorizingRealm{
         	
         	if(deptId != null){
         		List<Permission> parentMenu = permissionService.getParentMenu();
-        		List<Permission> pers = permissionService.getChildPermission(deptId);
+        		List<Permission> pers = permissionService.getChildPermissionByUserId(user.getId());
+        		//TODO 无权从部门权限里加载
+        		if(pers == null || (pers != null && pers.size() == 0)){
+        			pers = permissionService.getChildPermissionByDeptId(deptId);
+        		}
         		for(Permission menu:parentMenu){
         			PermissionBO pbo = new PermissionBO();
         			pbo.setPermission(menu);

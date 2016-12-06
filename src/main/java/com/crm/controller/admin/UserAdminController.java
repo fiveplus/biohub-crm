@@ -1,6 +1,7 @@
 package com.crm.controller.admin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.crm.controller.admin.bo.AdditionalParameters;
+import com.crm.controller.admin.bo.Item;
+import com.crm.controller.admin.bo.TreeRespBO;
 import com.crm.controller.admin.bo.UserBO;
 import com.crm.entity.Department;
+import com.crm.entity.DeptPermission;
+import com.crm.entity.Permission;
 import com.crm.entity.User;
+import com.crm.entity.UserPermission;
 import com.crm.service.DepartmentService;
+import com.crm.service.PermissionService;
+import com.crm.service.UserPermissionService;
 import com.crm.service.UserService;
 import com.crm.utils.ImageUtils;
 import com.crm.utils.PageCode;
@@ -42,6 +51,12 @@ public class UserAdminController {
 	
 	@Autowired
 	private DepartmentService departmentService;
+	
+	@Autowired
+	private PermissionService permissionService;
+	
+	@Autowired
+	private UserPermissionService userPermissionService;
 	
 	@RequestMapping("/childs.json")
 	public @ResponseBody Map<String,Object> childs(HttpServletRequest request,Model model){
@@ -71,6 +86,78 @@ public class UserAdminController {
 		model.addAttribute("us",us);
 		return "user/user";
 	}
+	
+	@RequestMapping("/perlist/{id}")
+	public String perlist(@PathVariable String id,HttpServletRequest request,Model model){
+		User us = userService.queryById(id);
+		model.addAttribute("us",us);
+		return "user/user_permissions";
+	}
+	
+	@RequestMapping("/perlist.json")
+	public @ResponseBody TreeRespBO perlist_json(String pid,String uid,HttpServletRequest request){
+		User us = userService.queryById(uid);
+		List<Permission> perlist = permissionService.getChildPermissionByUserId(uid);
+		if(perlist == null || (perlist != null && perlist.size() == 0)){
+			perlist = permissionService.getChildPermissionByDeptId(us.getDeptId());
+		}
+		List<Permission> list = permissionService.getPermissionByParentId(pid);
+		TreeRespBO tree = new TreeRespBO();
+		List<Item> boItemList = new ArrayList<Item>();
+		if(null != list && list.size() > 0){
+			for(Permission p:list){
+				Item item = new Item();
+				//查询子节点数量
+				int child_count = permissionService.getCountByParentId(p.getId());
+				item.setName(p.getName());
+				if(child_count > 0){
+					item.setType("folder");
+					AdditionalParameters adp = new AdditionalParameters();
+					adp.setId(p.getId());
+					item.setAdditionalParameters(adp);
+				}else{
+					AdditionalParameters adp = new AdditionalParameters();
+					adp.setId(p.getId());
+					item.setAdditionalParameters(adp);
+					for(Permission per:perlist){
+						if(per.getId().equals(p.getId())){
+							adp.setItemSeleted(true);
+							break;
+						}
+					}
+					
+					item.setType("item");
+				}
+				boItemList.add(item);
+			}
+		}
+		tree.setData(boItemList);
+		tree.setStatus("OK");
+		return tree;
+	}
+	
+	@RequestMapping("/savepers")
+	public @ResponseBody Map<String,Object> savepers(String uid,String pids,HttpServletRequest request,Model model){
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		//权限清除
+		userPermissionService.deletePermissionByUserId(uid);
+		if(pids != null && !pids.equals("")){
+			//权限保存
+			String[] ids = pids.split(",");
+			for(String id:ids){
+				UserPermission up = new UserPermission();
+				up.setUserId(uid);
+				up.setPermissionId(id);
+				int count = userPermissionService.saveSelect(up);
+				System.out.println("dp:"+count);
+			}
+		}
+		returnMap.put("code", 0);
+		returnMap.put("msg", "成功！很好地完成了提交。");
+		
+		return returnMap;
+	}
+	
 	
 	@RequestMapping("/upt/{id}")
 	public String upt(@PathVariable String id,HttpServletRequest request,Model model){

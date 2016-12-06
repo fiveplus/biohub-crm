@@ -74,7 +74,11 @@
 					
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
-									
+									<button class="btn btn-info" type="button" onclick="go_url('${contextPath}/admin/user/perlist/${us.id}')">
+										<i class="icon-ok bigger-110"></i>
+										修改权限
+									</button>
+									&nbsp;&nbsp;&nbsp;
 									<button class="btn" type="reset" onclick="history.go(-1)">
 										<i class="icon-undo bigger-110"></i>
 										返回

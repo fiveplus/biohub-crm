@@ -20,8 +20,12 @@ public class PermissionService extends BaseService<Permission>{
 		return permissionMapper.getParentMenu();
 	}
 	
-	public List<Permission> getChildPermission(String deptId){
-		return permissionMapper.getChildPermission(deptId);
+	public List<Permission> getChildPermissionByDeptId(String deptId){
+		return permissionMapper.getChildPermissionByDeptId(deptId);
+	}
+	
+	public List<Permission> getChildPermissionByUserId(String userId){
+		return permissionMapper.getChildPermissionByUserId(userId);
 	}
 	
 	public List<Permission> getPermissionByParentId(String parentId){

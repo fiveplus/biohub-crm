@@ -125,7 +125,7 @@ public class DepartmentAdminController {
 	
 	@RequestMapping("/perlist.json")
 	public @ResponseBody TreeRespBO perlist_json(String pid,String did,HttpServletRequest request,Model model){
-		List<Permission> perlist = permissionService.getChildPermission(did);
+		List<Permission> perlist = permissionService.getChildPermissionByDeptId(did);
 		List<Permission> list = permissionService.getPermissionByParentId(pid);
 		TreeRespBO tree = new TreeRespBO();
 		List<Item> boItemList = new ArrayList<Item>();

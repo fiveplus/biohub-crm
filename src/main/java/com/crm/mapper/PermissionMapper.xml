@@ -20,9 +20,13 @@
 	<select id="getParentMenu" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> from sys_permission where is_menu = 'Y' and status = 'Y' and parent_id = 'admin' order by menu_index ASC
 	</select>
-	<select id="getChildPermission" resultMap="BaseResultMap">
+	<select id="getChildPermissionByDeptId" resultMap="BaseResultMap">
 		select p.<include refid="Base_Column_List" /> from sys_dept_permission dp left join sys_permission p on dp.permission_id = p.id where dp.dept_id = #{deptId,jdbcType=VARCHAR} and p.status = 'Y' order by p.menu_index ASC 
 	</select>
+	<select id="getChildPermissionByUserId" resultMap="BaseResultMap">
+		select p.<include refid="Base_Column_List" /> from sys_user_permission up left join sys_permission p on up.permission_id = p.id where up.user_id = #{userId,jdbcType=VARCHAR} and p.status = 'Y' order by p.menu_index ASC 
+	</select>
+	
 	<select id="getPermissionByParentId" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select <include refid="Base_Column_List" /> from sys_permission where parent_id
 		<if test="parentId == null">
