@@ -1,10 +1,13 @@
 package com.crm.controller.admin.bo;
+
+import java.io.Serializable;
+
 /**
  * 节点信息
  * @author hack
  *
  */
-public class Item {
+public class Item implements Serializable{
 	/**
 	 * 节点名字
 	 */

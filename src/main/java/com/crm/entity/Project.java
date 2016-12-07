@@ -1,5 +1,7 @@
 package com.crm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Table(name="tbl_project")
-public class Project {
+public class Project implements Serializable{
 	@Id
 	@GeneratedValue(generator="UUID")
 	private String id;

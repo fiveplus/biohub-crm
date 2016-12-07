@@ -1,10 +1,11 @@
 package com.crm.controller.admin.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.crm.entity.Permission;
 
-public class PermissionBO {
+public class PermissionBO implements Serializable{
 	private Permission permission;
 	private List<Permission> pers;
 	public Permission getPermission() {

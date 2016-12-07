@@ -1,6 +1,8 @@
 package com.crm.controller.admin.bo;
 
-public class ProcessBO {
+import java.io.Serializable;
+
+public class ProcessBO implements Serializable{
 	private String id;
 	private String customName;
 	private String method;

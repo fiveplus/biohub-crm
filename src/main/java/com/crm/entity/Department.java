@@ -1,5 +1,7 @@
 package com.crm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Table(name="sys_dept")
-public class Department {
+public class Department implements Serializable{
 	@Id
 	@GeneratedValue(generator="UUID")
 	private String id;

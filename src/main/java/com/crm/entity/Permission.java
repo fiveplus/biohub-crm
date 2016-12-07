@@ -1,5 +1,7 @@
 package com.crm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.OrderBy;
@@ -7,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Table(name="sys_permission")
-public class Permission {
+public class Permission implements Serializable{
 	@Id
 	private String id;
 	@Column

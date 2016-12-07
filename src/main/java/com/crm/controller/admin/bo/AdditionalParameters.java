@@ -1,5 +1,6 @@
 package com.crm.controller.admin.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author hack
  *
  */
-public class AdditionalParameters {
+public class AdditionalParameters implements Serializable{
 	/**
 	 * 子节点列表
 	 */

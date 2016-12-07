@@ -1,12 +1,14 @@
 package com.crm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name="sys_mail")
-public class SysMail {
+public class SysMail implements Serializable{
 	@Id
 	@GeneratedValue(generator="UUID")
 	private String id;

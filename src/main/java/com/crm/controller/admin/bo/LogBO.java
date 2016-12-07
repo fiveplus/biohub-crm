@@ -1,7 +1,9 @@
 package com.crm.controller.admin.bo;
 
+import java.io.Serializable;
 
-public class LogBO {
+
+public class LogBO implements Serializable{
 	private String id;
 	private String userName;
 	private Long createTime;

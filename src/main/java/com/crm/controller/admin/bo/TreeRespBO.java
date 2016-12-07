@@ -1,5 +1,6 @@
 package com.crm.controller.admin.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * @author hack
  *
  */
-public class TreeRespBO {
+public class TreeRespBO implements Serializable{
 	private List<Item> data = new ArrayList<Item>();
 	private String status;
 

@@ -1,6 +1,8 @@
 package com.crm.controller.admin.bo;
 
-public class ProjectBO {
+import java.io.Serializable;
+
+public class ProjectBO implements Serializable{
 	private String id;
 	private String projectNum;
 	private String typeName;

@@ -1,12 +1,14 @@
 package com.crm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name="tbl_custom_location")
-public class CustomLocation {
+public class CustomLocation implements Serializable{
 	@Id
 	@GeneratedValue(generator="UUID")
 	private String id;

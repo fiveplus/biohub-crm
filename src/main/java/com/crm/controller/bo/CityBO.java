@@ -1,6 +1,8 @@
 package com.crm.controller.bo;
 
-public class CityBO {
+import java.io.Serializable;
+
+public class CityBO implements Serializable{
 	private String name;
 	private String lat;
 	private String lng;

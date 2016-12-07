@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Table(name="sys_user")
-public class User{
+public class User implements Serializable{
 	@Id
 	@GeneratedValue(generator="UUID")
 	private String id;

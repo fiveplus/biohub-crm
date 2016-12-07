@@ -1,8 +1,10 @@
 package com.crm.controller.admin.bo;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 
-public class ProjectFileBO {
+public class ProjectFileBO implements Serializable{
 	private String id;
 	private String name;
 	private String projectId;

@@ -1,6 +1,8 @@
 package com.crm.controller.admin.bo;
 
-public class UserBO {
+import java.io.Serializable;
+
+public class UserBO implements Serializable{
 	private String id;
 	private String deptName;
 	private String loginName;

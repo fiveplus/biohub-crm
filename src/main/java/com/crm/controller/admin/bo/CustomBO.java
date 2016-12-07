@@ -1,6 +1,8 @@
 package com.crm.controller.admin.bo;
 
-public class CustomBO {
+import java.io.Serializable;
+
+public class CustomBO implements Serializable{
 	private String id;
 	private String name;
 	private String typeName;

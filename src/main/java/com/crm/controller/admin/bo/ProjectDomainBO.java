@@ -1,6 +1,8 @@
 package com.crm.controller.admin.bo;
 
-public class ProjectDomainBO {
+import java.io.Serializable;
+
+public class ProjectDomainBO implements Serializable{
 	private String id;
 	private String name;
 	private String englishName;
