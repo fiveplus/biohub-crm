@@ -89,9 +89,9 @@ public class RedisCache implements Cache{
 		try {
 			jedis = CachePool.getInstance().getJedis();
 			jedisPool = CachePool.getInstance().getJedisPool();
-			System.out.println(key.hashCode());
-			System.out.println(SerializeUtils.serialize(key.hashCode()));
-			System.out.println(jedis.get(SerializeUtils.serialize(key.hashCode())));
+			System.out.println("key's hashcode:"+key.hashCode());
+			System.out.println("key's hashcode serialize:"+SerializeUtils.serialize(key.hashCode()));
+			System.out.println("value's serialize:"+jedis.get(SerializeUtils.serialize(key.hashCode())));
 			value = SerializeUtils.unSerialize(jedis.get(SerializeUtils.serialize(key.hashCode())));
 		} catch (JedisConnectionException e) {
 			borrowOrOprSuccess = false;
