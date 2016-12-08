@@ -147,10 +147,10 @@
 			and p.charge_user = #{chargeUser,jdbcType=VARCHAR} 
 		</if>
 		<if test="startTime != null">
-			and c.update_time &gt;= #{startTime,jdbcType=VARCHAR}
+			and p.update_time &gt;= #{startTime,jdbcType=VARCHAR}
 		</if>
 		<if test="endTime != null">
-			and c.update_time &lt;= #{endTime,jdbcType=VARCHAR}
+			and p.update_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
 		  order by  
 		<if test="order != null and order != ''">
@@ -165,7 +165,10 @@
 		left join tbl_project_type pt on p.type_id = pt.id 
 		left join tbl_project_domain pd on p.domain_id = pd.id 
 		left join tbl_project_domain pdd on pd.parent_id = pdd.id
-		where p.status = 'Y' and p.id in (#{ids,jdbcType=VARCHAR})
+		where p.status = 'Y' and p.id in 
+		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+			#{id}
+		</foreach>
 	</select>
 	
 	<select id="queryByCustomId" resultMap="BaseResultMap">

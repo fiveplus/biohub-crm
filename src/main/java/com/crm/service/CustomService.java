@@ -34,7 +34,7 @@ public class CustomService extends BaseService<Custom>{
 		return list;
 	}
 	
-	public List<CustomBO> getCustomListByIn(String ids){
+	public List<CustomBO> getCustomListByIn(List<String> ids){
 		return customMapper.getCustomListByIn(ids);
 	}
 	

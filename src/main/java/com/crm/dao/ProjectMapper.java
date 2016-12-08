@@ -14,7 +14,7 @@ public interface ProjectMapper extends Mapper<Project>{
 	public List<DataStat> getProjectStatList();
 	public List<Project> queryByCustomId(@Param("customId") String customId);
 	public List<ProjectBO> getProjectList(Project param);
-	public List<ProjectBO> getProjectListByIn(@Param("ids") String ids);
+	public List<ProjectBO> getProjectListByIn(@Param("ids") List<String> ids);
 	public Project queryByName(@Param("name") String name);
 	public Integer getMaxProjectIndex();
 	public ProjectBO getProjectById(@Param("id") String id);

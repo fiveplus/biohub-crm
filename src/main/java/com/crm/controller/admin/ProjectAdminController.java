@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -213,7 +214,7 @@ public class ProjectAdminController {
 			
 			models = projectService.getProjectList(param);
 		}else{
-			models = projectService.getProjectListByIn(checks);
+			models = projectService.getProjectListByIn(Arrays.asList(checks.split(",")));
 		}
 		response.reset();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssms");

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +170,7 @@ public class CustomAdminController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		String checks = (String)session.getAttribute("checks");
-		List<CustomBO> customs = customService.getCustomListByIn(checks);
+		List<CustomBO> customs = customService.getCustomListByIn(Arrays.asList(checks.split(",")));
 		Department dept = departmentService.queryById(user.getDeptId());
 		model.addAttribute("customs",customs);
 		model.addAttribute("dept",dept);
@@ -190,7 +191,7 @@ public class CustomAdminController {
 		String msg = "";
 		int code = 0;
 		if(checks != null && !checks.equals("")){
-			List<CustomBO> customs = customService.getCustomListByIn(checks);
+			List<CustomBO> customs = customService.getCustomListByIn(Arrays.asList(checks.split(",")));
 			List<String> to = new ArrayList<String>();
 			for(CustomBO c:customs){
 				if(!c.getEmail().equals("")){
@@ -470,6 +471,7 @@ public class CustomAdminController {
 		String createUser = request.getParameter("createUser");
 		String dateRangePicker = request.getParameter("dateRangePicker");
 		List<CustomBO> models = null;
+		System.out.println(checks);
 		if(checks == null || (checks!=null && checks.equals(""))){
 			param.setStatus(Resource.Y);
 			Map<String,Long> betweens= null;
@@ -485,11 +487,11 @@ public class CustomAdminController {
 			
 			models = customService.getCustomList(param);
 		}else{
-			models = customService.getCustomListByIn(checks);
+			models = customService.getCustomListByIn(Arrays.asList(checks.split(",")));
 		}
 		
 		response.reset();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssms");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 		String dateStr = sdf.format(new Date());
 		// 指定下载的文件名
         response.setHeader("Content-Disposition", "attachment;filename=" +dateStr+".xls");

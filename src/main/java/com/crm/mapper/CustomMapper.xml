@@ -37,7 +37,10 @@
 	
 	<select id="getCustomListByIn" resultMap="CustomBO">
 		select <include refid="Custom_Column_List" /> from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where c.status = 'Y' 
-		and c.id in (#{ids,jdbcType=VARCHAR})
+		and c.id in 
+		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+			#{id}
+		</foreach>
 	</select>
 	
 	<select id="getCustomList" parameterType="com.crm.entity.Custom" resultMap="CustomBO">

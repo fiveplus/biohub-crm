@@ -49,7 +49,7 @@ public class ProjectService extends BaseService<Project>{
 	}
 	
 	
-	public List<ProjectBO> getProjectListByIn(String ids){
+	public List<ProjectBO> getProjectListByIn(List<String> ids){
 		return projectMapper.getProjectListByIn(ids);
 	}
 	
