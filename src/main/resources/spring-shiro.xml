@@ -76,9 +76,9 @@
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 	 
-	<!-- 会话管理器 -->
+	<!-- 会话管理器  org.apache.shiro.web.session.mgt.DefaultWebSessionManager -->
 	<bean id="sessionManager"
-		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		class="com.crm.cache.SimpleWebSessionManager">
 		<property name="globalSessionTimeout" value="1800000" />
 		<property name="deleteInvalidSessions" value="true" />
 		<property name="sessionValidationSchedulerEnabled" value="true" />
