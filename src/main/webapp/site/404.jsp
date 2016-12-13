@@ -5,15 +5,13 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE HTML>
-
 <head>
 
-  <meta charset="UTF-8">
-
-  <title>404</title>
-
-  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="${contextPath}/css/404.css" media="screen" type="text/css" />
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<title>404</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="${contextPath}/css/404.css" media="screen" type="text/css" />
 </head>
 
 <body>
