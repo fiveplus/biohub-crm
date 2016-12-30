@@ -87,7 +87,7 @@ public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
 	}
 	
 	public static void main(String[] args) {
-		long time = getLongByString("2015-11-10 23:38:38","yyyy-MM-dd HH:mm:ss");
+		long time = getLongByString("2016-12-31 23:59:59","yyyy-MM-dd HH:mm:ss");
 		System.out.println(time);
 	}
 }

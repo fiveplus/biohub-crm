@@ -66,13 +66,18 @@ public class ProcessAdminController {
 	@RequestMapping("/save")
 	public @ResponseBody Map<String,Object> save(ProjectProcess process,HttpServletRequest request,Model model){
 		HttpSession session = request.getSession();
+		Date now = new Date();
 		User user = (User)session.getAttribute("user");
 		Map<String,Object> returnMap = new HashMap<String, Object>();
 		process.setProcessId(user.getId());
 		process.setUserId(user.getId());
-		process.setCreateTime(StringUtils.getDateToLong(new Date()));
+		process.setCreateTime(StringUtils.getDateToLong(now));
 		int count = processService.saveSelect(process);
 		if(count > 0){
+			//TODO 修改项目更新时间
+			Project project = projectService.queryById(process.getProjectId());
+			project.setUpdateTime(StringUtils.getDateToLong(now));
+			projectService.updateSelective(project);
 			returnMap.put("code", 0);
 	        returnMap.put("msg", "成功！很好地完成了提交。");
 		}else{

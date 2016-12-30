@@ -17,9 +17,27 @@
 		<property name="typeAliasesPackage" value="com.crm.entity" />
 		<property name="configurationProperties">
 			<props>
+				<!-- 这个配置使全局的映射器启用或禁用 缓存 -->
 				<prop key="cacheEnabled">true</prop> 
+				<!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载 -->
                 <prop key="lazyLoadingEnabled">false</prop> 
                 <prop key="aggressiveLazyLoading">true</prop>
+                <!-- 允许或不允许多种结果集从一个单独 的语句中返回(需要适合的驱动) -->
+                <prop key="multipleResultSetsEnabled">true</prop>
+                <!-- 使用列标签代替列名。 不同的驱动在这 方便表现不同。 参考驱动文档或充分测 试两种方法来决定所使用的驱动 -->
+				<prop key="useColumnLabel">true</prop>
+				<!-- 允许 JDBC 支持生成的键。 需要适合的 驱动。 如果设置为 true 则这个设置强制 生成的键被使用, 尽管一些驱动拒绝兼 容但仍然有效(比如 
+					Derby) -->
+				<prop key="useGeneratedKeys">false</prop>
+				<!-- 配置默认的执行器。SIMPLE 执行器没 有什么特别之处。REUSE 执行器重用 预处理语句。BATCH 执行器重用语句 和批量更新 -->
+				<prop key="defaultExecutorType">SIMPLE</prop>
+				<!-- 设置超时时间, 它决定驱动等待一个数 据库响应的时间 -->
+				<prop key="defaultStatementTimeout">100</prop>
+				<prop key="safeRowBoundsEnabled">false</prop>
+				<prop key="mapUnderscoreToCamelCase">false</prop>
+				<prop key="localCacheScope">SESSION</prop>
+				<prop key="jdbcTypeForNull">OTHER</prop>
+				<prop key="lazyLoadTriggerMethods">equals,clone,hashCode,toString</prop>
 			</props>
 		</property>
 	</bean>
