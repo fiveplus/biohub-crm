@@ -15,13 +15,12 @@ import org.springframework.cache.support.AbstractCacheManager;
  * @param <T>
  */
 public class CacheManage<T extends Object> extends AbstractCacheManager{
-	private Collection<? extends Cache> caches;
-	public void setCaches(Collection<? extends Cache> caches){
+	private Collection<? extends RedisCache> caches;
+	public void setCaches(Collection<? extends RedisCache> caches){
 		this.caches = caches;
 	}
 	
-	@Override
 	protected Collection<? extends Cache> loadCaches() {
-		return this.caches;
+		return (Collection<? extends Cache>) this.caches;
 	}
 }
