@@ -12,6 +12,7 @@ import com.crm.dao.LogMapper;
 import com.crm.entity.Log;
 import com.crm.entity.User;
 import com.crm.utils.LogUtil;
+import com.crm.utils.Resource;
 import com.crm.utils.StringUtils;
 import com.crm.utils.LogUtil.LogObject;
 import com.crm.utils.LogUtil.LogType;
@@ -42,6 +43,7 @@ public class LogService extends BaseService<Log>{
 		log.setCreateTime(StringUtils.getDateToLong(d));
 		log.setInformation(info);
 		log.setUserId(user.getId());
+		log.setIsRead(Resource.N);
 		if(logObj == LogObject.Custom){
 			log.setCustomId(id);
 		}
@@ -63,6 +65,8 @@ public class LogService extends BaseService<Log>{
 		return logMapper.getUserListByProjectId(projectId);
 	}
 	
-	
+	public Integer updateLogByUserIdAndIsRead(String isRead,String userId){
+		return logMapper.updateLogByUserIdAndIsRead(isRead, userId);
+	}
 	
 }

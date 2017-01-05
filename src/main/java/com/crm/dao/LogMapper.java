@@ -18,6 +18,6 @@ public interface LogMapper extends Mapper<Log>{
 	public List<UserBO> getUserListByCustomId(@Param("customId") String customId);
 	public List<UserBO> getUserListByProjectId(@Param("projectId") String projectId);
 	
-
+	public Integer updateLogByUserIdAndIsRead(@Param("isRead") String isRead,@Param("userId") String userId);
 	
 }

@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="queryCountByUserId" resultType="java.lang.Integer">
-		select count(*) from sys_log where user_id = #{userId,jdbcType=VARCHAR}
+		select count(*) from sys_log where user_id = #{userId,jdbcType=VARCHAR} and is_read = 'N'
 	</select>
 	
 	<select id="getUserListByCustomId" resultMap="UserResultMap">
@@ -44,5 +44,9 @@
 		left join sys_dept d on u.dept_id = d.id
 		where project_id = #{projectId,jdbcType=VARCHAR} group by l.user_id order by max(l.create_time) desc limit 0,10
 	</select>
+	
+	<update id="updateLogByUserIdAndIsRead">
+		update sys_log set is_read = #{isRead,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
 	
 </mapper>

@@ -42,7 +42,8 @@ public class IndexAdminController {
 	
 	@RequestMapping("/admin/login")
 	public String login(String loginName,String password,HttpServletRequest request,HttpServletResponse response,Model model){
-		
+		//登录前强制清除
+		SecurityUtils.getSubject().logout();
 		if(loginName == null || password == null) 
 			return "login";
 		String remember = request.getParameter("remember");

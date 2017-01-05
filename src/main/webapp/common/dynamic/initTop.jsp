@@ -245,7 +245,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-envelope icon-animated-vertical"></i>
-								<span class="badge badge-success" id="logsize_span">${logCount}</span>
+								<c:if test="${logCount>0}">
+									<span class="badge badge-success" id="logsize_span">${logCount}</span>
+								</c:if>
 							</a>
 
 							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close" id="temp_message">
@@ -272,8 +274,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</li>
 								</c:forEach>
 								<li>
-									<a href="javascript:void(0)">
-										See all messages
+									<a href="javascript:read_all()">
+										Read all messages
 										<i class="icon-arrow-right"></i>
 									</a>
 								</li>
@@ -334,6 +336,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 		});*/
 	});
+	
+	function read_all(){
+		$.ajax({
+			type:"POST",
+			url:"${contextPath}/admin/log/readall",
+			dataType:"json",
+			error:function(request){
+				//alert("Connection Error");
+			},
+			success:function(data){
+				if(data.code==0){
+					//清除成功
+					$("#logsize_span").remove();
+				}
+			}
+		});
+	}
         		
 	function see_help(value){
 		$("#help-hide").load("${contextPath}/help/"+value+".html",function(){

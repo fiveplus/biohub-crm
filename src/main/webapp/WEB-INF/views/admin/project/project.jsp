@@ -715,7 +715,9 @@
 			function project_update(formid,ajaxid,url){
 				var rate = $("#"+formid+" select[name='rate']").val();
 				var send = 0;
-				bootbox.confirm("确认修改?A类项目修改后将会发送通知邮件，你准备好了吗?",function(result){
+				var text = "确认修改?";
+				if(rate == 'A') text += "A类项目修改后将会发送通知邮件，你准备好了吗?";
+				bootbox.confirm(text,function(result){
 					if(result){
 						if(rate == 'A'){
 							send = 1;

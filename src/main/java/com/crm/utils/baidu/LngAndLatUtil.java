@@ -59,7 +59,7 @@ public class LngAndLatUtil {
 	
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
-		Map<String,String> map = getLngAndLat("光谷生物城");
+		Map<String,String> map = getLngAndLat("日本东京");
 		long end = System.currentTimeMillis();
 		System.out.println((end-start)+"毫秒");
 		System.out.println(map.get("lat")+","+map.get("lng"));

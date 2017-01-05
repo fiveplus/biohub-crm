@@ -44,7 +44,9 @@
 	<bean id="cacheManager" class="com.crm.cache.CacheManage">
 		<property name="caches">
 			<set>
+				<!-- 
 				<bean class="com.crm.cache.RedisCache" p:name="redisCache" />
+				 -->
 			</set>
 		</property>
 	</bean>

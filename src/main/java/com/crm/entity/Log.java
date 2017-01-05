@@ -22,6 +22,9 @@ public class Log implements Serializable{
 	private String customId;
 	@Column
 	private String projectId;
+	@Column
+	private String isRead;
+	
 	public String getId() {
 		return id;
 	}
@@ -58,7 +61,11 @@ public class Log implements Serializable{
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
-	
-	
+	public String getIsRead() {
+		return isRead;
+	}
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
+	}
 	
 }
