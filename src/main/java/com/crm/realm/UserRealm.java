@@ -19,29 +19,11 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
-import com.crm.controller.admin.bo.CustomBO;
-import com.crm.controller.admin.bo.LogBO;
 import com.crm.controller.admin.bo.PermissionBO;
-import com.crm.controller.admin.bo.UserBO;
-import com.crm.entity.Custom;
-import com.crm.entity.Department;
-import com.crm.entity.KeyWord;
-import com.crm.entity.Log;
-import com.crm.entity.Permission;
-import com.crm.entity.ProjectDomain;
-import com.crm.entity.ProjectType;
 import com.crm.entity.User;
-import com.crm.service.CustomService;
-import com.crm.service.DepartmentService;
-import com.crm.service.KeyWordService;
-import com.crm.service.LogService;
-import com.crm.service.PermissionService;
-import com.crm.service.ProjectDomainService;
-import com.crm.service.ProjectTypeService;
 import com.crm.service.UserService;
 
 public class UserRealm extends AuthorizingRealm{
@@ -49,29 +31,10 @@ public class UserRealm extends AuthorizingRealm{
 	@Resource
 	private UserService userService;
 	
-	@Resource
-	private PermissionService permissionService;
 	
-	@Resource
-	private LogService logService;
-	
-	@Resource
-	private CustomService customService;
-	
-	@Resource
-	private ProjectTypeService projectTypeService;
-	
-	@Resource
-	private KeyWordService keyWordService;
-	
-	@Resource
-	private ProjectDomainService projectDomainService;
-	
-	@Resource
-	private DepartmentService departmentService;
 	
 	/** 
-     * 为当前登录的Subject授予角色和权限 
+     * 为当前登录的Subject授予角色和权限
      * @see  经测试:本例中该方法的调用时机为需授权资源被访问时 
      * @see  经测试:并且每次访问需授权资源时都会执行该方法中的逻辑,这表明本例中默认并未启用AuthorizationCache 
      * @see  个人感觉若使用了Spring3.1开始提供的ConcurrentMapCache支持,则可灵活决定是否启用AuthorizationCache 
@@ -87,80 +50,11 @@ public class UserRealm extends AuthorizingRealm{
         //从数据库中获取当前登录用户的详细信息
         User user = userService.getUserByLoginName(currentLoginName);
         if(null != user){
-        	//实体类User中包含有用户角色的实体类信息
-        	//授权存储用户信息
-        	String deptId = user.getDeptId();
-        	
-        	if(deptId != null){
-        		List<Permission> parentMenu = permissionService.getParentMenu();
-        		List<Permission> pers = permissionService.getChildPermissionByUserId(user.getId());
-        		//TODO 无权从部门权限里加载
-        		if(pers == null || (pers != null && pers.size() == 0)){
-        			pers = permissionService.getChildPermissionByDeptId(deptId);
-        		}
-        		for(Permission menu:parentMenu){
-        			PermissionBO pbo = new PermissionBO();
-        			pbo.setPermission(menu);
-    	        	pbo.setPers(new ArrayList<Permission>());
-    	        	pbos.add(pbo);
-        		}
-        		for(PermissionBO pbo:pbos){
-    	        	for(Permission per:pers){
-    	        		if(per.getParentId().equals(pbo.getPermission().getId())&&per.getIsMenu().equals("Y")){
-    	        			pbo.getPers().add(per);
-    	        		}
-    	        	}
-    	        }
-        		//反向遍历清除空元素
-    	        for(int i = pbos.size()-1;i>=0;i--){
-    	        	PermissionBO pbo = pbos.get(i);
-    	        	if(pbo.getPers()== null || pbo.getPers().size() == 0){
-    	        		pbos.remove(pbo);
-    	        	}
-    	        }
-    	        //用户设权
-    	        user.setPers(pers);
-    	        
-    	        List<UserBO> users = userService.getUserList();
-    	        Custom param = new Custom();
-    	        List<CustomBO> customs = customService.getCustomList(param);
-    	        List<ProjectType> types = projectTypeService.queryAll();
-    	        List<KeyWord> keywords = keyWordService.queryAll();
-    	        List<ProjectDomain> parents = projectDomainService.getParentList();
-    	        String keystr = "";
-    	        for(KeyWord kw:keywords){
-    	        	keystr += kw.getName()+",";
-    	        }
-    	        keystr = keystr.substring(0,keystr.length()-1);
-
-    	        List<Department> depts = departmentService.queryAll();
-    	        
-    	        Session session = SecurityUtils.getSubject().getSession();
-    	        session.setAttribute("user", user);
-    	        session.setAttribute("menus", pbos);
-    	        session.setAttribute("users", users);
-    	        session.setAttribute("customs", customs);
-    	        session.setAttribute("depts", depts);
-    	        
-    	        session.setAttribute("types", types);
-    	        session.setAttribute("keywords", keystr);
-    	        session.setAttribute("parents", parents);
-    	        
-    	        //个人日志加载
-    			List<LogBO> logs = logService.getLogList(user.getId(), 5);
-    			int logCount = logService.queryCountByUserId(user.getId());
-    			session.setAttribute("logs",logs);
-    			session.setAttribute("logCount",logCount);
-    	        
-    	        
-        		//认证
-        		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
-        		simpleAuthorInfo.addRole("admin");
-            	System.out.println("已为用户["+currentLoginName+"]赋予了[admin]角色和[admin:manage]权限");
-            	return simpleAuthorInfo;
-        	}else{
-        		return null;
-        	}
+    		//认证
+    		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
+    		simpleAuthorInfo.addRole("admin");
+        	System.out.println("已为用户["+currentLoginName+"]赋予了[admin]角色和[admin:manage]权限");
+        	return simpleAuthorInfo;
         }else{
         	try {
 				throw new AuthenticationException();
