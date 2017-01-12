@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StringUtils {
-public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
 	
 	public static Date getStringToDate(String date){
 		try {

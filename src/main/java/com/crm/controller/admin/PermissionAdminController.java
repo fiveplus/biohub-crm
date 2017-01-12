@@ -95,8 +95,6 @@ public class PermissionAdminController {
 			}
 		}
 		
-		
-		
 		return returnMap;
 	}
 	

@@ -46,7 +46,7 @@ public class UserRealm extends AuthorizingRealm{
         String currentLoginName = (String)super.getAvailablePrincipal(principals);  
         //List<String> roleList = new ArrayList<String>();  
         //List<String> permissionList = new ArrayList<String>();  
-        List<PermissionBO> pbos = new ArrayList<PermissionBO>();
+        //List<PermissionBO> pbos = new ArrayList<PermissionBO>();
         //从数据库中获取当前登录用户的详细信息
         User user = userService.getUserByLoginName(currentLoginName);
         if(null != user){

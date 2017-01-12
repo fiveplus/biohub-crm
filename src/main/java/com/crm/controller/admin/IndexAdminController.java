@@ -113,7 +113,7 @@ public class IndexAdminController {
 				// 实体类User中包含有用户角色的实体类信息
 				// 授权存储用户信息
 				String deptId = user.getDeptId();
-
+				
 				if (deptId != null) {
 					List<Permission> parentMenu = permissionService
 							.getParentMenu();
