@@ -70,6 +70,7 @@ public class ExportUtils {
         ems.add(new ExcelMapping("项目分类级别","rate",0));
         ems.add(new ExcelMapping("项目类别","typeName",0));
         ems.add(new ExcelMapping("客户类别","customType",0));
+        ems.add(new ExcelMapping("项目标签","projectTag",0));
         
         map.put(0, ems);
         try {
