@@ -37,17 +37,16 @@ public class LngAndLatUtil {
         }
         
         try {
-			httpsConn = (URLConnection)googleMapURL.openConnection();
+			httpsConn = googleMapURL.openConnection();
 			if(httpsConn != null){
+				System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
+				System.getProperties().setProperty("http.proxyPort", "8090");
+				
 				InputStreamReader insr = new InputStreamReader(httpsConn.getInputStream());
 				BufferedReader br = new BufferedReader(insr);
 				String data = null;
 				if((data = br.readLine()) != null){
-					String[] retList = data.split(",");
-					if (retList.length > 2 && ("200".equals(retList[0]))) {
-                        lat = retList[2];
-                        lng = retList[3];
-                    }
+					System.out.println(data);
 				}
 			}
 		} catch (IOException e) {
