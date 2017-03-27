@@ -11,13 +11,13 @@
 		<id column="name" property="name" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryFileByProjectId" resultMap="ProjectFileMap">
+	<select id="queryFileByProjectId" resultMap="ProjectFileMap" flushCache="true" useCache="false">
 		select f.id,f.project_id,f.url,f.create_time,u.user_name as create_user,f.name from tbl_file f 
 		left join sys_user u on f.create_user = u.id 
 		where f.project_id = #{projectId,jdbcType=VARCHAR} 
 	</select>
 	
-	<select id="queryByName" resultType="com.crm.entity.ProjectFile">
+	<select id="queryByName" resultType="com.crm.entity.ProjectFile" flushCache="true" useCache="false">
 		select * from tbl_file where name = #{name,jdbcType=VARCHAR}
 	</select>
 	

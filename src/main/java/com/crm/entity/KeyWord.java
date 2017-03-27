@@ -15,7 +15,7 @@ public class KeyWord implements Serializable{
 	@Column
 	private String name;
 	@Column
-	private Integer useCount;
+	private int useCount;
 	@Column
 	private Long createTime;
 	public String getId() {
@@ -30,10 +30,10 @@ public class KeyWord implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getUseCount() {
+	public int getUseCount() {
 		return useCount;
 	}
-	public void setUseCount(Integer useCount) {
+	public void setUseCount(int useCount) {
 		this.useCount = useCount;
 	}
 	public Long getCreateTime() {

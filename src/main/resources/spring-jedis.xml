@@ -22,8 +22,8 @@
 		<property name="minEvictableIdleTimeMillis" value="60000" />
 		<property name="timeBetweenEvictionRunsMillis" value="30000" />
 		<property name="numTestsPerEvictionRun" value="-1" />
-		<property name="maxTotal" value="8" />
-		<property name="maxIdle" value="8" />
+		<property name="maxTotal" value="20" />
+		<property name="maxIdle" value="20" />
 		<property name="minIdle" value="0" />
 	</bean>
 	
@@ -44,9 +44,7 @@
 	<bean id="cacheManager" class="com.crm.cache.CacheManage">
 		<property name="caches">
 			<set>
-				<!-- 
-				<bean class="com.crm.cache.RedisCache" p:name="redisCache" />
-				 -->
+				<ref bean="com.crm.cache.RedisCache" />
 			</set>
 		</property>
 	</bean>

@@ -28,7 +28,7 @@
 		p.project_num,p.name as project_name,pu.user_name as process_user 
 	</sql>
 	
-	<select id="queryProcessByProjectId" resultMap="ProcessMap">
+	<select id="queryProcessByProjectId" resultMap="ProcessMap" flushCache="true" useCache="false">
 		select <include refid="Process_Column_List" /> from tbl_process pp 
 		left join tbl_project p on pp.project_id = p.id 
 		left join tbl_custom c on p.custom_id = c.id 
@@ -38,7 +38,7 @@
 		order by pp.create_time desc 
 	</select>
 	
-	<select id="getProcessStatListByCreateTime" resultMap="StatResultMap">
+	<select id="getProcessStatListByCreateTime" resultMap="StatResultMap" flushCache="true" useCache="false">
 		select u.user_name as name,count(DISTINCT pp.project_id) as count from tbl_process pp 
 		left join sys_user u on pp.user_id = u.id 
 		where pp.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
@@ -46,7 +46,7 @@
 		group by pp.user_id order by count(DISTINCT pp.project_id) desc 
 	</select>
 	
-	<select id="getProcessListByCreateTime" resultMap="ProcessMap">
+	<select id="getProcessListByCreateTime" resultMap="ProcessMap" flushCache="true" useCache="false">
 		select <include refid="Process_Column_List" /> from tbl_process pp 
 		left join tbl_project p on pp.project_id = p.id 
 		left join tbl_custom c on p.custom_id = c.id 

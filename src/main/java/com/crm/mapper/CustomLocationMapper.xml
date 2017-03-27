@@ -9,7 +9,7 @@
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByName" resultType="com.crm.entity.CustomLocation">
+	<select id="queryByName" resultType="com.crm.entity.CustomLocation" flushCache="true" useCache="false">
 		select * from tbl_custom_location where name = #{name,jdbcType=VARCHAR}
 	</select>
 	

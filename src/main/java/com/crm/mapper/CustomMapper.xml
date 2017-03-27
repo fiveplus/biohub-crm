@@ -31,11 +31,12 @@
 	<sql id="Custom_Column_List">
 		c.id,c.name,ct.name as type_name,cl.name as location_name,c.telephone,c.create_user,c.modify_time,c.status,c.qq,c.email,c.wechat,c.skype,c.linkedin,c.company,c.websize,c.custom_address,c.remark 
 	</sql>
-	<select id="getCustomStatList" resultMap="StatResultMap">
+	
+	<select id="getCustomStatList" resultMap="StatResultMap" flushCache="true" useCache="false">
 		select cl.name as name,count(*) as count from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id where c.status = 'Y' group by c.location_id order by count(*) desc 
 	</select>
 	
-	<select id="getCustomListByIn" resultMap="CustomBO">
+	<select id="getCustomListByIn" resultMap="CustomBO" flushCache="true" useCache="false">
 		select <include refid="Custom_Column_List" /> from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where c.status = 'Y' 
 		and c.id in 
 		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
@@ -43,7 +44,7 @@
 		</foreach>
 	</select>
 	
-	<select id="getCustomList" parameterType="com.crm.entity.Custom" resultMap="CustomBO">
+	<select id="getCustomList" parameterType="com.crm.entity.Custom" resultMap="CustomBO" flushCache="true" useCache="false">
 		select <include refid="Custom_Column_List" /> from tbl_custom c left join tbl_custom_location cl on c.location_id = cl.id left join tbl_custom_type ct on c.type_id = ct.id where 1 = 1
 		<if test="locationId != null and locationId != ''">
 			and c.location_id = #{locationId,jdbcType=VARCHAR}
@@ -99,15 +100,15 @@
 		 order by c.modify_time desc 
 	</select>
 	
-	<select id="queryCount" resultType="java.lang.Integer">
+	<select id="queryCount" resultType="java.lang.Integer" flushCache="true" useCache="false">
 		select count(*) from tbl_custom where status = 'Y'
 	</select>
 	
-	<select id="queryByEmail" resultType="com.crm.entity.Custom">
+	<select id="queryByEmail" resultType="com.crm.entity.Custom" flushCache="true" useCache="false">
 		select * from tbl_custom where email = #{email,jdbcType=VARCHAR} and status = 'Y'
 	</select>
 	
-	<select id="getStatListByBaidu" resultMap="StatResultMap">
+	<select id="getStatListByBaidu" resultMap="StatResultMap" flushCache="true" useCache="false">
 		select city as name,count(*) as count from tbl_custom where city is not null and city != '' group by city
 	</select>
 	

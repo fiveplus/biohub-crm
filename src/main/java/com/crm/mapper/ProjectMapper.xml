@@ -73,11 +73,11 @@
 		ct.name as custom_type,p.custom_id,pdd.id as parent_id,pdd.name as parent_name
 	</sql>
 	
-	<select id="getMaxProjectIndex" resultType="java.lang.Integer">
+	<select id="getMaxProjectIndex" resultType="java.lang.Integer" flushCache="true" useCache="false">
 		select max(project_index) from tbl_project
 	</select>
 	
-	<select id="getProjectById" resultMap="ProjectMap">
+	<select id="getProjectById" resultMap="ProjectMap" flushCache="true" useCache="false">
 		select <include refid="Project_Column_List" /> from tbl_project p 
 		left join tbl_custom c on p.custom_id = c.id 
 		left join tbl_project_type pt on p.type_id = pt.id 
@@ -87,7 +87,7 @@
 		left join tbl_project_domain pdd on pd.parent_id = pdd.id where p.id = #{id,jdbcType=VARCHAR}
 	</select>
 	
-	<select id="getProjectList" resultMap="ProjectMap" parameterType="com.crm.entity.Project">
+	<select id="getProjectList" resultMap="ProjectMap" parameterType="com.crm.entity.Project" flushCache="true" useCache="false">
 		select <include refid="Project_Column_List" /> from tbl_project p 
 		left join tbl_custom c on p.custom_id = c.id 
 		left join tbl_project_type pt on p.type_id = pt.id 
@@ -159,7 +159,7 @@
 		 p.update_time desc
 	</select>
 	
-	<select id="getProjectListByIn" resultMap="ProjectMap">
+	<select id="getProjectListByIn" resultMap="ProjectMap" flushCache="true" useCache="false">
 		select <include refid="Project_Column_List" /> from tbl_project p 
 		left join tbl_custom c on p.custom_id = c.id 
 		left join tbl_custom_type ct on c.type_id = ct.id 
@@ -173,21 +173,21 @@
 		</foreach>
 	</select>
 	
-	<select id="queryByCustomId" resultMap="BaseResultMap">
+	<select id="queryByCustomId" resultMap="BaseResultMap" flushCache="true" useCache="false">
 		select * from tbl_project where custom_id = #{customId,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	
-	<select id="queryByName" resultMap="BaseResultMap">
+	<select id="queryByName" resultMap="BaseResultMap" flushCache="true" useCache="false">
 		select * from tbl_project where name = #{name,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	
-	<select id="getProjectStatList" resultMap="StatResultMap" >
+	<select id="getProjectStatList" resultMap="StatResultMap" flushCache="true" useCache="false">
 		select pd.name as name,count(*) as count from tbl_project p 
 		left join tbl_project_domain pd on p.domain_id = pd.id 
 		where p.status = 'Y' group by p.domain_id order by count(*) desc 
 	</select>
 	
-	<select id="getProjectStatListByCreateTime" resultMap="StatResultMap" >
+	<select id="getProjectStatListByCreateTime" resultMap="StatResultMap" flushCache="true" useCache="false">
 		select p.create_user as name,count(*) as count from tbl_project p 
 		where p.status = 'Y' and p.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
 		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 
@@ -195,7 +195,7 @@
 		 order by count(*) desc  
 	</select>
 	
-	<select id="getProjectCount" resultType="java.lang.Integer">
+	<select id="getProjectCount" resultType="java.lang.Integer" flushCache="true" useCache="false">
 		select count(*) from tbl_project p where p.status = 'Y' and
 		p.create_time &gt;= #{startTime,jdbcType=VARCHAR} 
 		 and p.create_time &lt;= #{endTime,jdbcType=VARCHAR} 

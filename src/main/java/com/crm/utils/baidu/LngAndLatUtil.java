@@ -10,7 +10,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 百度地图API（Form China）
+ * @author hack
+ * 
+ */
 public class LngAndLatUtil {
 	//TODO B064a4ea88112dd0912c374b911d62df
 	private static final String API_KEY = "B064a4ea88112dd0912c374b911d62df";

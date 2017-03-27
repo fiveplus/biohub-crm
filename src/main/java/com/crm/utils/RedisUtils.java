@@ -17,7 +17,6 @@ public class RedisUtils {
 	 */
 	private static final int DEFAULT_CACHE_SECONDS = 60 * 60 * 1; //单位秒，设置为1小时
 	
-	private static int timeout = 60 * 1000;
 	
 	/**
 	 * 连接池
@@ -40,7 +39,7 @@ public class RedisUtils {
             config.setTimeBetweenEvictionRunsMillis(30000);  
             config.setNumTestsPerEvictionRun(-1);  
             config.setMinIdle(0);  
-            jedisPool = new JedisPool(config, "127.0.0.1", 6379,timeout);  
+            jedisPool = new JedisPool(config, "127.0.0.1", 6379);  
         }  
 		
 		

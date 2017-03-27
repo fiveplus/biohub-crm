@@ -8,7 +8,7 @@
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByName" resultType="com.crm.entity.CustomType">
+	<select id="queryByName" resultType="com.crm.entity.CustomType" flushCache="true" useCache="false">
 		select * from tbl_custom_type where name = #{name,jdbcType=VARCHAR}
 	</select>
 	

@@ -22,6 +22,19 @@
 				<!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载 -->
                 <prop key="lazyLoadingEnabled">false</prop> 
                 <prop key="aggressiveLazyLoading">true</prop>
+                
+                <!-- 允许或不允许多种结果集从一个单独 的语句中返回(需要适合的驱动) -->
+                <prop key="multipleResultSetsEnabled">true</prop>
+                <!-- 使用列标签代替列名。 不同的驱动在这 方便表现不同。 参考驱动文档或充分测 试两种方法来决定所使用的驱动 -->
+                <prop key="useColumnLabel">true</prop>
+                <prop key="defaultExecutorType" >SIMPLE</prop>
+				<!-- 设置超时时间, 它决定驱动等待一个数 据库响应的时间 -->
+				<prop key="defaultStatementTimeout" >100</prop>
+				<prop key="safeRowBoundsEnabled" >false</prop>
+				<prop key="mapUnderscoreToCamelCase" >false</prop>
+				<prop key="localCacheScope" >SESSION</prop>
+				<prop key="jdbcTypeForNull" >OTHER</prop>
+				<prop key="lazyLoadTriggerMethods" >equals,clone,hashCode,toString</prop>
 			</props>
 		</property>
 	</bean>

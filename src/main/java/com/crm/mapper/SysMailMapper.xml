@@ -3,7 +3,7 @@
 <mapper namespace="com.crm.dao.SysMailMapper">
 	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
 	
-	<select id="queryByEmail" resultType="com.crm.entity.SysMail">
+	<select id="queryByEmail" resultType="com.crm.entity.SysMail" flushCache="true" useCache="false">
 		select * from sys_mail where email = #{email,jdbcType=VARCHAR}
 	</select>
 	
