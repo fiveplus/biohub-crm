@@ -27,6 +27,10 @@
 		<property name="minIdle" value="0" />
 	</bean>
 	
+	<bean id="redisCache" class="com.crm.cache.RedisCache">
+		<constructor-arg name="id" value="redisCache" />
+	</bean>
+	
 	<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 		<constructor-arg index="1">
@@ -44,7 +48,7 @@
 	<bean id="cacheManager" class="com.crm.cache.CacheManage">
 		<property name="caches">
 			<set>
-				<ref bean="com.crm.cache.RedisCache" />
+				<ref bean="redisCache" />
 			</set>
 		</property>
 	</bean>
