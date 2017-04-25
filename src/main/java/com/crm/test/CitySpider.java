@@ -2,12 +2,14 @@ package com.crm.test;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import org.dom4j.Attribute;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -16,7 +18,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
 import com.crm.utils.HttpUtils;
-import com.crm.utils.baidu.LngAndLatUtil;
+import com.crm.utils.google.LngAndLatUtil;
 
 public class CitySpider extends Thread{
 	public void run() {
@@ -27,8 +29,7 @@ public class CitySpider extends Thread{
 			Document doc = null;
 			doc = DocumentHelper.createDocument();
 			Element r = doc.addElement("Location");
-			
-			String text = HttpUtils.doGet("http://220.249.89.138/web-crm/static/city.xml", null, "utf-8", true);
+			String text = HttpUtils.doGet("http://127.0.0.1:8080/web-crm/static/city.xml", null, "utf-8", true);
 			Document document = DocumentHelper.parseText(text);
 			Element root = document.getRootElement();
 			List<Element> list = root.selectNodes("/Location/CountryRegion");
@@ -37,26 +38,32 @@ public class CitySpider extends Thread{
 				country = country == null ? "" : country;
 				List<Element> l = e.selectNodes("State");
 				for(Element ee:l){
-					String state = ee.attributeValue("Name");
-					state = state == null ? "" : state;
-					List<Element> ll = ee.selectNodes("City");
-					for(Element eee:ll){
-						String city = eee.attributeValue("Name");
-						city = city == null ? "" : city;
-						String address = country+state+city;
-						long start = System.currentTimeMillis();
-						Map<String,String> map = LngAndLatUtil.getLngAndLat(address);
-						long end = System.currentTimeMillis();
-						if(map.get("lat").equals("")){
-							break;
-						}else{
-							Element c = r.addElement("City");
-							c.addAttribute("name", city);
-							c.addAttribute("lat", map.get("lat"));
-							c.addAttribute("lng",map.get("lng"));
-							System.out.println(address+":"+map.get("lat")+","+map.get("lng")+","+(end-start)+"ms");
+					try{
+						String state = ee.attributeValue("Name");
+						state = state == null ? "" : state;
+						List<Element> ll = ee.selectNodes("City");
+						for(Element eee:ll){
+							String city = eee.attributeValue("Name");
+							city = city == null ? "" : city;
+							String address = country+state+city;
+							long start = System.currentTimeMillis();
+							Map<String,String> map = LngAndLatUtil.getLngAndLat(address);
+							long end = System.currentTimeMillis();
+							if(map.get("lat").equals("")){
+								break;
+							}else{
+								Element c = r.addElement("City");
+								c.addAttribute("name", city);
+								c.addAttribute("lat", map.get("lat"));
+								c.addAttribute("lng",map.get("lng"));
+								System.out.println(address+":"+map.get("lat")+","+map.get("lng")+","+(end-start)+"ms");
+							}
 						}
+					}catch(Exception ex){
+						ex.printStackTrace();
+						continue;
 					}
+					
 				}
 			}
 			//完成

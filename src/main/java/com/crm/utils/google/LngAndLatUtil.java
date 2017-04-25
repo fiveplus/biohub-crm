@@ -38,7 +38,7 @@ public class LngAndLatUtil {
 		    while ((s = reader.readLine()) != null) {
 		    	 if (s != null) {
 		    		 str += s;
-		    		 System.out.println(s);
+		    		 //System.out.println(s);
 		    	 }
 		    }
 		    
