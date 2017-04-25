@@ -3,12 +3,16 @@ package com.crm.utils.google;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 /**
@@ -20,45 +24,42 @@ public class LngAndLatUtil {
 	public static Map<String,String> getLngAndLat(String addr){
 		String lat = "";
 		String lng = "";
-		String address = null;
-		try {
-			address = java.net.URLEncoder.encode(addr,"UTF-8");
-		} catch (UnsupportedEncodingException e) {
+		try{
+			String _url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr;
+			URL url = new URL(_url);
+			InetSocketAddress address = new InetSocketAddress("127.0.0.1",1080);
+			Proxy proxy = new Proxy(Proxy.Type.SOCKS, address); // Socket 代理
+		    HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);// 设置代理访问
+		    InputStreamReader in = new InputStreamReader(connection.getInputStream());
+		    BufferedReader reader = new BufferedReader(in);
+		    String str = "";
+		    String s = "";
+		    ObjectMapper mapper = new ObjectMapper();
+		    while ((s = reader.readLine()) != null) {
+		    	 if (s != null) {
+		    		 str += s;
+		    		 System.out.println(s);
+		    	 }
+		    }
+		    
+		    Map<?,?> map = mapper.readValue(str, Map.class);
+		    List list = (List) map.get("results");
+		    Map<?,?> result = (Map<?, ?>) list.get(0);
+		    Map<?,?> geometry = (Map<?, ?>) result.get("geometry");
+		    Map<?,?> location = (Map<?, ?>) geometry.get("location");
+		    lat = location.get("lat").toString();
+		    lng = location.get("lng").toString();
+		    Map<String,String> m = new HashMap<String, String>();
+		    m.put("lat", lat);
+		    m.put("lng", lng);
+		    return m;
+		}catch(Exception e){
 			e.printStackTrace();
 		}
-		String url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address;
-		URL googleMapURL = null;
-        URLConnection httpsConn = null;
-        // 进行转码
-        try {
-            googleMapURL = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        
-        try {
-			httpsConn = googleMapURL.openConnection();
-			if(httpsConn != null){
-				System.getProperties().setProperty("http.proxyHost", "127.0.0.1");
-				System.getProperties().setProperty("http.proxyPort", "8090");
-				
-				InputStreamReader insr = new InputStreamReader(httpsConn.getInputStream());
-				BufferedReader br = new BufferedReader(insr);
-				String data = null;
-				if((data = br.readLine()) != null){
-					System.out.println(data);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("lat", new String(lat));
-        map.put("lng", new String(lng));
-        return map;
+		return null;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		getLngAndLat("日本东京");
 	}
 }

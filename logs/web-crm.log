@@ -1,0 +1,2 @@
+[INFO] [2017-04-25 15:22:35][org.apache.commons.httpclient.HttpMethodDirector]I/O exception (java.net.ConnectException) caught when processing request: Operation timed out
+[INFO] [2017-04-25 15:22:35][org.apache.commons.httpclient.HttpMethodDirector]Retrying request
