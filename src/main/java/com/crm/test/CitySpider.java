@@ -47,6 +47,7 @@ public class CitySpider extends Thread{
 							city = city == null ? "" : city;
 							String address = country+state+city;
 							long start = System.currentTimeMillis();
+							
 							Map<String,String> map = LngAndLatUtil.getLngAndLat(address);
 							long end = System.currentTimeMillis();
 							if(map.get("lat").equals("")){
@@ -57,6 +58,7 @@ public class CitySpider extends Thread{
 								c.addAttribute("lat", map.get("lat"));
 								c.addAttribute("lng",map.get("lng"));
 								System.out.println(address+":"+map.get("lat")+","+map.get("lng")+","+(end-start)+"ms");
+								Thread.sleep(500);
 							}
 						}
 					}catch(Exception ex){
