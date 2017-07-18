@@ -17,6 +17,7 @@
 .ta_information td {height:40px;color:#333333;font-size:16px;font-family:"Microsoft YaHei";line-height:35px;border-bottom:1px solid #eeeeee;}
 .ta_information td span {color:#333333;font-size:12px;font-family:"Microsoft YaHei";line-height:35px;}
 .ta_first {width:120px;}
+.ta_first label{color:red;}
 .ta_secord {width:180px;}
 .right_pic {width:173px;height:215px;float:right;margin-top:10px;}
 .Pro_information {margin:10px 0 0 0;}
