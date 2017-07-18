@@ -6,6 +6,6 @@ function search_focus(flag){
 	if(flag){
 		div.css("border","1px solid #4285f4");
 	}else{
-		div.css("border","1px solid #eee");
+		div.css("border","1px solid #b6b6b6");
 	}
 }

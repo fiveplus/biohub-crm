@@ -19,13 +19,13 @@ body{
 	height: 38px;
 	overflow: hidden;
 	padding: 6px 9px 0;
-	border: 1px solid #eee;
+	border: 1px solid #b6b6b6;
 	width: 60%;
 	min-width: 600px;
 	max-width: 600px;
 }
 .search:hover{
-	border: 1px solid #ddd;
+	border: 1px solid #999;
 }
 .search-text:focus{
 	 
