@@ -96,6 +96,10 @@
 		<!-- 后缀  -->
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
+		<!-- redirectHttp10Compatible:解决https环境下使用redirect重定向地址变为http的协议，无法访问服务的问题  
+                   设置为false,即关闭了对http1.0协议的兼容支持  
+ 		--> 
+		<property name="redirectHttp10Compatible" value="false" /> 
 	</bean>
     
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
