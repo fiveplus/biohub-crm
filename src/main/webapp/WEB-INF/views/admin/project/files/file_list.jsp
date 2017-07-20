@@ -18,8 +18,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</label>
 	</form>
 </div>
-<div class="clearfix form-actions" align="right">
-	<div class="col-md-offset-3 col-md-9">
+<div class="clearfix form-actions">
+	<div id="progress_div" style="display: none;">
+		<div class="progress progress-striped active" data-percent="0%">
+			<div class="progress-bar progress-bar-yellow" style="width: 0%"></div>
+		</div>
+	</div>
+	<div class="col-md-offset-3 col-md-9" align="right" style="padding-right:0px;">
 		<button class="btn btn-info" type="button" onclick="fileSubmit('file_post','file','file_list')">
 		<i class="icon-ok bigger-110"></i>
 		文件上传

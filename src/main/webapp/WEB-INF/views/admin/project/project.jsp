@@ -619,6 +619,9 @@
 						if(!file_input.data('ace_input_files')) return false;
 						var deferred;
 						
+						//进度条
+						var progress_div = $("#progress_div");
+						
 						if("FormData" in window){
 							var fd = new FormData(form.get(0));
 							if(file_input.data('ace_input_method')=='drop'){
@@ -644,6 +647,14 @@
 													var done = e.loaded || e.position, total = e.total || e.totalSize;
 													var percent = parseInt((done/total)*100) + '%';
 													//percentage of uploaded file
+													progress_div.find(".progress").attr("data-percent",percent);
+													progress_div.find(".progress").find(".progress-bar").css("width",percent);
+													if(done == total){
+														progress_div.hide();
+													}else{
+														progress_div.show();
+													}
+													
 												}
 											}, false);
 										}
@@ -685,6 +696,7 @@
 								//发生错误
 								ace_msg.danger(result.msg);
 							}
+							$("#"+fileid).ace_file_input('reset_input');
 						}).fail(function(res){
 							upload_in_progress = false;
 							alert("There was an error");						
