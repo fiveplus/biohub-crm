@@ -30,7 +30,7 @@ public class LngAndLatUtil {
 		try{
 			String _url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr+"&key="+API_KEY;
 			URL url = new URL(_url);
-			InetSocketAddress address = new InetSocketAddress("127.0.0.1",1080);
+			InetSocketAddress address = new InetSocketAddress("127.0.0.1",1086);
 			Proxy proxy = new Proxy(Proxy.Type.SOCKS, address); // Socket 代理
 		    HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);// 设置代理访问
 		    InputStreamReader in = new InputStreamReader(connection.getInputStream());
@@ -41,7 +41,7 @@ public class LngAndLatUtil {
 		    while ((s = reader.readLine()) != null) {
 		    	 if (s != null) {
 		    		 str += s;
-		    		 System.out.println(s);
+		    		 //System.out.println(s);
 		    	 }
 		    }
 		    
@@ -63,6 +63,8 @@ public class LngAndLatUtil {
 	}
 	
 	public static void main(String[] args){
-		getLngAndLat("伦敦");
+		Map<String,String> map = getLngAndLat("都灵");
+		System.out.println("lat:"+map.get("lat"));
+		System.out.println("lng:"+map.get("lng"));
 	}
 }

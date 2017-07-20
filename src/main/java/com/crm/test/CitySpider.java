@@ -6,9 +6,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -18,18 +15,20 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
 import com.crm.utils.HttpUtils;
-import com.crm.utils.google.LngAndLatUtil;
+import com.crm.utils.aliyun.LngAndLatUtil;
+
 
 public class CitySpider extends Thread{
 	public void run() {
 		try{
+			int number = 0;
 			URI uri = getClass().getResource("/spider.xml").toURI();
 			System.out.println(uri.toString());
 			//新建文档
 			Document doc = null;
 			doc = DocumentHelper.createDocument();
 			Element r = doc.addElement("Location");
-			String text = HttpUtils.doGet("http://127.0.0.1:8080/web-crm/static/city.xml", null, "utf-8", true);
+			String text = HttpUtils.doGet("https://i.bridgebiomed.com/crm/static/city.xml", null, "utf-8", true);
 			Document document = DocumentHelper.parseText(text);
 			Element root = document.getRootElement();
 			List<Element> list = root.selectNodes("/Location/CountryRegion");
@@ -58,7 +57,16 @@ public class CitySpider extends Thread{
 								c.addAttribute("lat", map.get("lat"));
 								c.addAttribute("lng",map.get("lng"));
 								System.out.println(address+":"+map.get("lat")+","+map.get("lng")+","+(end-start)+"ms");
-								Thread.sleep(500);
+								//Thread.sleep(500);
+								number++;
+								if(number >= 10){
+									//完成
+									OutputFormat format = OutputFormat.createPrettyPrint();
+									XMLWriter writer = new XMLWriter(new FileOutputStream(new File(uri)),format);
+									writer.write(doc);
+									writer.close();
+									return;
+								}
 							}
 						}
 					}catch(Exception ex){
@@ -68,11 +76,11 @@ public class CitySpider extends Thread{
 					
 				}
 			}
-			//完成
-			OutputFormat format = OutputFormat.createPrettyPrint();
-			XMLWriter writer = new XMLWriter(new FileOutputStream(new File(uri)),format);
-			writer.write(doc);
-			writer.close();
+			// 完成
+			// OutputFormat format = OutputFormat.createPrettyPrint();
+			// XMLWriter writer = new XMLWriter(new FileOutputStream(new File(uri)),format);
+			// writer.write(doc);
+			// writer.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
