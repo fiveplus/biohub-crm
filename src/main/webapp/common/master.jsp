@@ -75,7 +75,15 @@
 	<script type="text/javascript">
 		if("ontouchend" in document) document.write("<script src='${contextPath}/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 	</script>
-	
+	<script type="text/javascript">
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?cf2d4fd67587207c0dc54af909176013";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
 </head>
 <body>
 	<div class="navbar navbar-default" id="navbar">

@@ -12,6 +12,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<title>404</title>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="${contextPath}/css/404.css" media="screen" type="text/css" />
+	<script type="text/javascript">
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?cf2d4fd67587207c0dc54af909176013";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
 </head>
 
 <body>
