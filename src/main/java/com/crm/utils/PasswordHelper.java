@@ -48,7 +48,7 @@ public class PasswordHelper {
 		*/
 		User u = new User();
 		u.setPassword("Wuhan2016");
-		u.setLoginName("admin");
+		u.setLoginName("mengdie.wan");
 		u = new PasswordHelper().encryptPassword(u);
 		System.out.println(u.getPassword());
 		System.out.println(u.getSalt());
