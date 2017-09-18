@@ -25,7 +25,6 @@ public class CustomMailThread extends Thread{
 		this.password = password;
 	}
 	
-	
 	public void run() {
 		for(CustomBO c:customs){
 			try{
