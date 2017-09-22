@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crm.dao.CustomTypeMapper;
-import com.crm.entity.Custom;
 import com.crm.entity.CustomType;
 
 @Service("customTypeService")

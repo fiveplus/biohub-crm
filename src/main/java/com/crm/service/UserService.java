@@ -2,9 +2,7 @@ package com.crm.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

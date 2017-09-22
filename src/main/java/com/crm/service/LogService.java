@@ -18,7 +18,6 @@ import com.crm.utils.LogUtil.LogObject;
 import com.crm.utils.LogUtil.LogType;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mysql.jdbc.log.LogUtils;
 
 @Service("logService")
 public class LogService extends BaseService<Log>{
