@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.ProjectProcessMapper">
-	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" />
+	<cache eviction="LRU" type="com.crm.cache.RedisCache" />
 	<resultMap type="com.crm.controller.admin.bo.DataStat" id="StatResultMap">
 		<id column="name" property="name" jdbcType="VARCHAR" />
 		<id column="count" property="count" jdbcType="INTEGER" />

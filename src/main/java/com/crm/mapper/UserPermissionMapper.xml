@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.crm.dao.UserPermissionMapper">
 
-	<cache eviction="LRU" type="com.crm.cache.MybatisRedisCache" /> 
+	<cache eviction="LRU" type="com.crm.cache.RedisCache" /> 
 	
 	<resultMap type="com.crm.entity.UserPermission" id="BaseResultMap">
 		<id column="id" property="id" jdbcType="VARCHAR" />

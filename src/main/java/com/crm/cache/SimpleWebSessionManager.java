@@ -17,7 +17,7 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 public class SimpleWebSessionManager extends DefaultWebSessionManager{
 	private static final String SESSION_USER_KEY = "user";
 	private CacheManager cacheManager;
-	private final static Log log = LogFactory.getLog(RedisCache.class);
+	private final static Log log = LogFactory.getLog(SimpleWebSessionManager.class);
 	
 	public SimpleWebSessionManager() {
 		super();
