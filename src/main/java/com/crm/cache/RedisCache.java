@@ -8,14 +8,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.cache.Cache;
 import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.connection.jredis.JredisConnection;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 /**
- * 
+ * 自定义Redis缓存（update对象必须与select对象一致）
  * @author five
  *
  */
@@ -45,6 +44,7 @@ public class RedisCache implements Cache{
 			connection = jedisConnectionFactory.getConnection();
 			connection.flushDb();
 			connection.flushAll();
+			log.debug("redis clear.");
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
@@ -67,6 +67,7 @@ public class RedisCache implements Cache{
 			connection = jedisConnectionFactory.getConnection();
 			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
 			result = serializer.deserialize(connection.get(serializer.serialize(key)));
+			log.debug("getObject:"+serializer.serialize(key));
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
@@ -106,6 +107,7 @@ public class RedisCache implements Cache{
 			connection = jedisConnectionFactory.getConnection();
 			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
 			connection.set(serializer.serialize(key), serializer.serialize(value));
+			log.debug("putObject:"+serializer.serialize(key));
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
@@ -123,6 +125,7 @@ public class RedisCache implements Cache{
 			connection = jedisConnectionFactory.getConnection();
 			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
 			result = connection.expire(serializer.serialize(key), 0);
+			log.debug("removeObject:"+serializer.serialize(key));
 		} catch (JedisConnectionException e) {
 			e.printStackTrace();
 		}finally {

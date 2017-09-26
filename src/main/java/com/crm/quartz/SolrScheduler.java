@@ -22,8 +22,10 @@ public class SolrScheduler{
 	public void work(){
 		 try {
 			 String url = putil.getProperty("solr.dataimport");
-			 HttpUtils.doGet(url, null, "utf8", true);
-			 log.info("["+StringUtils.getDatetToString(new Date())+"][Solr]dataimport/fullimport更新成功。");
+			 if(!url.equals("")){
+				 HttpUtils.doGet(url, null, "utf8", true);
+				 log.info("["+StringUtils.getDatetToString(new Date())+"][Solr]dataimport/fullimport更新成功。");
+			 }
          } catch (Exception e) {  
         	 log.error("Solr定时全量索引搜索错误。");
          }  

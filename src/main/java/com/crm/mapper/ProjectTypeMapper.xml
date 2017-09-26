@@ -9,7 +9,7 @@
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByName" resultType="com.crm.entity.ProjectType" flushCache="true" useCache="false">
+	<select id="queryByName" resultType="com.crm.entity.ProjectType" >
 		select * from tbl_project_type where name = #{name,jdbcType=VARCHAR}
 	</select>
 	

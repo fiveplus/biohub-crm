@@ -37,26 +37,26 @@
 		id,picture,login_name,user_name,modify_time,locked,status
 	</sql>
 	
-	<select id="getUserList" resultMap="UserResultMap" flushCache="true" useCache="false">
+	<select id="getUserList" resultMap="UserResultMap" >
 		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.status = 'Y' order by u.modify_time desc
 	</select>
 	
-	<select id="getUserById" resultMap="UserResultMap" flushCache="true" useCache="false">
+	<select id="getUserById" resultMap="UserResultMap" >
 		select u.<include refid="User_Column_List" />,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id = d.id where u.id = #{id,jdbcType=VARCHAR}
 	</select>
 	
-	<select id="getUserByLoginNameAndPassword" resultMap="BaseResultMap" flushCache="true" useCache="false">
+	<select id="getUserByLoginNameAndPassword" resultMap="BaseResultMap" >
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
     </select>
-    <select id="getUserByLoginName" resultMap="BaseResultMap" flushCache="true" useCache="false">
+    <select id="getUserByLoginName" resultMap="BaseResultMap" >
     	select <include refid="Base_Column_List" /> from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
     
-    <select id="getUserByUserName" resultMap="BaseResultMap" flushCache="true" useCache="false">
+    <select id="getUserByUserName" resultMap="BaseResultMap" >
     	select <include refid="Base_Column_List" /> from sys_user where user_name = #{userName,jdbcType=VARCHAR}
     </select>
     
-    <select id="queryUserListByDeptId" resultMap="BaseResultMap" flushCache="true" useCache="false">
+    <select id="queryUserListByDeptId" resultMap="BaseResultMap" >
     	select <include refid="Base_Column_List" /> from sys_user where dept_id = #{deptId,jdbcType=VARCHAR}
     </select>
     

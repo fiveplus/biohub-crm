@@ -21,19 +21,19 @@
 		<id column="parent_name" property="parentName" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByName" resultType="com.crm.entity.ProjectDomain" flushCache="true" useCache="false">
+	<select id="queryByName" resultType="com.crm.entity.ProjectDomain" >
 		select * from tbl_project_domain where name = #{name,jdbcType=VARCHAR}
 	</select>
 	
-	<select id="queryList" resultMap="ProjectDomainMap" flushCache="true" useCache="false">
+	<select id="queryList" resultMap="ProjectDomainMap" >
 		select p.id,p.name,p.english_name,p.english_short,p.information,p.create_time,c.name as parent_name from tbl_project_domain p left join tbl_project_domain c on p.parent_id = c.id
 	</select>
 	
-	<select id="getParentList" resultMap="BaseResultMap" flushCache="true" useCache="false">
+	<select id="getParentList" resultMap="BaseResultMap" >
 		select * from tbl_project_domain where parent_id is NULL
 	</select>
 	
-	<select id="getChildList" resultMap="BaseResultMap" flushCache="true" useCache="false">
+	<select id="getChildList" resultMap="BaseResultMap" >
 		select * from tbl_project_domain where parent_id = #{pid,jdbcType=VARCHAR}
 	</select>
 	

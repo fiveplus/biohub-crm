@@ -21,24 +21,24 @@
 		<id column="status" property="status" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="getLogList" resultMap="LogResultMap" flushCache="true" useCache="false">
+	<select id="getLogList" resultMap="LogResultMap" >
 		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id where l.user_id = #{userId,jdbcType=VARCHAR} order by l.create_time desc limit 0,#{count,jdbcType=INTEGER}  
 	</select>
-	<select id="getLogListNoParam" resultMap="LogResultMap" flushCache="true" useCache="false">
+	<select id="getLogListNoParam" resultMap="LogResultMap" >
 		select l.id,u.picture,u.user_name,l.create_time,l.information from sys_log l left join sys_user u on l.user_id = u.id order by l.create_time desc 
 	</select>
 	
-	<select id="queryCountByUserId" resultType="java.lang.Integer" flushCache="true" useCache="false">
+	<select id="queryCountByUserId" resultType="java.lang.Integer" >
 		select count(*) from sys_log where user_id = #{userId,jdbcType=VARCHAR} and is_read = 'N'
 	</select>
 	
-	<select id="getUserListByCustomId" resultMap="UserResultMap" flushCache="true" useCache="false">
+	<select id="getUserListByCustomId" resultMap="UserResultMap" >
 		select u.id,d.name as dept_name,u.login_name,u.user_name,u.picture,u.modify_time,u.status,u.locked from sys_log l 
 		left join sys_user u on l.user_id = u.id 
 		left join sys_dept d on u.dept_id = d.id
 		where custom_id = #{customId,jdbcType=VARCHAR} group by l.user_id order by max(l.create_time) desc limit 0,10
 	</select>
-	<select id="getUserListByProjectId" resultMap="UserResultMap" flushCache="true" useCache="false">
+	<select id="getUserListByProjectId" resultMap="UserResultMap" >
 		select u.id,d.name as dept_name,u.login_name,u.user_name,u.picture,u.modify_time,u.status,u.locked from sys_log l 
 		left join sys_user u on l.user_id = u.id 
 		left join sys_dept d on u.dept_id = d.id

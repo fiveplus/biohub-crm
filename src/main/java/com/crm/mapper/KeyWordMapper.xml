@@ -13,11 +13,11 @@
 		<id column="create_time" property="createTime" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryByName" resultMap="BaseResultMap" flushCache="true" useCache="false">
+	<select id="queryByName" resultMap="BaseResultMap" >
 		select id,name,use_count,create_time from tbl_keyword where name = #{name,jdbcType=VARCHAR}
 	</select>
 	
-	<select id="getStatListByKeyWord" resultMap="StatResultMap" flushCache="true" useCache="false">
+	<select id="getStatListByKeyWord" resultMap="StatResultMap" >
 		select name,use_count as count from tbl_keyword where name != '' order by use_count desc limit 0,10
 	</select>
 	

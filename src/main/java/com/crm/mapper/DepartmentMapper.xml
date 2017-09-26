@@ -18,7 +18,7 @@
 		id,name,information,phone,create_time,create_user,update_count,dept_email
 	</sql>
 	
-	<select id="queryByName" resultType="com.crm.entity.Department" flushCache="true" useCache="false">
+	<select id="queryByName" resultType="com.crm.entity.Department" >
 		select * from sys_dept where name = #{name,jdbcType=VARCHAR} 
 	</select>
 	
