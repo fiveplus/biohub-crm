@@ -3,13 +3,19 @@ package com.crm.cache;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.cache.Cache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
@@ -67,7 +73,7 @@ public class RedisCache implements Cache{
 			connection = jedisConnectionFactory.getConnection();
 			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
 			result = serializer.deserialize(connection.get(serializer.serialize(key)));
-			log.debug("getObject:"+serializer.serialize(key));
+			log.debug("getObject:"+key.toString());
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{

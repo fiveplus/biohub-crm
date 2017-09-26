@@ -104,7 +104,7 @@
 		select count(*) from tbl_custom where status = 'Y'
 	</select>
 	
-	<select id="queryByEmail" resultType="com.crm.entity.Custom" >
+	<select id="queryByEmail" resultType="com.crm.entity.Custom" flushCache="true" useCache="false">
 		select * from tbl_custom where email = #{email,jdbcType=VARCHAR} and status = 'Y'
 	</select>
 	

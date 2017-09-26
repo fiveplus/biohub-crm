@@ -177,7 +177,7 @@
 		select * from tbl_project where custom_id = #{customId,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	
-	<select id="queryByName" resultMap="BaseResultMap" >
+	<select id="queryByName" resultMap="BaseResultMap" flushCache="true" useCache="false">
 		select * from tbl_project where name = #{name,jdbcType=VARCHAR} and status = 'Y' 
 	</select>
 	
