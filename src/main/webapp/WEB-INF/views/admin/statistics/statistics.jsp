@@ -8,7 +8,9 @@
 	</fms:Content>
 		
 	<fms:Content contentPlaceHolderId="source">
-		<!-- 按需加载模块 -->
+		<!-- 消息统计框架 -->
+		<!-- <script src="../js/ichart.1.2.min.js"></script>  -->
+		<script src="${contextPath}/js/echarts.min.js"></script>	
 	</fms:Content>
 	
 	<fms:Content contentPlaceHolderId="main">

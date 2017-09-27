@@ -8,7 +8,10 @@
 	</fms:Content>
 		
 	<fms:Content contentPlaceHolderId="source">
-		<!-- 按需加载模块 -->
+		<!-- 文件上传模块 -->
+		<link rel="stylesheet" href="${contextPath}/js/ajaxfileupload.css" />
+		<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script>
+		
 	</fms:Content>
 	
 	<fms:Content contentPlaceHolderId="main">

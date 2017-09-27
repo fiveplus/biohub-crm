@@ -46,9 +46,7 @@
 	<script src="${contextPath}/assets/js/ace-extra.min.js"></script>
 	
 	<!-- zhangshenwu js -->
-	<link rel="stylesheet" href="${contextPath}/js/ajaxfileupload.css" />
 	<link rel="stylesheet" href="${contextPath}/common/dynamic/css/stat.css" />
-		
 	<link rel="stylesheet" href="${contextPath}/js/jquery.Jcrop.css" />
 	
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -76,15 +74,13 @@
 		if("ontouchend" in document) document.write("<script src='${contextPath}/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 	</script>
 	
-	<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script> 
+	
 	<script type="text/javascript" src="${contextPath}/js/jquery.Jcrop.js" ></script> 
 		
 	<!-- comet4j服务器消息推送 -->
+	<!-- 
 	<script type="text/javascript" src="${contextPath}/js/comet4j.js"></script> 	
-	
-	<!-- 消息统计框架 -->
-	<!-- <script src="../js/ichart.1.2.min.js"></script>  -->
-	<script src="${contextPath}/js/echarts.min.js"></script>	
+	 -->
 	
 	<script src="${contextPath}/assets/js/bootstrap.min.js"></script>
 	<script src="${contextPath}/assets/js/typeahead-bs2.min.js"></script>	
