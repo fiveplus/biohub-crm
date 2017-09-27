@@ -77,7 +77,7 @@
 					</#if>
 				</#list>
 				&nbsp;
-				<#if (p<pageCount) >
+				<#if (p lt pageCount) >
 					<a href="${base.ctx}/site/q?c=${c}&p=${p+1}">下一页</a>
 				</#if>
 			</div>
