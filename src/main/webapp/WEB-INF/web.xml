@@ -34,16 +34,16 @@
     
     <!-- 编码过滤器，以UTF8编码 -->
     <filter>
-    	<filter-name>encodingFilter</filter-name>
-    	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-    	<init-param>
-    		<param-name>encoding</param-name>
-    		<param-value>UTF-8</param-value>
-    	</init-param>
+	    	<filter-name>encodingFilter</filter-name>
+	    	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	    	<init-param>
+	    		<param-name>encoding</param-name>
+	    		<param-value>UTF-8</param-value>
+	    	</init-param>
     </filter>
     <filter-mapping>
-    	<filter-name>encodingFilter</filter-name>
-    	<url-pattern>/*</url-pattern>
+	    	<filter-name>encodingFilter</filter-name>
+	    	<url-pattern>/*</url-pattern>
     </filter-mapping>
     
     <!-- 配置Shiro过滤器,先让Shiro过滤系统接收到的请求 -->  
@@ -63,6 +63,7 @@
 	        <filter-name>shiroFilter</filter-name>  
 	        <url-pattern>/*</url-pattern>  
 	</filter-mapping>
+	
 	    
     <!-- 将POST请求转换为DELETE或者是PUT 要用_method指定真正的请求方法 -->
     <!-- 
