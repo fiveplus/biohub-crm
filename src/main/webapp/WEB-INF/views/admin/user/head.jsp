@@ -8,7 +8,9 @@
 	</fms:Content>
 		
 	<fms:Content contentPlaceHolderId="source">
-		<!-- 按需加载模块 -->
+		<!-- 图像裁剪模块 -->
+		<link rel="stylesheet" href="${contextPath}/js/jquery.Jcrop.css" />
+		<script type="text/javascript" src="${contextPath}/js/jquery.Jcrop.js" ></script> 
 	</fms:Content>
 	
 	<fms:Content contentPlaceHolderId="main">

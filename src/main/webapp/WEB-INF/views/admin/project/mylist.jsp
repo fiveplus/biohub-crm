@@ -9,7 +9,7 @@
 	</fms:Content>
 		
 	<fms:Content contentPlaceHolderId="source">
-		<!-- 按需加载模块 -->
+
 	</fms:Content>
 	
 	<fms:Content contentPlaceHolderId="main">
