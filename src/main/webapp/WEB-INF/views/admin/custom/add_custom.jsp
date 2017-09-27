@@ -6,6 +6,11 @@
 	<fms:Content contentPlaceHolderId="title">
 		Customer Relationship Management
 	</fms:Content>
+	
+	<fms:Content contentPlaceHolderId="source">
+		<!-- 按需加载模块 -->
+	</fms:Content>
+	
 	<fms:Content contentPlaceHolderId="main">
 		<div class="breadcrumbs" id="breadcrumbs">
 			<script type="text/javascript">

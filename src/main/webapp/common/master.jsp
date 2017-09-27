@@ -75,6 +75,58 @@
 	<script type="text/javascript">
 		if("ontouchend" in document) document.write("<script src='${contextPath}/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 	</script>
+	
+	<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script> 
+	<script type="text/javascript" src="${contextPath}/js/jquery.Jcrop.js" ></script> 
+		
+	<!-- comet4j服务器消息推送 -->
+	<script type="text/javascript" src="${contextPath}/js/comet4j.js"></script> 	
+	
+	<!-- 消息统计框架 -->
+	<!-- <script src="../js/ichart.1.2.min.js"></script>  -->
+	<script src="${contextPath}/js/echarts.min.js"></script>	
+	
+	<script src="${contextPath}/assets/js/bootstrap.min.js"></script>
+	<script src="${contextPath}/assets/js/typeahead-bs2.min.js"></script>	
+	
+	<!-- page specific plugin scripts -->
+	<script src="${contextPath}/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.ui.touch-punch.min.js"></script>
+	
+	<script src="${contextPath}/assets/js/chosen.jquery.min.js"></script>
+	<script src="${contextPath}/assets/js/fuelux/fuelux.spinner.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/moment.min.js"></script>
+	<script src="${contextPath}/assets/js/date-time/daterangepicker.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-colorpicker.min.js"></script> 
+	<script src="${contextPath}/assets/js/jquery.knob.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.autosize.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.maskedinput.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-tag.min.js"></script>
+	
+	<script src="${contextPath}/assets/js/markdown/markdown.min.js"></script>
+	<script src="${contextPath}/assets/js/markdown/bootstrap-markdown.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.hotkeys.min.js"></script>
+	<script src="${contextPath}/assets/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="${contextPath}/assets/js/bootbox.min.js"></script>
+	
+	<script src="${contextPath}/assets/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="${contextPath}/assets/js/jquery.gritter.min.js"></script>
+	<script src="${contextPath}/assets/js/spin.min.js"></script>
+	
+	<!-- ace scripts -->
+	<script src="${contextPath}/assets/js/ace-elements.min.js"></script>
+	<script src="${contextPath}/assets/js/ace.min.js"></script>
+	
+	<!-- tree -->
+	<script src="${contextPath}/assets/js/fuelux/fuelux.tree.min.js"></script>
+	
+	<!-- messgae-alert -->
+	<script src="${contextPath}/js/acemsg.js"></script>
+	
+	
 	<script type="text/javascript">
 	var _hmt = _hmt || [];
 	(function() {
@@ -84,6 +136,10 @@
 	  s.parentNode.insertBefore(hm, s);
 	})();
 	</script>
+	
+	<!-- 按需加载文件 -->
+	<fms:ContentPlaceHolder id="source" />
+	
 </head>
 <body>
 	<div class="navbar navbar-default" id="navbar">
@@ -200,58 +256,6 @@
 			<i class="icon-double-angle-up icon-only bigger-110"></i>
 		</a>
 	</div><!-- /.main-container -->
-	
-
-	
-	<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script> 
-	<script type="text/javascript" src="${contextPath}/js/jquery.Jcrop.js" ></script> 
-		
-	<!-- comet4j服务器消息推送 -->
-	<script type="text/javascript" src="${contextPath}/js/comet4j.js"></script> 	
-	
-	<!-- 消息统计框架 -->
-	<!-- <script src="../js/ichart.1.2.min.js"></script>  -->
-	<script src="${contextPath}/js/echarts.min.js"></script>	
-	
-	<script src="${contextPath}/assets/js/bootstrap.min.js"></script>
-	<script src="${contextPath}/assets/js/typeahead-bs2.min.js"></script>	
-	
-	<!-- page specific plugin scripts -->
-	<script src="${contextPath}/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.ui.touch-punch.min.js"></script>
-	
-	<script src="${contextPath}/assets/js/chosen.jquery.min.js"></script>
-	<script src="${contextPath}/assets/js/fuelux/fuelux.spinner.min.js"></script>
-	<script src="${contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
-	<script src="${contextPath}/assets/js/date-time/bootstrap-timepicker.min.js"></script>
-	<script src="${contextPath}/assets/js/date-time/moment.min.js"></script>
-	<script src="${contextPath}/assets/js/date-time/daterangepicker.min.js"></script>
-	<script src="${contextPath}/assets/js/bootstrap-colorpicker.min.js"></script> 
-	<script src="${contextPath}/assets/js/jquery.knob.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.autosize.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.maskedinput.min.js"></script>
-	<script src="${contextPath}/assets/js/bootstrap-tag.min.js"></script>
-	
-	<script src="${contextPath}/assets/js/markdown/markdown.min.js"></script>
-	<script src="${contextPath}/assets/js/markdown/bootstrap-markdown.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.hotkeys.min.js"></script>
-	<script src="${contextPath}/assets/js/bootstrap-wysiwyg.min.js"></script>
-	<script src="${contextPath}/assets/js/bootbox.min.js"></script>
-	
-	<script src="${contextPath}/assets/js/jquery.easy-pie-chart.min.js"></script>
-	<script src="${contextPath}/assets/js/jquery.gritter.min.js"></script>
-	<script src="${contextPath}/assets/js/spin.min.js"></script>
-	
-	<!-- ace scripts -->
-	<script src="${contextPath}/assets/js/ace-elements.min.js"></script>
-	<script src="${contextPath}/assets/js/ace.min.js"></script>
-	
-	<!-- tree -->
-	<script src="${contextPath}/assets/js/fuelux/fuelux.tree.min.js"></script>
-	
-	<!-- messgae-alert -->
-	<script src="${contextPath}/js/acemsg.js"></script>
 	
 	<script type="text/javascript">
 		function go_url(url){
