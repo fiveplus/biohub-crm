@@ -24,6 +24,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
  * @author five
  *
  */
+
 public class RedisCache implements Cache{
 	private static final Log log = LogFactory.getLog(RedisCache.class);
 	private static JedisConnectionFactory jedisConnectionFactory;
