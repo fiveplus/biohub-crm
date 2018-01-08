@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.crm</groupId>
-	<artifactId>web-crm</artifactId>
+	<artifactId>biohub-crm</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
-	<name>web-crm webapp</name>
+	<name>BioHub-CRM Webapp</name>
 	
 	<repositories>
         <repository>
@@ -346,7 +346,7 @@
 		
 	</dependencies>
 	<build>
-		<finalName>web-crm</finalName>
+		<finalName>biohub-crm</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -413,7 +413,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0-beta-1</version>
                 <configuration>
-                    <path>/web-crm</path>
+                    <path>/biohub-crm</path>
                     <uriEncoding>UTF-8</uriEncoding>
                     <port>8080</port>
                 </configuration>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="biohub-crm:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="biohub-crm.war">
+      <element id="artifact" artifact-name="biohub-crm:war exploded" />
+    </root>
+  </artifact>
+</component>

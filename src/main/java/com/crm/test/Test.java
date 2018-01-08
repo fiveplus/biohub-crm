@@ -10,6 +10,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.crm.utils.HttpUtils;
+
 public class Test {
 	
 	void a() throws URISyntaxException, DocumentException{
@@ -26,5 +28,8 @@ public class Test {
 	
 	public static void main(String[] args) throws URISyntaxException, DocumentException {
 		//new Test().a();
+		String url = "http://192.168.1.113:8081/solr/";
+		String res = HttpUtils.doGet(url, null, "utf8", true);
+		System.out.println(res);
 	}
 }
