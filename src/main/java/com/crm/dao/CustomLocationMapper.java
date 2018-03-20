@@ -1,9 +1,12 @@
 package com.crm.dao;
 
+import org.apache.ibatis.annotations.CacheNamespaceRef;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import com.crm.entity.CustomLocation;
-import com.github.abel533.mapper.Mapper;
+import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.common.Mapper;
 public interface CustomLocationMapper extends Mapper<CustomLocation>{
-	public CustomLocation queryByName(@Param("name") String name);
+	CustomLocation queryByName(@Param("name") String name);
 }

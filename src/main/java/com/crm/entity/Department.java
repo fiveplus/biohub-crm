@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name="sys_dept")
 public class Department implements Serializable{
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
 	private String id;
 	@Column
 	private String name;

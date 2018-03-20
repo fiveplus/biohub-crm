@@ -2,15 +2,12 @@ package com.crm.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name="sys_user_permission")
 public class UserPermission implements Serializable{
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
 	private String id;
 	@Column
 	private String permissionId;

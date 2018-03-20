@@ -38,7 +38,7 @@
 			</props>
 		</property>
 	</bean>
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.crm.dao" />
 	</bean>
 	 

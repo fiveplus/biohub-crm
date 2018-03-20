@@ -2,15 +2,12 @@ package com.crm.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name="tbl_process")
 public class ProjectProcess implements Serializable{
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
 	private String id;
 	@Column
 	private String projectId;

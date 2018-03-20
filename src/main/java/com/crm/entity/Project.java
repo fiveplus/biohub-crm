@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 @Table(name="tbl_project")
 public class Project implements Serializable{
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
 	private String id;
 	@Column
 	private String projectNum;

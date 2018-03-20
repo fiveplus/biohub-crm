@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 @Table(name="sys_user")
 public class User implements Serializable{
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
 	private String id;
 	@Column
 	private String loginName;

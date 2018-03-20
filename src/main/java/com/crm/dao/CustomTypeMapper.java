@@ -1,9 +1,11 @@
 package com.crm.dao;
 
+import org.apache.ibatis.annotations.CacheNamespaceRef;
 import org.apache.ibatis.annotations.Param;
 
 import com.crm.entity.CustomType;
-import com.github.abel533.mapper.Mapper;
+import tk.mybatis.mapper.common.Mapper;
+
 public interface CustomTypeMapper extends Mapper<CustomType>{
-	public CustomType queryByName(@Param("name") String name);
+	CustomType queryByName(@Param("name") String name);
 }

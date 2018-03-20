@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.abel533.entity.Example;
-import com.github.abel533.mapper.Mapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 
 public class BaseService<T> {
@@ -21,7 +21,7 @@ public class BaseService<T> {
 	
 	//查询所有
 	public List<T> queryAll(){
-		return this.mapper.select(null);
+		return this.mapper.selectAll();
 	}
 	
 	//条件查询
