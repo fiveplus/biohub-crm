@@ -52,10 +52,10 @@ public class RedisCache implements Cache{
 			connection.flushDb();
 			connection.flushAll();
 			log.debug("redis clear.");
-		}catch(JedisConnectionException e){
+		}catch( JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
-			if(connection != null){
+			if(connection != null) {
 				connection.close();
 			}
 		}
@@ -71,12 +71,10 @@ public class RedisCache implements Cache{
 		Object result = null;
 		JedisConnection connection = null;
 		try{
-			if(jedisConnectionFactory != null){
-				connection = jedisConnectionFactory.getConnection();
-				RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-				result = serializer.deserialize(connection.get(serializer.serialize(key)));
-				log.debug("getObject:"+key.toString());
-			}
+			connection = jedisConnectionFactory.getConnection();
+			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
+			result = serializer.deserialize(connection.get(serializer.serialize(key)));
+			log.debug("getObject:"+key.toString());
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
@@ -97,10 +95,8 @@ public class RedisCache implements Cache{
 		int result = 0;
 		JedisConnection connection = null;
 		try {
-			if(jedisConnectionFactory != null){
-				connection = jedisConnectionFactory.getConnection();
-				result = Integer.valueOf(connection.dbSize().toString());
-			}
+			connection = jedisConnectionFactory.getConnection();
+			result = Integer.valueOf(connection.dbSize().toString());
 		} catch (JedisConnectionException e) {
 			e.printStackTrace();
 		}finally{
@@ -115,12 +111,10 @@ public class RedisCache implements Cache{
 	public void putObject(Object key, Object value) {
 		JedisConnection connection = null;
 		try{
-			if(jedisConnectionFactory != null){
-				connection = jedisConnectionFactory.getConnection();
-				RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-				connection.set(serializer.serialize(key), serializer.serialize(value));
-				log.debug("putObject:"+serializer.serialize(key));
-			}
+			connection = jedisConnectionFactory.getConnection();
+			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
+			connection.set(serializer.serialize(key), serializer.serialize(value));
+			log.debug("putObject:"+serializer.serialize(key));
 		}catch(JedisConnectionException e){
 			e.printStackTrace();
 		}finally{
@@ -135,12 +129,12 @@ public class RedisCache implements Cache{
 		JedisConnection connection = null;
 		Object result = null;
 		try {
-			if(jedisConnectionFactory != null){
-				connection = jedisConnectionFactory.getConnection();
-				RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-				result = connection.expire(serializer.serialize(key), 0);
-				log.debug("removeObject:"+serializer.serialize(key));
-			}
+
+			connection = jedisConnectionFactory.getConnection();
+			RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
+			result = connection.expire(serializer.serialize(key), 0);
+			log.debug("removeObject:"+serializer.serialize(key));
+
 		} catch (JedisConnectionException e) {
 			e.printStackTrace();
 		}finally {
@@ -154,6 +148,5 @@ public class RedisCache implements Cache{
 	public static void setJedisConnectionFactory(JedisConnectionFactory jedisConnectionFactory){
 		RedisCache.jedisConnectionFactory = jedisConnectionFactory;
 	}
-	
 	
 }

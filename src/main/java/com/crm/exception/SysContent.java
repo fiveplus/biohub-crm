@@ -27,6 +27,6 @@ public class SysContent {
 	public static HttpSession getSession(){
 		return (HttpSession)((HttpServletRequest)requestLocal.get()).getSession();
 	}
-	
+
 	
 }
