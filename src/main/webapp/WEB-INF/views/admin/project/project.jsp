@@ -435,7 +435,7 @@
 													<form action="${contextPath}/admin/process/save" role="form" class="form-horizontal" method="post" id="process_post" >
 													
 														<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 会谈对象</label>
+														<label class="col-sm-3 control-label no-padding-right"> 会谈对象</label>
 														<div class="col-sm-9" >
 															<input type="hidden" name="projectId" value="${project.id}" />
 															<label style="margin:5px 0 0 2px;color: red;" ><b>${project.customName}</b></label>

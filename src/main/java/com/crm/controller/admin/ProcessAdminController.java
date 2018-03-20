@@ -69,6 +69,9 @@ public class ProcessAdminController {
 		Date now = new Date();
 		User user = (User)session.getAttribute("user");
 		Map<String,Object> returnMap = new HashMap<String, Object>();
+
+		System.out.println(process.getId());
+
 		process.setProcessId(user.getId());
 		process.setUserId(user.getId());
 		process.setCreateTime(StringUtils.getDateToLong(now));

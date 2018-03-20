@@ -1,5 +1,8 @@
 package com.crm.entity;
 
+import tk.mybatis.mapper.annotation.KeySql;
+import tk.mybatis.mapper.code.ORDER;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
@@ -7,7 +10,7 @@ import javax.persistence.*;
 @Table(name="tbl_custom")
 public class Custom implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+	@KeySql(sql="select replace(uuid(),'-','')",order= ORDER.BEFORE)
 	private String id;
 	@Column
 	private String locationId;

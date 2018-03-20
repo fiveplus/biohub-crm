@@ -1,5 +1,8 @@
 package com.crm.entity;
 
+import tk.mybatis.mapper.annotation.KeySql;
+import tk.mybatis.mapper.code.ORDER;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +17,7 @@ import javax.persistence.Transient;
 @Table(name="sys_user")
 public class User implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+    @KeySql(sql="select replace(uuid(),'-','')",order= ORDER.BEFORE)
 	private String id;
 	@Column
 	private String loginName;
