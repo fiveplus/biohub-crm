@@ -11,7 +11,11 @@
 		<!-- 文件上传模块 -->
 		<link rel="stylesheet" href="${contextPath}/js/ajaxfileupload.css" />
 		<script type="text/javascript" src="${contextPath}/js/ajaxfileupload.js" ></script>
-		
+		<style>
+			.panel-body .info img{
+				width:100%;
+			}
+		</style>
 	</fms:Content>
 	
 	<fms:Content contentPlaceHolderId="main">

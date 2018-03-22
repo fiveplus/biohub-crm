@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label>项目需求：${p.demand}</label>
 						</div>
 						<hr/>
-						<div>
+						<div class="info">
 							${p.information}
 						</div>
 					</div>
