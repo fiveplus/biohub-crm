@@ -369,6 +369,7 @@
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                     <showWarnings>true</showWarnings>
+					<encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <!-- eclipse插件, 设定wtp版本并添加springIDE nature -->
