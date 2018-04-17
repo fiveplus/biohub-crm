@@ -15,7 +15,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class UnitTest {
    public static void main(String[] args){
-       Project project = new Project();
-       System.out.println(project.getId());
+       char a = '1';
+       int b = a - '0';
+       System.out.println(b);
    }
 }
