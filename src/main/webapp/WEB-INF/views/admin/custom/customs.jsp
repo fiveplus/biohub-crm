@@ -364,14 +364,17 @@
 					}
 				});
 			}
-			
 		
 			function form_submit(id,page){
+                $("#"+id+" :submit").attr("disabled",true);
 				var form = $("#"+id);
 				var action = form.attr("action")+"/"+page;
 				form.attr("action",action);
 				form.submit();
+
 			}
+
+
 			function deleteHTML(url){
 				bootbox.confirm("确认删除该客户吗？",function(result){
 					if(result){

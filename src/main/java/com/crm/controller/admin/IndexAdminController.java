@@ -81,6 +81,7 @@ public class IndexAdminController {
 			HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		HttpSession session = request.getSession();
+
 		if (loginName == null || password == null)
 			return "login";
 		String remember = request.getParameter("remember");
@@ -92,7 +93,7 @@ public class IndexAdminController {
 		try {
 			subject.login(token);
 		} catch (UnknownAccountException e) {
-			error = "用户名/密码错误";
+			error = "用户名不存在";
 		} catch (IncorrectCredentialsException e) {
 			error = "用户名/密码错误";
 		} catch (ExcessiveAttemptsException e) {
@@ -120,7 +121,7 @@ public class IndexAdminController {
 					List<Permission> pers = permissionService
 							.getChildPermissionByUserId(user.getId());
 					// TODO 无权从部门权限里加载
-					if (pers == null || (pers != null && pers.size() == 0)) {
+					if (pers == null || pers.size() == 0) {
 						pers = permissionService
 								.getChildPermissionByDeptId(deptId);
 					}

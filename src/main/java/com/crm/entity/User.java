@@ -39,7 +39,7 @@ public class User implements Serializable{
 	@Column
 	private String salt;
 	@Column
-	private int locked; 
+	private Integer locked;
 	@Column
 	private String status;
 	@Transient
@@ -104,10 +104,10 @@ public class User implements Serializable{
 	public void setSalt(String salt){
 		this.salt = salt;
 	}
-	public int getLocked(){
+	public Integer getLocked(){
 		return locked;
 	}
-	public void setLocked(int locked){
+	public void setLocked(Integer locked){
 		this.locked = locked;
 	}
 	public String getCredentialsSalt(){
